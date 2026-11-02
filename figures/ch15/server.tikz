@@ -1,0 +1,15 @@
+% sherpa-onnx's streaming WebSocket server (v2.0.1): per-connection state, a 10 ms scan, batched steps.
+\begin{tikzpicture}[node distance=6mm]
+  \node[device] (io) {\figtitle{I/O thread}\\\figsub{WebSocket frames}};
+  \node[memory, right=12mm of io, minimum width=3.4cm] (map) {\figtitle{connections}\\\figsub{one stream each: samples,}\\\figsub{features, encoder caches}};
+  \node[stage, right=12mm of map] (scan) {\figtitle{scan every 10 ms}\\\figsub{IsReady: a full window?}};
+  \node[memory, below=10mm of scan] (q) {\figtitle{ready queue}};
+  \node[device, highlight, left=12mm of q, minimum width=3.4cm] (work) {\figtitle{work threads (3)}\\\figsub{pop up to 5 streams,}\\\figsub{stack states, one step,}\\\figsub{unstack states}};
+  \node[data, left=12mm of work] (out) {\figtitle{JSON result}\\\figsub{text, is\_final, segment}};
+  \draw[dataflow] (io) -- node[note, above] {float32} (map);
+  \draw[controlflow] (map) -- (scan);
+  \draw[controlflow] (scan) -- (q);
+  \draw[dataflow] (q) -- (work);
+  \draw[dataflow] (work) -- (map);
+  \draw[dataflow] (work) -- (out);
+\end{tikzpicture}

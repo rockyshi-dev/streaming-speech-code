@@ -1,0 +1,105 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T05:35:53+00:00",
+    "command": "python code/ch02_features/frontend_mismatch_nemo.py --n 50",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cu126",
+      "torchaudio": "2.8.0+cu126",
+      "jiwer": "4.0.0",
+      "nemo_toolkit": "3.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      1.2470703125,
+      1.22216796875,
+      1.09521484375
+    ],
+    "gpu": null,
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "manifest": "librispeech-test-clean-200",
+    "n": 50,
+    "model": "stt_en_fastconformer_hybrid_large_streaming_multi",
+    "att_context_size": [
+      70,
+      13
+    ],
+    "decoder": "rnnt greedy"
+  },
+  "normalizer": {
+    "name": "en-lower+punct",
+    "steps": [
+      "drop_lang_tags",
+      "width_nfkc",
+      "lower",
+      "strip_punct"
+    ]
+  },
+  "wer": {
+    "nemo": {
+      "ref_len": 1088,
+      "sub": 16,
+      "dele": 1,
+      "ins": 2,
+      "errors": 19,
+      "rate": 0.017463235294117647
+    },
+    "nemo+utt_cmvn": {
+      "ref_len": 1088,
+      "sub": 16,
+      "dele": 1064,
+      "ins": 0,
+      "errors": 1080,
+      "rate": 0.9926470588235294
+    },
+    "kaldi_fbank": {
+      "ref_len": 1088,
+      "sub": 15,
+      "dele": 1,
+      "ins": 2,
+      "errors": 18,
+      "rate": 0.016544117647058824
+    },
+    "kaldi_fbank+offset": {
+      "ref_len": 1088,
+      "sub": 17,
+      "dele": 2,
+      "ins": 2,
+      "errors": 21,
+      "rate": 0.019301470588235295
+    },
+    "nemo_int16_scale_samples": {
+      "ref_len": 1088,
+      "sub": 0,
+      "dele": 1088,
+      "ins": 0,
+      "errors": 1088,
+      "rate": 1.0
+    },
+    "nemo_in_dB_not_ln": {
+      "ref_len": 1088,
+      "sub": 0,
+      "dele": 1088,
+      "ins": 0,
+      "errors": 1088,
+      "rate": 1.0
+    }
+  },
+  "feature_stats_first_utt": {
+    "nemo_mean": -11.16153621673584,
+    "nemo_std": 3.4617650508880615,
+    "kaldi_mean": -6.908283233642578,
+    "kaldi_std": 3.582658052444458,
+    "corr_per_bin_mean": 0.9421551546520105
+  },
+  "raw": "$BOOK_DATA/runs/ch02/frontend_mismatch_nemo.jsonl"
+}

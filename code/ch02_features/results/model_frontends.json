@@ -1,0 +1,93 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T05:34:47+00:00",
+    "command": "python code/ch02_features/model_frontends.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.876953125,
+      1.19677734375,
+      1.07763671875
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false
+  },
+  "nemo": {
+    "stt_en_fastconformer_hybrid_large_streaming_multi (streaming)": {
+      "file": "$BOOK_MODELS/stt_en_fastconformer_hybrid_large_streaming_multi/stt_en_fastconformer_hybrid_large_streaming_multi.nemo",
+      "_target_": "nemo.collections.asr.modules.AudioToMelSpectrogramPreprocessor",
+      "sample_rate": "16000",
+      "normalize": "NA",
+      "window_size": "0.025",
+      "window_stride": "0.01",
+      "window": "hann",
+      "features": "80",
+      "n_fft": "512",
+      "frame_splicing": "1",
+      "dither": "1.0e-05",
+      "pad_to": "0"
+    },
+    "nemotron-3.5-asr-streaming-0.6b (streaming)": {
+      "file": "$HF_HOME/hub/models--nvidia--nemotron-3.5-asr-streaming-0.6b/snapshots/ea30d66debe3740a08b573244286791d423d6b3e/nemotron-3.5-asr-streaming-0.6b.nemo",
+      "_target_": "nemo.collections.asr.modules.AudioToMelSpectrogramPreprocessor",
+      "sample_rate": "16000",
+      "normalize": "NA",
+      "window_size": "0.025",
+      "window_stride": "0.01",
+      "window": "hann",
+      "features": "128",
+      "n_fft": "512",
+      "log": "true",
+      "frame_splicing": "1",
+      "dither": "1.0e-05",
+      "pad_to": "0",
+      "pad_value": "0.0"
+    },
+    "parakeet-ctc-0.6b (offline)": {
+      "file": "$HF_HOME/hub/models--nvidia--parakeet-ctc-0.6b/snapshots/ad09ba1cc62743fbc9814de5d2016fca9096485a/parakeet-ctc-0.6b.nemo",
+      "_target_": "nemo.collections.asr.modules.AudioToMelSpectrogramPreprocessor",
+      "sample_rate": "16000",
+      "normalize": "per_feature",
+      "window_size": "0.025",
+      "window_stride": "0.01",
+      "window": "hann",
+      "features": "80",
+      "n_fft": "512",
+      "log": "true",
+      "frame_splicing": "1",
+      "dither": "1.0e-05",
+      "pad_to": "0",
+      "pad_value": "0.0"
+    }
+  },
+  "sherpa_onnx_defaults": {
+    "sample_rate": 16000,
+    "feature_dim": 80,
+    "low_freq": 20.0,
+    "high_freq": -400.0,
+    "dither": 0.0,
+    "normalize_samples": true,
+    "snip_edges": false,
+    "note": "kaldi-native-fbank: Povey window, 25 ms / 10 ms, pre-emphasis 0.97, DC removal, Kaldi mel scale, natural log; no feature normalization"
+  }
+}

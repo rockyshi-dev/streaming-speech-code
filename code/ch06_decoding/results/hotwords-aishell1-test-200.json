@@ -1,0 +1,218 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T08:20:10+00:00",
+    "command": "python ch06_decoding/hotwords.py --manifest aishell1-test-200",
+    "cwd": "code",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      1.11767578125,
+      1.50341796875,
+      1.56494140625
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "manifest": "aishell1-test-200",
+    "recognizer": {
+      "model": "zipformer-zh",
+      "int8": false,
+      "decoding_method": "modified_beam_search",
+      "max_active_paths": 4,
+      "num_threads": 1,
+      "hotwords_file": "$BOOK_DATA/runs/ch06/hotwords-aishell1-test-200.txt",
+      "hotwords_score": 1.5,
+      "enable_endpoint": false,
+      "rule1_min_trailing_silence": 2.4,
+      "rule2_min_trailing_silence": 1.2,
+      "rule3_min_utterance_length": 20.0,
+      "tail_padding_s": 0.66,
+      "files": {
+        "dir": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12",
+        "tokens": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/tokens.txt",
+        "encoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/encoder-epoch-20-avg-1-chunk-16-left-128.onnx",
+        "decoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/decoder-epoch-20-avg-1-chunk-16-left-128.onnx",
+        "joiner": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/joiner-epoch-20-avg-1-chunk-16-left-128.onnx",
+        "bpe_vocab": "$BOOK_DATA/derived/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/bpe.vocab",
+        "bpe_model": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/bpe.model"
+      }
+    }
+  },
+  "hotwords": [
+    "一智",
+    "万元",
+    "万龙",
+    "上上",
+    "丛林",
+    "二千",
+    "加航",
+    "卷入",
+    "史诗",
+    "商洛",
+    "嘲讽",
+    "复现",
+    "大市",
+    "奕迅",
+    "姿势",
+    "娱乐",
+    "实现",
+    "小天才",
+    "帮主",
+    "当事",
+    "惊现",
+    "惨烈",
+    "振刚",
+    "旱涝",
+    "月嫂",
+    "棉花",
+    "每人",
+    "比泽",
+    "气动",
+    "水高",
+    "永昊",
+    "注塑",
+    "浙江",
+    "现身",
+    "琦雯",
+    "男方",
+    "简化",
+    "紫霞",
+    "线线",
+    "综合",
+    "腕表",
+    "至上",
+    "芯片",
+    "警惕",
+    "贷款",
+    "返还",
+    "适宜",
+    "郁松"
+  ],
+  "n_hotwords": 48,
+  "hotwords_score": 1.5,
+  "normalizer": {
+    "name": "zh-full",
+    "steps": [
+      "drop_lang_tags",
+      "width_nfkc",
+      "trad_to_simp",
+      "lower",
+      "arabic_to_chinese_numerals",
+      "strip_punct",
+      "remove_spaces"
+    ]
+  },
+  "baseline_modified_beam_search": {
+    "target_hits": 4,
+    "target_occurrences": 56,
+    "with_targets": {
+      "ref_len": 824,
+      "sub": 71,
+      "dele": 5,
+      "ins": 0,
+      "errors": 76,
+      "rate": 0.09223300970873786,
+      "utterances": 52
+    },
+    "without_targets": {
+      "ref_len": 2124,
+      "sub": 20,
+      "dele": 8,
+      "ins": 0,
+      "errors": 28,
+      "rate": 0.013182674199623353,
+      "utterances": 148
+    }
+  },
+  "with_hotwords": {
+    "target_hits": 8,
+    "target_occurrences": 56,
+    "with_targets": {
+      "ref_len": 824,
+      "sub": 63,
+      "dele": 3,
+      "ins": 0,
+      "errors": 66,
+      "rate": 0.08009708737864078,
+      "utterances": 52
+    },
+    "without_targets": {
+      "ref_len": 2124,
+      "sub": 20,
+      "dele": 8,
+      "ins": 0,
+      "errors": 28,
+      "rate": 0.013182674199623353,
+      "utterances": 148
+    }
+  },
+  "raw": {
+    "baseline": "$BOOK_DATA/runs/sherpa-zipformer-zh-aishell1-test-200-modified_beam_search",
+    "hotwords": "$BOOK_DATA/runs/sherpa-zipformer-zh-aishell1-test-200-modified_beam_search-hotwords"
+  },
+  "latency_with_hotwords": {
+    "first_token_delay_s": {
+      "p50": 0.6001363904988248,
+      "p90": 0.7633067105973341,
+      "p95": 0.856129317349616,
+      "mean": 0.5658167632400342,
+      "n": 200
+    },
+    "final_latency_after_input_end_s": {
+      "p50": 0.04936007600190351,
+      "p90": 0.07342516150274606,
+      "p95": 0.07374513985032535,
+      "mean": 0.053499859344841826,
+      "n": 200
+    },
+    "final_latency_after_speech_end_s": {
+      "p50": 0.48775874400066077,
+      "p90": 0.5818501460014407,
+      "p95": 0.6005887334985528,
+      "mean": 0.4859714218448418,
+      "n": 200
+    },
+    "endpoint_delay_s": {
+      "p50": null,
+      "p90": null,
+      "p95": null,
+      "mean": null,
+      "n": 0
+    },
+    "max_backlog_s": {
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0034588190986505093,
+      "mean": 0.0006985441599809516,
+      "n": 200
+    },
+    "rtf": {
+      "p50": 0.08252355497304456,
+      "p90": 0.08660599159778849,
+      "p95": 0.08749523554594212,
+      "mean": 0.08296231811817169,
+      "n": 200
+    },
+    "corpus_rtf": 0.08240492125321172,
+    "audio_total_s": 1008.1903125000002,
+    "utterances": 200
+  }
+}

@@ -1,0 +1,481 @@
+{
+ "source": "code/ch09_measure/results/summary_table.json",
+ "rows": [
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "ctc",
+   "att_context_size": [
+    70,
+    0
+   ],
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 4.67,
+   "error_rate_raw_pct": 100.29,
+   "UPWR": 0.539,
+   "first_token_p50_ms": 627,
+   "first_token_p90_ms": 818,
+   "final_after_speech_end_p50_ms": 286,
+   "word_latency_fa_p50_ms": 480,
+   "word_latency_fa_p90_ms": 640,
+   "corpus_rtf": 0.118,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "ctc",
+   "att_context_size": [
+    70,
+    1
+   ],
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 4.03,
+   "error_rate_raw_pct": 100.34,
+   "UPWR": 0.541,
+   "first_token_p50_ms": 586,
+   "first_token_p90_ms": 778,
+   "final_after_speech_end_p50_ms": 283,
+   "word_latency_fa_p50_ms": 450,
+   "word_latency_fa_p90_ms": 610,
+   "corpus_rtf": 0.0653,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "ctc",
+   "att_context_size": [
+    70,
+    13
+   ],
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 3.1,
+   "error_rate_raw_pct": 100.37,
+   "UPWR": 0.073,
+   "first_token_p50_ms": 746,
+   "first_token_p90_ms": 1095,
+   "final_after_speech_end_p50_ms": 283,
+   "word_latency_fa_p50_ms": 810,
+   "word_latency_fa_p90_ms": 1310,
+   "corpus_rtf": 0.012,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "ctc",
+   "att_context_size": [
+    70,
+    6
+   ],
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 3.18,
+   "error_rate_raw_pct": 100.34,
+   "UPWR": 0.152,
+   "first_token_p50_ms": 746,
+   "first_token_p90_ms": 1162,
+   "final_after_speech_end_p50_ms": 283,
+   "word_latency_fa_p50_ms": 630,
+   "word_latency_fa_p90_ms": 890,
+   "corpus_rtf": 0.0206,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "rnnt",
+   "att_context_size": [
+    70,
+    0
+   ],
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 3.42,
+   "error_rate_raw_pct": 100.29,
+   "UPWR": 0.419,
+   "first_token_p50_ms": 532,
+   "first_token_p90_ms": 755,
+   "final_after_speech_end_p50_ms": 286,
+   "word_latency_fa_p50_ms": 419,
+   "word_latency_fa_p90_ms": 599,
+   "corpus_rtf": 0.1225,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "rnnt",
+   "att_context_size": [
+    70,
+    1
+   ],
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 3.15,
+   "error_rate_raw_pct": 100.34,
+   "UPWR": 0.395,
+   "first_token_p50_ms": 522,
+   "first_token_p90_ms": 746,
+   "final_after_speech_end_p50_ms": 284,
+   "word_latency_fa_p50_ms": 390,
+   "word_latency_fa_p90_ms": 551,
+   "corpus_rtf": 0.0668,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "rnnt",
+   "att_context_size": [
+    70,
+    13
+   ],
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 2.69,
+   "error_rate_raw_pct": 100.39,
+   "UPWR": 0.057,
+   "first_token_p50_ms": 716,
+   "first_token_p90_ms": 939,
+   "final_after_speech_end_p50_ms": 285,
+   "word_latency_fa_p50_ms": 751,
+   "word_latency_fa_p90_ms": 1251,
+   "corpus_rtf": 0.013,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "rnnt",
+   "att_context_size": [
+    70,
+    6
+   ],
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 2.69,
+   "error_rate_raw_pct": 100.39,
+   "UPWR": 0.109,
+   "first_token_p50_ms": 715,
+   "first_token_p90_ms": 939,
+   "final_after_speech_end_p50_ms": 285,
+   "word_latency_fa_p50_ms": 571,
+   "word_latency_fa_p90_ms": 851,
+   "corpus_rtf": 0.0224,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "ctc",
+   "att_context_size": [
+    70,
+    0
+   ],
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 9.56,
+   "error_rate_raw_pct": 100.38,
+   "UPWR": 0.474,
+   "first_token_p50_ms": 690,
+   "first_token_p90_ms": 915,
+   "final_after_speech_end_p50_ms": 345,
+   "word_latency_fa_p50_ms": 559,
+   "word_latency_fa_p90_ms": 719,
+   "corpus_rtf": 0.1182,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "ctc",
+   "att_context_size": [
+    70,
+    1
+   ],
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 8.0,
+   "error_rate_raw_pct": 100.38,
+   "UPWR": 0.463,
+   "first_token_p50_ms": 650,
+   "first_token_p90_ms": 874,
+   "final_after_speech_end_p50_ms": 336,
+   "word_latency_fa_p50_ms": 510,
+   "word_latency_fa_p90_ms": 690,
+   "corpus_rtf": 0.0645,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "ctc",
+   "att_context_size": [
+    70,
+    13
+   ],
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 5.91,
+   "error_rate_raw_pct": 100.41,
+   "UPWR": 0.072,
+   "first_token_p50_ms": 778,
+   "first_token_p90_ms": 1706,
+   "final_after_speech_end_p50_ms": 334,
+   "word_latency_fa_p50_ms": 890,
+   "word_latency_fa_p90_ms": 1390,
+   "corpus_rtf": 0.012,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "ctc",
+   "att_context_size": [
+    70,
+    6
+   ],
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 6.87,
+   "error_rate_raw_pct": 100.49,
+   "UPWR": 0.138,
+   "first_token_p50_ms": 778,
+   "first_token_p90_ms": 1226,
+   "final_after_speech_end_p50_ms": 334,
+   "word_latency_fa_p50_ms": 690,
+   "word_latency_fa_p90_ms": 970,
+   "corpus_rtf": 0.0208,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "rnnt",
+   "att_context_size": [
+    70,
+    0
+   ],
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 7.91,
+   "error_rate_raw_pct": 100.46,
+   "UPWR": 0.361,
+   "first_token_p50_ms": 595,
+   "first_token_p90_ms": 883,
+   "final_after_speech_end_p50_ms": 345,
+   "word_latency_fa_p50_ms": 499,
+   "word_latency_fa_p90_ms": 679,
+   "corpus_rtf": 0.1218,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "rnnt",
+   "att_context_size": [
+    70,
+    1
+   ],
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 6.92,
+   "error_rate_raw_pct": 100.43,
+   "UPWR": 0.353,
+   "first_token_p50_ms": 587,
+   "first_token_p90_ms": 843,
+   "final_after_speech_end_p50_ms": 337,
+   "word_latency_fa_p50_ms": 451,
+   "word_latency_fa_p90_ms": 651,
+   "corpus_rtf": 0.0671,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "rnnt",
+   "att_context_size": [
+    70,
+    13
+   ],
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 5.42,
+   "error_rate_raw_pct": 100.41,
+   "UPWR": 0.057,
+   "first_token_p50_ms": 747,
+   "first_token_p90_ms": 1707,
+   "final_after_speech_end_p50_ms": 335,
+   "word_latency_fa_p50_ms": 832,
+   "word_latency_fa_p90_ms": 1351,
+   "corpus_rtf": 0.0132,
+   "utterances": 200
+  },
+  {
+   "model": "fastconformer-en-multi",
+   "decoder": "rnnt",
+   "att_context_size": [
+    70,
+    6
+   ],
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 5.79,
+   "error_rate_raw_pct": 100.38,
+   "UPWR": 0.105,
+   "first_token_p50_ms": 747,
+   "first_token_p90_ms": 1227,
+   "final_after_speech_end_p50_ms": 335,
+   "word_latency_fa_p50_ms": 651,
+   "word_latency_fa_p90_ms": 932,
+   "corpus_rtf": 0.0227,
+   "utterances": 200
+  },
+  {
+   "model": "nemotron-3.5",
+   "decoder": "rnnt",
+   "att_context_size": [
+    56,
+    0
+   ],
+   "manifest": "aishell1-test-200",
+   "error_rate_pct": 12.45,
+   "error_rate_raw_pct": 12.58,
+   "UPWR": 0.0,
+   "first_token_p50_ms": 569,
+   "first_token_p90_ms": 698,
+   "final_after_speech_end_p50_ms": 453,
+   "word_latency_fa_p50_ms": null,
+   "word_latency_fa_p90_ms": null,
+   "corpus_rtf": 0.158,
+   "utterances": 200
+  },
+  {
+   "model": "nemotron-3.5",
+   "decoder": "rnnt",
+   "att_context_size": [
+    56,
+    13
+   ],
+   "manifest": "aishell1-test-200",
+   "error_rate_pct": 12.42,
+   "error_rate_raw_pct": 41.72,
+   "UPWR": 0.0,
+   "first_token_p50_ms": 591,
+   "first_token_p90_ms": 723,
+   "final_after_speech_end_p50_ms": 447,
+   "word_latency_fa_p50_ms": null,
+   "word_latency_fa_p90_ms": null,
+   "corpus_rtf": 0.017,
+   "utterances": 200
+  },
+  {
+   "model": "nemotron-3.5",
+   "decoder": "rnnt",
+   "att_context_size": [
+    56,
+    3
+   ],
+   "manifest": "aishell1-test-200",
+   "error_rate_pct": 13.13,
+   "error_rate_raw_pct": 33.11,
+   "UPWR": 0.0,
+   "first_token_p50_ms": 638,
+   "first_token_p90_ms": 754,
+   "final_after_speech_end_p50_ms": 446,
+   "word_latency_fa_p50_ms": null,
+   "word_latency_fa_p90_ms": null,
+   "corpus_rtf": 0.0462,
+   "utterances": 200
+  },
+  {
+   "model": "nemotron-3.5",
+   "decoder": "rnnt",
+   "att_context_size": [
+    56,
+    6
+   ],
+   "manifest": "aishell1-test-200",
+   "error_rate_pct": 13.98,
+   "error_rate_raw_pct": 38.43,
+   "UPWR": 0.0,
+   "first_token_p50_ms": 590,
+   "first_token_p90_ms": 1038,
+   "final_after_speech_end_p50_ms": 446,
+   "word_latency_fa_p50_ms": null,
+   "word_latency_fa_p90_ms": null,
+   "corpus_rtf": 0.0288,
+   "utterances": 200
+  },
+  {
+   "model": "zipformer-en",
+   "decoder": "greedy_search",
+   "att_context_size": null,
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 3.18,
+   "error_rate_raw_pct": 3.18,
+   "UPWR": 0.297,
+   "first_token_p50_ms": 631,
+   "first_token_p90_ms": 887,
+   "final_after_speech_end_p50_ms": 320,
+   "word_latency_fa_p50_ms": 582,
+   "word_latency_fa_p90_ms": 742,
+   "corpus_rtf": 0.0747,
+   "utterances": 200
+  },
+  {
+   "model": "zipformer-en",
+   "decoder": "modified_beam_search",
+   "att_context_size": null,
+   "manifest": "librispeech-test-clean-200",
+   "error_rate_pct": 3.1,
+   "error_rate_raw_pct": 3.1,
+   "UPWR": 0.303,
+   "first_token_p50_ms": 631,
+   "first_token_p90_ms": 887,
+   "final_after_speech_end_p50_ms": 321,
+   "word_latency_fa_p50_ms": 583,
+   "word_latency_fa_p90_ms": 737,
+   "corpus_rtf": 0.0766,
+   "utterances": 200
+  },
+  {
+   "model": "zipformer-en",
+   "decoder": "greedy_search",
+   "att_context_size": null,
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 8.08,
+   "error_rate_raw_pct": 8.08,
+   "UPWR": 0.23,
+   "first_token_p50_ms": 662,
+   "first_token_p90_ms": 887,
+   "final_after_speech_end_p50_ms": 380,
+   "word_latency_fa_p50_ms": 583,
+   "word_latency_fa_p90_ms": 743,
+   "corpus_rtf": 0.0754,
+   "utterances": 200
+  },
+  {
+   "model": "zipformer-en",
+   "decoder": "modified_beam_search",
+   "att_context_size": null,
+   "manifest": "librispeech-test-other-200",
+   "error_rate_pct": 7.79,
+   "error_rate_raw_pct": 7.79,
+   "UPWR": 0.238,
+   "first_token_p50_ms": 631,
+   "first_token_p90_ms": 887,
+   "final_after_speech_end_p50_ms": 382,
+   "word_latency_fa_p50_ms": 583,
+   "word_latency_fa_p90_ms": 743,
+   "corpus_rtf": 0.0776,
+   "utterances": 200
+  },
+  {
+   "model": "zipformer-zh",
+   "decoder": "greedy_search",
+   "att_context_size": null,
+   "manifest": "aishell1-test-200",
+   "error_rate_pct": 4.55,
+   "error_rate_raw_pct": 4.58,
+   "UPWR": 0.0,
+   "first_token_p50_ms": 599,
+   "first_token_p90_ms": 823,
+   "final_after_speech_end_p50_ms": 485,
+   "word_latency_fa_p50_ms": null,
+   "word_latency_fa_p90_ms": null,
+   "corpus_rtf": 0.0787,
+   "utterances": 200
+  },
+  {
+   "model": "zipformer-zh",
+   "decoder": "modified_beam_search",
+   "att_context_size": null,
+   "manifest": "aishell1-test-200",
+   "error_rate_pct": 3.53,
+   "error_rate_raw_pct": 3.56,
+   "UPWR": 0.013,
+   "first_token_p50_ms": 600,
+   "first_token_p90_ms": 763,
+   "final_after_speech_end_p50_ms": 488,
+   "word_latency_fa_p50_ms": null,
+   "word_latency_fa_p90_ms": null,
+   "corpus_rtf": 0.0822,
+   "utterances": 200
+  }
+ ]
+}

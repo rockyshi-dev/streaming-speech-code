@@ -1,0 +1,225 @@
+{
+  "utterances": 200,
+  "audio_total_s": 1008.1903125000002,
+  "lang": "zh",
+  "scoring_units": "CJK characters (embedded Latin words count as one unit)",
+  "default_normalizer": "zh-full",
+  "accuracy": {
+    "raw": {
+      "ref_len": 2948,
+      "sub": 92,
+      "dele": 13,
+      "ins": 6,
+      "errors": 111,
+      "rate": 0.03765264586160109,
+      "normalizer": {
+        "name": "zh-raw",
+        "steps": [
+          "collapse_ws"
+        ]
+      }
+    },
+    "nospace": {
+      "ref_len": 2948,
+      "sub": 92,
+      "dele": 13,
+      "ins": 6,
+      "errors": 111,
+      "rate": 0.03765264586160109,
+      "normalizer": {
+        "name": "zh-nospace",
+        "steps": [
+          "remove_spaces"
+        ]
+      }
+    },
+    "nospace+punct": {
+      "ref_len": 2948,
+      "sub": 92,
+      "dele": 13,
+      "ins": 6,
+      "errors": 111,
+      "rate": 0.03765264586160109,
+      "normalizer": {
+        "name": "zh-nospace+punct",
+        "steps": [
+          "strip_punct",
+          "remove_spaces"
+        ]
+      }
+    },
+    "nospace+punct+tags": {
+      "ref_len": 2948,
+      "sub": 92,
+      "dele": 13,
+      "ins": 6,
+      "errors": 111,
+      "rate": 0.03765264586160109,
+      "normalizer": {
+        "name": "zh-nospace+punct+tags",
+        "steps": [
+          "drop_lang_tags",
+          "strip_punct",
+          "remove_spaces"
+        ]
+      }
+    },
+    "full": {
+      "ref_len": 2948,
+      "sub": 91,
+      "dele": 13,
+      "ins": 6,
+      "errors": 110,
+      "rate": 0.03731343283582089,
+      "normalizer": {
+        "name": "zh-full",
+        "steps": [
+          "drop_lang_tags",
+          "width_nfkc",
+          "trad_to_simp",
+          "lower",
+          "arabic_to_chinese_numerals",
+          "strip_punct",
+          "remove_spaces"
+        ]
+      }
+    },
+    "raw_chars_incl_spaces": {
+      "ref_len": 4574,
+      "sub": 94,
+      "dele": 1637,
+      "ins": 5,
+      "errors": 1736,
+      "rate": 0.3795365107127241
+    }
+  },
+  "stability": {
+    "UPWR": 0.01768106086365182,
+    "UPSR": 0.11,
+    "unstable_units": 52,
+    "final_units": 2941,
+    "revisions": 22,
+    "utterances": 200,
+    "normalizer": "zh-full"
+  },
+  "latency": {
+    "first_token_delay_s": {
+      "p50": 0.5992887919992209,
+      "p90": 0.7625003990011637,
+      "p95": 0.8553434702988233,
+      "mean": 0.5654482606298167,
+      "n": 200
+    },
+    "final_latency_after_input_end_s": {
+      "p50": 0.11847994499839842,
+      "p90": 0.12622689249947144,
+      "p95": 0.1333217016512208,
+      "mean": 0.11676927688487908,
+      "n": 200
+    },
+    "final_latency_after_speech_end_s": {
+      "p50": 0.5451590550021497,
+      "p90": 0.6442258386000148,
+      "p95": 0.663075648349573,
+      "mean": 0.549240839384879,
+      "n": 200
+    },
+    "endpoint_delay_s": {
+      "p50": null,
+      "p90": null,
+      "p95": null,
+      "mean": null,
+      "n": 0
+    },
+    "max_backlog_s": {
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0025741353517696004,
+      "mean": 0.0006622540900023855,
+      "n": 200
+    },
+    "rtf": {
+      "p50": 0.09496589429954519,
+      "p90": 0.10498463984569398,
+      "p95": 0.10908792300202011,
+      "mean": 0.09554624623377654,
+      "n": 200
+    },
+    "corpus_rtf": 0.09391576595292128,
+    "audio_total_s": 1008.1903125000002,
+    "utterances": 200
+  },
+  "raw": "$BOOK_DATA/runs/sherpa-zipformer-zh-aishell1-test-200-modified_beam_search-tail1.5/utts.jsonl",
+  "emission_lag_vs_model_timestamps_s": {
+    "p50": 0.4234088896935282,
+    "p90": 0.5038741242197284,
+    "p95": 0.5050975958295751,
+    "mean": 0.4105412117034403,
+    "n": 2941
+  },
+  "provenance": {
+    "when_utc": "2026-10-31T08:30:18+00:00",
+    "command": "python code/ch09_measure/eval_sherpa.py --manifest aishell1-test-200 --decoding modified_beam_search --tail-padding-s 1.5 --runs-suffix=-tail1.5 --results-dir code/ch09_measure/results/tail_padding_1.5s",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      2.5986328125,
+      2.47998046875,
+      2.0166015625
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "manifest": "aishell1-test-200",
+    "recognizer": {
+      "model": "zipformer-zh",
+      "int8": false,
+      "decoding_method": "modified_beam_search",
+      "max_active_paths": 4,
+      "num_threads": 1,
+      "hotwords_file": "",
+      "hotwords_score": 1.5,
+      "enable_endpoint": false,
+      "rule1_min_trailing_silence": 2.4,
+      "rule2_min_trailing_silence": 1.2,
+      "rule3_min_utterance_length": 20.0,
+      "tail_padding_s": 1.5,
+      "files": {
+        "dir": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12",
+        "tokens": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/tokens.txt",
+        "encoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/encoder-epoch-20-avg-1-chunk-16-left-128.onnx",
+        "decoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/decoder-epoch-20-avg-1-chunk-16-left-128.onnx",
+        "joiner": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/joiner-epoch-20-avg-1-chunk-16-left-128.onnx",
+        "bpe_vocab": "$BOOK_DATA/derived/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/bpe.vocab",
+        "bpe_model": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/bpe.model"
+      }
+    },
+    "chunk_ms": 160.0,
+    "pace": "simulated",
+    "track": "CPU",
+    "loadavg_at_end": [
+      1.62744140625,
+      2.171875,
+      1.95068359375
+    ]
+  }
+}

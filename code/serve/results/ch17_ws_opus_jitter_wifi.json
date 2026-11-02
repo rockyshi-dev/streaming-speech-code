@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "time_utc": "2026-10-31T09:12:56Z",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_threads": 16,
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01, 23028 MiB",
+    "python": "3.11.18",
+    "argv": [
+      "ch17/ws_transport.py",
+      "run",
+      "--codec",
+      "opus",
+      "--jitter",
+      "wifi",
+      "--out",
+      "$BOOK_DATA/runs/ch17_ws/opus_wifi"
+    ],
+    "git_commit": "5da6bca",
+    "loadavg_start": [
+      7.5400390625,
+      8.46435546875,
+      6.0517578125
+    ],
+    "packages": {
+      "opuslib": "3.0.1",
+      "websockets": "17.3",
+      "numpy": "2.4.6"
+    },
+    "utterance": "2961-961-0008"
+  },
+  "codec": "opus",
+  "bitrate_target": 24000,
+  "jitter_synthetic": "wifi",
+  "frames": 358,
+  "frames_received": 358,
+  "frame_ms": 20,
+  "payload_kbps": 23.0,
+  "network_ms": {
+    "n": 358,
+    "p50": 11.17,
+    "p95": 31.79,
+    "mean": 14.64,
+    "max": 128.02
+  },
+  "capture_start_to_decoded_ms": {
+    "n": 358,
+    "p50": 33.34,
+    "p95": 53.95,
+    "mean": 36.94,
+    "max": 150.83
+  },
+  "encode_us": {
+    "n": 358,
+    "p50": 1139.9,
+    "p95": 1193.8,
+    "mean": 1130.0,
+    "max": 1224.9
+  },
+  "decode_us": {
+    "n": 358,
+    "p50": 200.3,
+    "p95": 238.7,
+    "mean": 202.7,
+    "max": 320.6
+  },
+  "in_order": true,
+  "notes": "network_ms is loopback WebSocket time plus any synthetic delay; capture_start_to_decoded_ms counts from the first sample of the frame (frame wait 20 ms + network + decode). Opus look-ahead is not in it: see ch17_opus_delay.json."
+}

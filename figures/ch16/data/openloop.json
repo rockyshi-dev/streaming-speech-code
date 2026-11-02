@@ -1,0 +1,95 @@
+{
+ "source": "code/serve/results/ch16_openloop.json and ch16_openloop_high.json (code/serve/ch16/tts_openloop.py, one RTX 4090)",
+ "rows": [
+  {
+   "rate_per_s": 0.5,
+   "n": 50,
+   "ttfa_p50_s": 0.31017855949903606,
+   "ttfa_p95_s": 0.3487302683492089,
+   "rtf_p50": 0.1424052470001143,
+   "in_flight_p95": 1.0,
+   "requests_with_underrun": 0
+  },
+  {
+   "rate_per_s": 1.0,
+   "n": 50,
+   "ttfa_p50_s": 0.32070337000004656,
+   "ttfa_p95_s": 0.3565472636017148,
+   "rtf_p50": 0.14855854627329323,
+   "in_flight_p95": 2.0,
+   "requests_with_underrun": 0
+  },
+  {
+   "rate_per_s": 2.0,
+   "n": 50,
+   "ttfa_p50_s": 0.33705607100091584,
+   "ttfa_p95_s": 0.39736539809982785,
+   "rtf_p50": 0.15674379311666786,
+   "in_flight_p95": 4.0,
+   "requests_with_underrun": 0
+  },
+  {
+   "rate_per_s": 4.0,
+   "n": 50,
+   "ttfa_p50_s": 0.3585445355001866,
+   "ttfa_p95_s": 0.4006033963005393,
+   "rtf_p50": 0.16652168420519445,
+   "in_flight_p95": 5.549999999999997,
+   "requests_with_underrun": 0
+  },
+  {
+   "rate_per_s": 6.0,
+   "n": 50,
+   "ttfa_p50_s": 0.40164642299896514,
+   "ttfa_p95_s": 0.5100278359983349,
+   "rtf_p50": 0.1883105055669081,
+   "in_flight_p95": 12.549999999999997,
+   "requests_with_underrun": 0
+  },
+  {
+   "rate_per_s": 8.0,
+   "n": 50,
+   "ttfa_p50_s": 0.41140280949912267,
+   "ttfa_p95_s": 0.4760717534487412,
+   "rtf_p50": 0.19210120785358115,
+   "in_flight_p95": 10.0,
+   "requests_with_underrun": 0
+  },
+  {
+   "rate_per_s": 10.0,
+   "n": 80,
+   "ttfa_p50_s": 0.5095303660000354,
+   "ttfa_p95_s": 0.6470166862989571,
+   "rtf_p50": 0.24319335275160886,
+   "in_flight_p95": 19.0,
+   "requests_with_underrun": 0
+  },
+  {
+   "rate_per_s": 12.0,
+   "n": 80,
+   "ttfa_p50_s": 0.5491597370000818,
+   "ttfa_p95_s": 0.6203598749976663,
+   "rtf_p50": 0.2594064311670581,
+   "in_flight_p95": 19.0,
+   "requests_with_underrun": 0
+  },
+  {
+   "rate_per_s": 16.0,
+   "n": 80,
+   "ttfa_p50_s": 0.7331391860006988,
+   "ttfa_p95_s": 1.1099841861514506,
+   "rtf_p50": 0.35492688568770825,
+   "in_flight_p95": 41.05,
+   "requests_with_underrun": 0
+  },
+  {
+   "rate_per_s": 20.0,
+   "n": 80,
+   "ttfa_p50_s": 0.7945309019996785,
+   "ttfa_p95_s": 1.081937271649076,
+   "rtf_p50": 0.3786141747361348,
+   "in_flight_p95": 45.05,
+   "requests_with_underrun": 0
+  }
+ ]
+}

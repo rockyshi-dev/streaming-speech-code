@@ -1,0 +1,374 @@
+{
+  "meta": {
+    "time_utc": "2026-10-31T06:06:15Z",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_threads": 16,
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01, 23028 MiB",
+    "python": "3.12.16",
+    "argv": [
+      "ch16/tts_openloop.py",
+      "openloop",
+      "--name",
+      "ch16_openloop_high",
+      "--rates",
+      "10,12,16,20",
+      "--requests",
+      "80",
+      "--seed",
+      "1"
+    ],
+    "git_commit": "5da6bca",
+    "loadavg_start": [
+      1.31298828125,
+      1.20166015625,
+      1.5986328125
+    ],
+    "packages": {
+      "vllm": "0.32.0",
+      "vllm-omni": "0.32.0",
+      "aiohttp": "3.14.5",
+      "numpy": "2.3.5"
+    },
+    "args": {
+      "mode": "openloop",
+      "name": "ch16_openloop_high",
+      "rates": "10,12,16,20",
+      "levels": "1,2,4,8,16",
+      "requests": 80,
+      "text_rate": 20.0,
+      "seed": 1
+    },
+    "server": {
+      "model": {
+        "repo": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+        "revision": "0c0e3051f131929182e2c023b9537f8b1c68adfe"
+      },
+      "url": "http://127.0.0.1:8091",
+      "deploy_config": "<conda env ssh-tts-gpu>/lib/python3.12/site-packages/vllm_omni/deploy/qwen3_tts.yaml",
+      "deploy_config_text": "# Qwen3-TTS deploy: talker → code2wav via shared-memory chunk streaming.\n# Verified on 1x H100.\n#\n# Runner selection:\n#   Model Runner V2 (MRV2) is EXPERIMENTAL and is the default runner on CUDA\n#   for this model. Set `model_runner: v1` to opt out. The `platforms:`\n#   sections at the end of this file keep V1 on NPU, XPU, ROCm and MUSA.\n#   See docs/configuration/stage_configs.md (\"Qwen3-TTS with Model Runner V2\").\n#\n# Fields omitted from a stage fall back to StageDeployConfig defaults (see\n# vllm_omni/config/stage_config.py). Notable choices for this model:\n#   * Stage 0 (talker) sets max_num_batched_tokens=512 for async-chunk\n#     latency tuning (not correctness) — small per-step batches keep\n#     first-chunk latency low, and the MRV2 profiles rely on that bound.\n#   * Stage 1 (code2wav) sets max_num_batched_tokens=65536 for correctness:\n#     codec prefill length (Q * num_frames) exceeds the 32k default.\n#   * Stage 0 does not set enforce_eager — talker runs cudagraph by default.\n#     Stage 1 defaults to false so Code2Wav can use its inner cudagraph;\n#     set true to disable that path in eager mode.\nmodel_runner: v2\nasync_chunk: true\n\nconnectors:\n  connector_of_shared_memory:\n    name: SharedMemoryConnector\n    extra:\n      talker_first_audio: true\n      codec_streaming: true\n      connector_get_sleep_s: 0.01\n      connector_get_max_wait_first_chunk: 3000\n      connector_get_max_wait: 300\n      # Must match the decoder sliding attention window.\n      codec_chunk_frames: 25\n      codec_left_context_frames: 72\n      # Emit only the first audio chunk early, then return to codec_chunk_frames.\n      initial_codec_chunk_frames: 1\n      # Chunk ramp (opt-in): gradual size increase for first N chunks to\n      # eliminate the IC→steady cliff (1→25). Uncomment to enable.\n      # Each entry is the size of that chunk index; indices past the table\n      # fall back to codec_chunk_frames. When enabled, ramp overrides\n      # initial_codec_chunk_frames (including the per-request API field).\n      # Example:\n      #   codec_chunk_ramp: [4, 4, 8, 16, 25]\n      # Adaptive chunk ramp (opt-in, takes precedence over fixed codec_chunk_ramp):\n      # Chunk 0 uses dynamic IC; chunk 1+ sizes from live buffer-depth feedback.\n      # Self-tunes across hardware (NPU/NVIDIA) and load conditions.\n      # codec_chunk_adaptive: true\n      # codec_chunk_min_frames: 2\n      # Code2Wav decode + transfer margin\n      # codec_chunk_safety_margin_ms: 50\n      # EWMA->delta divisor (delta=max(delta_min, int(ewma/divisor))); higher=gentler ramp\n      # codec_chunk_ramp_divisor: 15\n      # min chunk-size growth per emit\n      # codec_chunk_ramp_delta_min: 2\n      # Decoder CUDA Graph sizing:\n      #   * async_chunk=true derives all stateful ICL/xvec shapes from\n      #     codec_chunk_ramp when enabled, otherwise from\n      #     initial_codec_chunk_frames, codec_chunk_frames, and sliding_window;\n      #     decode_cudagraph_capture_sizes is ignored in this mode.\n      #   * async_chunk=false captures stateless shapes 150 and\n      #     decode_chunk_frames + decode_left_context_frames (325 by default).\n      #     Extra stateless shapes may be added (union, not intersection) with:\n      #       decode_cudagraph_capture_sizes: [97, 400]\n      # Graph batch size defaults to 1. Add larger buckets only when needed:\n      #   decode_cudagraph_batch_sizes: [1, 2, 4]\n      # Limit eager batches to reduce temporary stateful cache allocations; CUDA Graph batching uses the buckets above.\n      decode_batch_max_size: 4\n\nstages:\n  - stage_id: 0\n    max_num_seqs: 64\n    gpu_memory_utilization: 0.3\n    trust_remote_code: true\n    # Omni prefix cache (reuse of talker codec rows on shared prefixes). Off\n    # by default; set true when text repeats across requests (same voice or\n    # shared ref_audio). The talker opts out of hidden-state caching and\n    # defers codes.audio writes, so per-step cost is small. Stage 1 (codec\n    # decoder) is not a supported prefix-cache stage: keep it false there.\n    # See docs/design/feature/prefix_caching.md for the stage matrix.\n    enable_prefix_caching: false\n    async_scheduling: true\n    # Bound per-step prefill work (validated MRV2 basic profile). Small\n    # per-step batches keep first-chunk latency low.\n    max_num_batched_tokens: 512\n    max_model_len: 4096\n    devices: \"0\"\n    output_connectors:\n      to_stage_1: connector_of_shared_memory\n    # Serving-side runaway ceiling for requests without max_new_tokens:\n    # max(codec_budget_min_frames, codec_budget_frames_per_text_token *\n    # input text tokens) codec frames, capped by max_tokens below. Each key\n    # takes a number (all tasks) or a per-task mapping; a rate of 0 disables\n    # the ceiling. Defaults shown:\n    # additional_config:\n    #   codec_budget_frames_per_text_token: {Base: 12, CustomVoice: 40, VoiceDesign: 40}\n    #   codec_budget_min_frames: {Base: 192, CustomVoice: 400, VoiceDesign: 400}\n    default_sampling_params:\n      temperature: 0.9\n      top_k: 50\n      max_tokens: 4096\n      # Official qwen-tts generates the talker with min_new_tokens=2; without\n      # it, checkpoints that sample codec EOS on the first frame return empty\n      # audio (HTTP 400). See #4962.\n      min_tokens: 2\n      repetition_penalty: 1.05\n    # Suppress codebook-0 silence tokens for the first N decode frames of a\n    # request (#4966). Applies to every request on this stage, so intended\n    # for x-vector-only (Base voice-clone) deploys. 0 = off.\n    silence_ban_frames: 0\n    subtalker_sampling_params:\n      do_sample: true\n      temperature: 0.9\n      top_k: 50\n      top_p: 1.0\n\n  - stage_id: 1\n    # Decoder compute dtype on GPU/NPU; 310P requires FP16 and overrides this.\n    dtype: bfloat16\n    # Tuned for Base voice clone; CustomVoice / VoiceDesign are TTFA-optimal at 1.\n    max_num_seqs: 64\n    gpu_memory_utilization: 0.3\n    enforce_eager: false\n    trust_remote_code: true\n    enable_prefix_caching: false\n    async_scheduling: true\n    # Must be divisible by num_code_groups and cover (left_context + chunk).\n    # Prefill length is Q * num_frames (e.g. 16 * 2148 = 34368); keep\n    # headroom past 32k.\n    max_num_batched_tokens: 65536\n    # async_chunk appends windows per step; max_model_len must cover the\n    # accumulated flat codec stream.\n    max_model_len: 65536\n    devices: \"0\"\n    input_connectors:\n      from_stage_0: connector_of_shared_memory\n    default_sampling_params:\n      temperature: 0.0\n      top_p: 1.0\n      top_k: -1\n      max_tokens: 65536\n      repetition_penalty: 1.0\n\nplatforms:\n  rocm:\n    # MRV2 is not qualified on ROCm; keep the legacy V1 runner.\n    model_runner: v1\n    stages:\n      - stage_id: 1\n        # MIOpen Conv1d cannot be invoked while vLLM captures the outer\n        # Code2Wav model graph. Keep CUDA's graph-enabled default, but run\n        # Stage 1 eager on ROCm so decoder convolutions execute normally.\n        enforce_eager: true\n  npu:\n    model_runner: v1\n    stages:\n      - stage_id: 0\n        enforce_eager: false\n        compilation_config:\n          cudagraph_mode: PIECEWISE\n      - stage_id: 1\n        compilation_config:\n          cudagraph_mode: PIECEWISE\n  xpu:\n    model_runner: v1\n    stages:\n      - stage_id: 1\n        # Level Zero cannot capture the Code2Wav graph.\n        enforce_eager: true\n  musa:\n    model_runner: v1\n"
+    },
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+    "voices": {
+      "en": [
+        "ryan",
+        "English"
+      ],
+      "zh": [
+        "vivian",
+        "Chinese"
+      ]
+    },
+    "harness": "code/tts/gpu/qwen3tts_client.py (chapter 14), reused unchanged"
+  },
+  "table": [
+    {
+      "rate_per_s": 10.0,
+      "n": 80,
+      "n_ok": 80,
+      "errors": [],
+      "ttfa_s": {
+        "n": 80,
+        "mean": 0.5062506940997537,
+        "p50": 0.5095303660000354,
+        "p95": 0.6470166862989571,
+        "p99": 0.660470241648145,
+        "min": 0.3155896199968993,
+        "max": 0.660519746998034
+      },
+      "first_pcm_s": {
+        "n": 80,
+        "mean": 0.05410682501205884,
+        "p50": 0.05364356899917766,
+        "p95": 0.07888269050217786,
+        "p99": 0.08382516611934986,
+        "min": 0.02991946200199891,
+        "max": 0.08841614999982994
+      },
+      "rtf": {
+        "n": 80,
+        "mean": 0.23709297386318579,
+        "p50": 0.24319335275160886,
+        "p95": 0.2970909816975972,
+        "p99": 0.3168159915823668,
+        "min": 0.14738572999946578,
+        "max": 0.31850849729773867
+      },
+      "audio_s": {
+        "n": 80,
+        "mean": 5.824000000000001,
+        "p50": 4.52,
+        "p95": 12.107999999999999,
+        "p99": 13.607199999999985,
+        "min": 2.24,
+        "max": 15.44
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 80,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 80,
+        "mean": 0.39400968858742547,
+        "p50": 0.39883272949919046,
+        "p95": 0.4922621093510315,
+        "p99": 0.5505902418906771,
+        "min": 0.1908463945001131,
+        "max": 0.5561807630001567
+      },
+      "piece_dur_p50_s": {
+        "n": 80,
+        "mean": 1.4011276041666667,
+        "p50": 1.3640833333333333,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 0.16,
+        "max": 2.0
+      },
+      "wall_s": 10.587186453001777,
+      "in_flight_at_arrival": {
+        "p50": 11.0,
+        "p95": 19.0,
+        "max": 20
+      }
+    },
+    {
+      "rate_per_s": 12.0,
+      "n": 80,
+      "n_ok": 80,
+      "errors": [],
+      "ttfa_s": {
+        "n": 80,
+        "mean": 0.5471112304998769,
+        "p50": 0.5491597370000818,
+        "p95": 0.6203598749976663,
+        "p99": 0.6539861393701721,
+        "min": 0.32934343500164687,
+        "max": 0.6551550209987909
+      },
+      "first_pcm_s": {
+        "n": 80,
+        "mean": 0.0574127967374352,
+        "p50": 0.05766861600022821,
+        "p95": 0.07708623819871718,
+        "p99": 0.0876567188480112,
+        "min": 0.03169567099757842,
+        "max": 0.09168823499931023
+      },
+      "rtf": {
+        "n": 80,
+        "mean": 0.2574373935352354,
+        "p50": 0.2594064311670581,
+        "p95": 0.30020875657046675,
+        "p99": 0.31156035642093227,
+        "min": 0.17912301706625536,
+        "max": 0.31432342124996165
+      },
+      "audio_s": {
+        "n": 80,
+        "mean": 5.9479999999999995,
+        "p50": 4.6,
+        "p95": 12.755999999999998,
+        "p99": 14.99199999999998,
+        "min": 2.24,
+        "max": 17.52
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 80,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 80,
+        "mean": 0.41692622560638026,
+        "p50": 0.44319670499953645,
+        "p95": 0.5003725883505467,
+        "p99": 0.5233861631244872,
+        "min": 0.13035127900002408,
+        "max": 0.532129695500771
+      },
+      "piece_dur_p50_s": {
+        "n": 80,
+        "mean": 1.4168677083333336,
+        "p50": 1.52,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 0.16,
+        "max": 2.0
+      },
+      "wall_s": 9.342988347001665,
+      "in_flight_at_arrival": {
+        "p50": 15.5,
+        "p95": 19.0,
+        "max": 21
+      }
+    },
+    {
+      "rate_per_s": 16.0,
+      "n": 80,
+      "n_ok": 80,
+      "errors": [],
+      "ttfa_s": {
+        "n": 80,
+        "mean": 0.75759893473778,
+        "p50": 0.7331391860006988,
+        "p95": 1.1099841861514506,
+        "p99": 1.1305290313904697,
+        "min": 0.34452041699842084,
+        "max": 1.131013032001647
+      },
+      "first_pcm_s": {
+        "n": 80,
+        "mean": 0.0724416043625297,
+        "p50": 0.07300804700025765,
+        "p95": 0.11680048910166078,
+        "p99": 0.12559027054070612,
+        "min": 0.03268590700099594,
+        "max": 0.12616868799887015
+      },
+      "rtf": {
+        "n": 80,
+        "mean": 0.3600593663534625,
+        "p50": 0.35492688568770825,
+        "p95": 0.48624733985492596,
+        "p99": 0.5212320173609644,
+        "min": 0.18445933273835094,
+        "max": 0.5516502608331091
+      },
+      "audio_s": {
+        "n": 80,
+        "mean": 6.157,
+        "p50": 4.92,
+        "p95": 12.732,
+        "p99": 15.021599999999982,
+        "min": 2.32,
+        "max": 17.36
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 80,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 80,
+        "mean": 0.5749556686252163,
+        "p50": 0.5746575187513372,
+        "p95": 0.7868771847031893,
+        "p99": 0.8208453320996523,
+        "min": 0.24320027999783633,
+        "max": 0.8275602610010537
+      },
+      "piece_dur_p50_s": {
+        "n": 80,
+        "mean": 1.4395223958333332,
+        "p50": 1.36,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 0.32,
+        "max": 2.0
+      },
+      "wall_s": 7.473570297999686,
+      "in_flight_at_arrival": {
+        "p50": 25.0,
+        "p95": 41.05,
+        "max": 43
+      }
+    },
+    {
+      "rate_per_s": 20.0,
+      "n": 80,
+      "n_ok": 80,
+      "errors": [],
+      "ttfa_s": {
+        "n": 80,
+        "mean": 0.7931316255125693,
+        "p50": 0.7945309019996785,
+        "p95": 1.081937271649076,
+        "p99": 1.0936849818502377,
+        "min": 0.3557379609992495,
+        "max": 1.1008007370000996
+      },
+      "first_pcm_s": {
+        "n": 80,
+        "mean": 0.0749551925122887,
+        "p50": 0.07580467949810554,
+        "p95": 0.11548629580229315,
+        "p99": 0.12495315348111034,
+        "min": 0.031102657001611078,
+        "max": 0.1255645250021189
+      },
+      "rtf": {
+        "n": 80,
+        "mean": 0.37767546294757015,
+        "p50": 0.3786141747361348,
+        "p95": 0.4936391759433707,
+        "p99": 0.5312220056018383,
+        "min": 0.18923073871079513,
+        "max": 0.5337914903227483
+      },
+      "audio_s": {
+        "n": 80,
+        "mean": 6.063000000000001,
+        "p50": 4.44,
+        "p95": 12.748,
+        "p99": 15.283999999999997,
+        "min": 2.0,
+        "max": 15.6
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 80,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 80,
+        "mean": 0.6153277702313517,
+        "p50": 0.623937673999535,
+        "p95": 0.8361640201508634,
+        "p99": 0.8684362220295949,
+        "min": 0.054140978998475475,
+        "max": 0.9007836749988201
+      },
+      "piece_dur_p50_s": {
+        "n": 80,
+        "mean": 1.4238385416666666,
+        "p50": 1.44,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 0.16,
+        "max": 2.0
+      },
+      "wall_s": 7.418204939000134,
+      "in_flight_at_arrival": {
+        "p50": 27.0,
+        "p95": 45.05,
+        "max": 48
+      }
+    }
+  ],
+  "raw_dir": "$BOOK_DATA/runs/ch16_openloop_high"
+}

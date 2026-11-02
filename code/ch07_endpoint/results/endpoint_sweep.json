@@ -1,0 +1,538 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T08:06:34+00:00",
+    "command": "python ch07_endpoint/endpoint_sweep.py --n 100",
+    "cwd": "code",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      1.0166015625,
+      1.134765625,
+      1.6806640625
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "n_per_language": 100,
+    "tail_s": 2.0
+  },
+  "sherpa": {
+    "en": {
+      "0.2": {
+        "endpoint_delay_s": {
+          "p50": 0.8293481694992078,
+          "p90": 0.9563299970001887,
+          "p95": 1.0138165885022246,
+          "mean": 0.7884525669002839,
+          "n": 30
+        },
+        "false_cutoffs": 70,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "0.4": {
+        "endpoint_delay_s": {
+          "p50": 1.0776163184995817,
+          "p90": 1.237613141801936,
+          "p95": 1.2695473230009595,
+          "mean": 1.0475730068141922,
+          "n": 70
+        },
+        "false_cutoffs": 30,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "0.6": {
+        "endpoint_delay_s": {
+          "p50": 1.1806729235017848,
+          "p90": 1.3662921328015227,
+          "p95": 1.428561273101301,
+          "mean": 1.1617853837317056,
+          "n": 82
+        },
+        "false_cutoffs": 18,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "0.8": {
+        "endpoint_delay_s": {
+          "p50": 1.461910617997491,
+          "p90": 1.6540388736001037,
+          "p95": 1.717897067901955,
+          "mean": 1.4372171105895197,
+          "n": 95
+        },
+        "false_cutoffs": 5,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "1.0": {
+        "endpoint_delay_s": {
+          "p50": 1.590516851000546,
+          "p90": 1.8143462770009062,
+          "p95": 1.8784659322493606,
+          "mean": 1.577705323677015,
+          "n": 96
+        },
+        "false_cutoffs": 4,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "1.2": {
+        "endpoint_delay_s": {
+          "p50": 1.8141995150022847,
+          "p90": 1.9871475563972898,
+          "p95": 2.0447531107993036,
+          "mean": 1.7802126361546349,
+          "n": 97
+        },
+        "false_cutoffs": 3,
+        "no_endpoint": 0,
+        "utterances": 100
+      }
+    },
+    "zh": {
+      "0.2": {
+        "endpoint_delay_s": {
+          "p50": 0.5998043770004879,
+          "p90": 0.6319293943996018,
+          "p95": 0.6319971381997749,
+          "mean": 0.5294119647998248,
+          "n": 5
+        },
+        "false_cutoffs": 95,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "0.4": {
+        "endpoint_delay_s": {
+          "p50": 0.8080816385012293,
+          "p90": 0.9216474245994468,
+          "p95": 0.9523155987986028,
+          "mean": 0.7843397168620627,
+          "n": 58
+        },
+        "false_cutoffs": 42,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "0.6": {
+        "endpoint_delay_s": {
+          "p50": 0.952785583998891,
+          "p90": 1.1151287627991116,
+          "p95": 1.145328707200606,
+          "mean": 0.9607406922527963,
+          "n": 83
+        },
+        "false_cutoffs": 17,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "0.8": {
+        "endpoint_delay_s": {
+          "p50": 1.1794762434983133,
+          "p90": 1.3370890336981678,
+          "p95": 1.3693424673996053,
+          "mean": 1.1926024482888513,
+          "n": 90
+        },
+        "false_cutoffs": 10,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "1.0": {
+        "endpoint_delay_s": {
+          "p50": 1.3089759879997303,
+          "p90": 1.466293498201266,
+          "p95": 1.5090238334019168,
+          "mean": 1.329221404831561,
+          "n": 95
+        },
+        "false_cutoffs": 5,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "1.2": {
+        "endpoint_delay_s": {
+          "p50": 1.5923770830020367,
+          "p90": 1.7544580883980667,
+          "p95": 1.7862488503001803,
+          "mean": 1.591547729676844,
+          "n": 99
+        },
+        "false_cutoffs": 1,
+        "no_endpoint": 0,
+        "utterances": 100
+      }
+    }
+  },
+  "silero": {
+    "en": {
+      "100": {
+        "endpoint_delay_s": {
+          "p50": 0.16000000000000014,
+          "p90": 0.16000000000000014,
+          "p95": 0.16000000000000014,
+          "mean": 0.15147916666666664,
+          "n": 48
+        },
+        "false_cutoffs": 52,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "200": {
+        "endpoint_delay_s": {
+          "p50": 0.2560000000000002,
+          "p90": 0.2560000000000002,
+          "p95": 0.2560000000000002,
+          "mean": 0.25499999999999995,
+          "n": 57
+        },
+        "false_cutoffs": 43,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "300": {
+        "endpoint_delay_s": {
+          "p50": 0.3520000000000003,
+          "p90": 0.3520000000000003,
+          "p95": 0.3520000000000003,
+          "mean": 0.34761971830985927,
+          "n": 71
+        },
+        "false_cutoffs": 29,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "500": {
+        "endpoint_delay_s": {
+          "p50": 0.544,
+          "p90": 0.5440000000000005,
+          "p95": 0.5440000000000005,
+          "mean": 0.5403411764705881,
+          "n": 85
+        },
+        "false_cutoffs": 15,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "800": {
+        "endpoint_delay_s": {
+          "p50": 0.8319999999999999,
+          "p90": 0.8320000000000007,
+          "p95": 0.8320000000000007,
+          "mean": 0.8281263157894734,
+          "n": 95
+        },
+        "false_cutoffs": 5,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "1000": {
+        "endpoint_delay_s": {
+          "p50": 1.056,
+          "p90": 1.056000000000001,
+          "p95": 1.056000000000001,
+          "mean": 1.0522448979591836,
+          "n": 98
+        },
+        "false_cutoffs": 2,
+        "no_endpoint": 0,
+        "utterances": 100
+      }
+    },
+    "zh": {
+      "100": {
+        "endpoint_delay_s": {
+          "p50": 0.16000000000000014,
+          "p90": 0.16000000000000014,
+          "p95": 0.16000000000000014,
+          "mean": 0.16057142857142853,
+          "n": 56
+        },
+        "false_cutoffs": 44,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "200": {
+        "endpoint_delay_s": {
+          "p50": 0.256,
+          "p90": 0.2560000000000002,
+          "p95": 0.2560000000000002,
+          "mean": 0.2559999999999999,
+          "n": 64
+        },
+        "false_cutoffs": 36,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "300": {
+        "endpoint_delay_s": {
+          "p50": 0.35199999999999987,
+          "p90": 0.3520000000000003,
+          "p95": 0.3520000000000003,
+          "mean": 0.3563835616438356,
+          "n": 73
+        },
+        "false_cutoffs": 27,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "500": {
+        "endpoint_delay_s": {
+          "p50": 0.544,
+          "p90": 0.5440000000000005,
+          "p95": 0.5440000000000005,
+          "mean": 0.547478260869565,
+          "n": 92
+        },
+        "false_cutoffs": 8,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "800": {
+        "endpoint_delay_s": {
+          "p50": 0.8319999999999999,
+          "p90": 0.8320000000000003,
+          "p95": 0.8320000000000007,
+          "mean": 0.8352653061224488,
+          "n": 98
+        },
+        "false_cutoffs": 2,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "1000": {
+        "endpoint_delay_s": {
+          "p50": 1.056,
+          "p90": 1.056,
+          "p95": 1.0560000000000005,
+          "mean": 1.0592323232323233,
+          "n": 99
+        },
+        "false_cutoffs": 1,
+        "no_endpoint": 0,
+        "utterances": 100
+      }
+    }
+  },
+  "material": {
+    "en": {
+      "utterances": 100,
+      "internal_pauses_ge_200ms": 81,
+      "internal_pauses_ge_500ms": 21,
+      "internal_pauses_ge_1000ms": 4,
+      "longest_internal_pause_s": 1.3440000000000003
+    },
+    "zh": {
+      "utterances": 100,
+      "internal_pauses_ge_200ms": 50,
+      "internal_pauses_ge_500ms": 16,
+      "internal_pauses_ge_1000ms": 2,
+      "longest_internal_pause_s": 1.056
+    }
+  },
+  "raw": "$BOOK_DATA/runs/ch07/endpoint_sweep.jsonl",
+  "en_vs_forced_alignment": {
+    "sherpa-rule2": {
+      "0.2": {
+        "endpoint_delay_s": {
+          "p50": 0.9818658650010179,
+          "p90": 1.1398036091013344,
+          "p95": 1.1908155172515253,
+          "mean": 0.8775438865938804,
+          "n": 32
+        },
+        "false_cutoffs": 68,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "0.4": {
+        "endpoint_delay_s": {
+          "p50": 1.261559541000897,
+          "p90": 1.401498910200171,
+          "p95": 1.443607943098569,
+          "mean": 1.210473006814192,
+          "n": 70
+        },
+        "false_cutoffs": 30,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "0.6": {
+        "endpoint_delay_s": {
+          "p50": 1.342012394001649,
+          "p90": 1.5220821738024823,
+          "p95": 1.600065174899399,
+          "mean": 1.3211878227560958,
+          "n": 82
+        },
+        "false_cutoffs": 18,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "0.8": {
+        "endpoint_delay_s": {
+          "p50": 1.6219359449984037,
+          "p90": 1.8141311656008758,
+          "p95": 1.8698547644989014,
+          "mean": 1.5915223737474142,
+          "n": 95
+        },
+        "false_cutoffs": 5,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "1.0": {
+        "endpoint_delay_s": {
+          "p50": 1.7425605544983416,
+          "p90": 1.9625979740007446,
+          "p95": 2.0423690169996185,
+          "mean": 1.7321219903436817,
+          "n": 96
+        },
+        "false_cutoffs": 4,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "1.2": {
+        "endpoint_delay_s": {
+          "p50": 1.9625516339996807,
+          "p90": 2.1503350392006975,
+          "p95": 2.2102655418023347,
+          "mean": 1.934934285639171,
+          "n": 97
+        },
+        "false_cutoffs": 3,
+        "no_endpoint": 0,
+        "utterances": 100
+      }
+    },
+    "silero": {
+      "100": {
+        "endpoint_delay_s": {
+          "p50": 0.2980000000000005,
+          "p90": 0.3879999999999999,
+          "p95": 0.39720000000000005,
+          "mean": 0.3117499999999999,
+          "n": 48
+        },
+        "false_cutoffs": 52,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "200": {
+        "endpoint_delay_s": {
+          "p50": 0.39999999999999947,
+          "p90": 0.4856,
+          "p95": 0.5039999999999998,
+          "mean": 0.41207017543859636,
+          "n": 57
+        },
+        "false_cutoffs": 43,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "300": {
+        "endpoint_delay_s": {
+          "p50": 0.5039999999999996,
+          "p90": 0.5800000000000001,
+          "p95": 0.6039999999999999,
+          "mean": 0.5101408450704226,
+          "n": 71
+        },
+        "false_cutoffs": 29,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "500": {
+        "endpoint_delay_s": {
+          "p50": 0.6959999999999997,
+          "p90": 0.7704000000000004,
+          "p95": 0.7832,
+          "mean": 0.6997647058823528,
+          "n": 85
+        },
+        "false_cutoffs": 15,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "800": {
+        "endpoint_delay_s": {
+          "p50": 0.976,
+          "p90": 1.0544,
+          "p95": 1.069200000000001,
+          "mean": 0.982863157894737,
+          "n": 95
+        },
+        "false_cutoffs": 5,
+        "no_endpoint": 0,
+        "utterances": 100
+      },
+      "1000": {
+        "endpoint_delay_s": {
+          "p50": 1.2,
+          "p90": 1.2772,
+          "p95": 1.2926000000000013,
+          "mean": 1.2068571428571429,
+          "n": 98
+        },
+        "false_cutoffs": 2,
+        "no_endpoint": 0,
+        "utterances": 100
+      }
+    },
+    "reference": "end time of the last reference word, wav2vec 2.0 Base 960 h CTC forced alignment (20 ms)",
+    "computed": {
+      "when_utc": "2026-10-31T08:35:41+00:00",
+      "command": "python code/ch07_endpoint/endpoint_vs_alignment.py",
+      "cwd": ".",
+      "hbasr": "code/hbasr",
+      "python": "3.11.18",
+      "packages": {
+        "numpy": "2.4.6",
+        "torch": "2.8.0+cpu",
+        "torchaudio": "2.8.0+cpu",
+        "sherpa-onnx": "2.0.1",
+        "onnxruntime": "1.31.1",
+        "silero-vad": "6.2.3",
+        "kaldi-native-fbank": "1.22.4",
+        "jiwer": "4.0.0",
+        "soundfile": "0.14.0",
+        "cn2an": "0.5.24",
+        "opencc-python-reimplemented": "0.1.7",
+        "sentencepiece": "0.2.2"
+      },
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+      "cpu_count": 16,
+      "loadavg_at_start": [
+        4.7080078125,
+        3.6396484375,
+        2.568359375
+      ],
+      "gpu": [
+        "NVIDIA GeForce RTX 4090, 590.48.01"
+      ],
+      "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+      "git_dirty": false
+    }
+  }
+}

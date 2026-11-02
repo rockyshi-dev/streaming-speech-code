@@ -1,0 +1,125 @@
+{
+ "gates": {
+  "G0": [
+   true,
+   "result GPU 'NVIDIA GeForce RTX 4090', baseline GPU 'NVIDIA GeForce RTX 4090'"
+  ],
+  "G1": [
+   true,
+   "largest MTP graph size 192; max_num_seqs: 192 lines in stored deploy text: 2"
+  ],
+  "G2": [
+   true,
+   "2 differing lines"
+  ],
+  "G3": [
+   null,
+   "needs two visits of level 64 with completed requests"
+  ],
+  "G5": [
+   true,
+   "readings before, after: ['0', '0']"
+  ]
+ },
+ "levels": [
+  {
+   "level": "64",
+   "N": 64,
+   "visit": 0,
+   "n": 192,
+   "rtf_p50": 0.6201385254583004,
+   "ttfa_p50": 1.3860024139939924,
+   "ttfa_p95": 1.5349409975020536,
+   "requests_with_underrun": 0,
+   "audio_s_per_wall_s": 91.37820341745292,
+   "mean_in_flight_est": 53.80823377978824,
+   "G4_ok": true,
+   "G6a_hits": 0,
+   "G6a_ok": true,
+   "G6b_mean_audio_s": 5.88375,
+   "G6b_ok": true,
+   "G6c_preemptions": 0.0,
+   "G6c_ok": true,
+   "G6d_anomaly_share": 0.036458333333333336,
+   "G6d_ok": true,
+   "G7_loop_p99_ms": 2.9129070046474226,
+   "G7_ok": true
+  },
+  {
+   "level": "80 (visit 1)",
+   "N": 80,
+   "visit": 1,
+   "n": 240,
+   "rtf_p50": 0.7707605159153488,
+   "ttfa_p50": 1.7132705629992415,
+   "ttfa_p95": 1.8333266752517374,
+   "requests_with_underrun": 0,
+   "audio_s_per_wall_s": 94.4569781278052,
+   "mean_in_flight_est": 68.13707534168358,
+   "G4_ok": true,
+   "G6a_hits": 0,
+   "G6a_ok": true,
+   "G6b_mean_audio_s": 5.852666666666666,
+   "G6b_ok": true,
+   "G6c_preemptions": 0.0,
+   "G6c_ok": true,
+   "G6d_anomaly_share": 0.016666666666666666,
+   "G6d_ok": true,
+   "G7_loop_p99_ms": 3.14740399539005,
+   "G7_ok": true
+  },
+  {
+   "level": "96 (visit 2)",
+   "N": 96,
+   "visit": 2,
+   "n": 288,
+   "rtf_p50": 0.8747734765364841,
+   "ttfa_p50": 1.9397916234993318,
+   "ttfa_p95": 2.164063343402449,
+   "requests_with_underrun": 0,
+   "audio_s_per_wall_s": 98.82818345724522,
+   "mean_in_flight_est": 81.17246406255387,
+   "G4_ok": true,
+   "G6a_hits": 0,
+   "G6a_ok": true,
+   "G6b_mean_audio_s": 6.008333333333334,
+   "G6b_ok": true,
+   "G6c_preemptions": 0.0,
+   "G6c_ok": true,
+   "G6d_anomaly_share": 0.020833333333333332,
+   "G6d_ok": true,
+   "G7_loop_p99_ms": 4.332155995361973,
+   "G7_ok": true
+  },
+  {
+   "level": "128 (visit 3)",
+   "N": 128,
+   "visit": 3,
+   "n": 384,
+   "rtf_p50": 1.1496311145155262,
+   "ttfa_p50": 2.560618005998549,
+   "ttfa_p95": 2.7280115111025225,
+   "requests_with_underrun": 208,
+   "audio_s_per_wall_s": 97.463382135141,
+   "mean_in_flight_est": 103.72045906721532,
+   "G4_ok": false,
+   "G6a_hits": 0,
+   "G6a_ok": true,
+   "G6b_mean_audio_s": 6.085848563968669,
+   "G6b_ok": true,
+   "G6c_preemptions": 0.0,
+   "G6c_ok": true,
+   "G6d_anomaly_share": 0.02610966057441253,
+   "G6d_ok": true,
+   "G7_loop_p99_ms": 2.4395929960883223,
+   "G7_ok": true
+  }
+ ],
+ "anomaly_threshold_rel_dev": 0.38528138528138534,
+ "first_rtf_ge_1": 128,
+ "first_underrun": 128,
+ "first_level_failing_a_G6_or_G7_gate": 128,
+ "prediction_holds": null,
+ "run_valid": false,
+ "all_levels_clean": false
+}

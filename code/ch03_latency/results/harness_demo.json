@@ -1,0 +1,197 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T07:56:23+00:00",
+    "command": "python code/ch03_latency/harness_demo.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.96630859375,
+      2.0361328125,
+      2.34375
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "input": "$BOOK_DATASETS/librispeech/extracted/LibriSpeech/test-clean/1089/134686/1089-134686-0006.flac",
+    "recognizer": {
+      "model": "zipformer-en",
+      "int8": false,
+      "decoding_method": "greedy_search",
+      "max_active_paths": 4,
+      "num_threads": 1,
+      "hotwords_file": "",
+      "hotwords_score": 1.5,
+      "enable_endpoint": false,
+      "rule1_min_trailing_silence": 2.4,
+      "rule2_min_trailing_silence": 1.2,
+      "rule3_min_utterance_length": 20.0,
+      "tail_padding_s": 0.66,
+      "files": {
+        "dir": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26",
+        "tokens": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt",
+        "encoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx",
+        "decoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx",
+        "joiner": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx",
+        "bpe_vocab": "$BOOK_DATA/derived/sherpa-onnx-streaming-zipformer-en-2023-06-26/bpe.vocab",
+        "bpe_model": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/bpe.model"
+      }
+    }
+  },
+  "speech_vad_s": [
+    0.576,
+    10.112
+  ],
+  "summary": {
+    "realtime": {
+      "utt_id": "1089-134686-0006.flac",
+      "audio_s": 10.555,
+      "rtf": 0.0959672794873999,
+      "first_partial_s": 1.1494960599993647,
+      "first_token_delay_s": 0.5734960599993647,
+      "final_latency_after_input_end_s": 0.05251327699836139,
+      "final_latency_after_speech_end_s": 0.495513276998361,
+      "endpoint_delay_s": null,
+      "max_backlog_s": 0.00016283199947775273,
+      "n_chunks": 66
+    },
+    "simulated": {
+      "utt_id": "1089-134686-0006.flac",
+      "audio_s": 10.555,
+      "rtf": 0.07418825570678679,
+      "first_partial_s": 1.1428076290004539,
+      "first_token_delay_s": 0.5668076290004539,
+      "final_latency_after_input_end_s": 0.04584868499659933,
+      "final_latency_after_speech_end_s": 0.48884868499659895,
+      "endpoint_delay_s": null,
+      "max_backlog_s": 0.0,
+      "n_chunks": 66
+    }
+  },
+  "final_text": {
+    "realtime": "THE DULL LIGHT FELL MORE FAINTLY UPON THE PAGE WHEREON ANOTHER EQUATION BEGAN TO UNFOLD ITSELF SLOWLY AND TO SPREAD ABROAD ITS WIDENING TAIL",
+    "simulated": "THE DULL LIGHT FELL MORE FAINTLY UPON THE PAGE WHEREON ANOTHER EQUATION BEGAN TO UNFOLD ITSELF SLOWLY AND TO SPREAD ABROAD ITS WIDENING TAIL"
+  },
+  "same_partials_both_pacings": true,
+  "att_context_ms_table": [
+    {
+      "att_context_size": [
+        70,
+        13
+      ],
+      "subsampling": 4,
+      "left_ms": 2800,
+      "right_ms": 520,
+      "chunk_ms_if_chunk=right+1": 560
+    },
+    {
+      "att_context_size": [
+        70,
+        13
+      ],
+      "subsampling": 8,
+      "left_ms": 5600,
+      "right_ms": 1040,
+      "chunk_ms_if_chunk=right+1": 1120
+    },
+    {
+      "att_context_size": [
+        70,
+        6
+      ],
+      "subsampling": 4,
+      "left_ms": 2800,
+      "right_ms": 240,
+      "chunk_ms_if_chunk=right+1": 280
+    },
+    {
+      "att_context_size": [
+        70,
+        6
+      ],
+      "subsampling": 8,
+      "left_ms": 5600,
+      "right_ms": 480,
+      "chunk_ms_if_chunk=right+1": 560
+    },
+    {
+      "att_context_size": [
+        70,
+        1
+      ],
+      "subsampling": 4,
+      "left_ms": 2800,
+      "right_ms": 40,
+      "chunk_ms_if_chunk=right+1": 80
+    },
+    {
+      "att_context_size": [
+        70,
+        1
+      ],
+      "subsampling": 8,
+      "left_ms": 5600,
+      "right_ms": 80,
+      "chunk_ms_if_chunk=right+1": 160
+    },
+    {
+      "att_context_size": [
+        70,
+        0
+      ],
+      "subsampling": 4,
+      "left_ms": 2800,
+      "right_ms": 0,
+      "chunk_ms_if_chunk=right+1": 40
+    },
+    {
+      "att_context_size": [
+        70,
+        0
+      ],
+      "subsampling": 8,
+      "left_ms": 5600,
+      "right_ms": 0,
+      "chunk_ms_if_chunk=right+1": 80
+    },
+    {
+      "att_context_size": [
+        70,
+        16
+      ],
+      "subsampling": 4,
+      "left_ms": 2800,
+      "right_ms": 640,
+      "chunk_ms_if_chunk=right+1": 680
+    },
+    {
+      "att_context_size": [
+        70,
+        16
+      ],
+      "subsampling": 8,
+      "left_ms": 5600,
+      "right_ms": 1280,
+      "chunk_ms_if_chunk=right+1": 1360
+    }
+  ],
+  "raw_logs": "$BOOK_DATA/runs/ch03"
+}

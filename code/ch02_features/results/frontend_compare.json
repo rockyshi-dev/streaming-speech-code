@@ -1,0 +1,118 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T05:34:46+00:00",
+    "command": "python code/ch02_features/frontend_compare.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.876953125,
+      1.19677734375,
+      1.07763671875
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "input": "$BOOK_DATASETS/librispeech/extracted/LibriSpeech/test-clean/1089/134686/1089-134686-0006.flac"
+  },
+  "options": {
+    "snip_edges": false,
+    "high_freq": -400.0,
+    "low_freq": 20.0,
+    "n_mels": 80,
+    "frame_ms": 25,
+    "hop_ms": 10,
+    "dither": 0
+  },
+  "implementations": {
+    "numpy_vs_torchaudio": {
+      "frames": [
+        1056,
+        1056
+      ],
+      "max_abs": 8.0108642578125e-05,
+      "mean_abs": 2.718061750783818e-06
+    },
+    "numpy_vs_kaldi_native_fbank": {
+      "frames": [
+        1056,
+        1056
+      ],
+      "max_abs": 9.751319885253906e-05,
+      "mean_abs": 2.8968831884412793e-06
+    },
+    "torchaudio_vs_kaldi_native_fbank": {
+      "frames": [
+        1056,
+        1056
+      ],
+      "max_abs": 0.00010514259338378906,
+      "mean_abs": 2.2887318209541263e-06
+    }
+  },
+  "one_option_changed": {
+    "snip_edges=True": {
+      "frames": [
+        1056,
+        1054
+      ],
+      "note": "frame count changes: (N + 80) // 160 vs 1 + (N - 400) // 160"
+    },
+    "high_freq=Nyquist": {
+      "frames": [
+        1056,
+        1056
+      ],
+      "max_abs": 5.245733737945557,
+      "mean_abs": 0.515302300453186
+    },
+    "no pre-emphasis": {
+      "frames": [
+        1056,
+        1056
+      ],
+      "max_abs": 9.967878341674805,
+      "mean_abs": 1.9060213565826416
+    },
+    "no DC removal": {
+      "frames": [
+        1056,
+        1056
+      ],
+      "max_abs": 3.0638513565063477,
+      "mean_abs": 0.0034515359438955784
+    },
+    "int16-scale samples": {
+      "frames": [
+        1056,
+        1056
+      ],
+      "max_abs": 20.794416427612305,
+      "mean_abs": 20.7929744720459,
+      "mean_offset": 20.7929744720459,
+      "expected_offset_2ln32768": 20.79441541679836
+    },
+    "8 kHz bandwidth audio": {
+      "mean_abs_bins_0_39": 0.0016564950346946716,
+      "mean_abs_bins_60_79": 5.389440536499023
+    }
+  }
+}

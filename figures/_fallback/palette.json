@@ -1,0 +1,35 @@
+{
+ "ink": "#1F1F1F",
+ "muted": "#8A8A8A",
+ "focus": "#D1495B",
+ "base": "#A6A6A6",
+ "series": [
+  "#0072B2",
+  "#E69F00",
+  "#009E73",
+  "#D55E00",
+  "#CC79A7",
+  "#56B4E9",
+  "#000000",
+  "#F0E442"
+ ],
+ "seq": [
+  "#FEFBE9",
+  "#E7F1D7",
+  "#B7DDC5",
+  "#6FBBC0",
+  "#3F8FB8",
+  "#2E5C9E",
+  "#262D6B"
+ ],
+ "div": [
+  "#2166AC",
+  "#F7F7F7",
+  "#D1495B"
+ ],
+ "past": "#8A8A8A",
+ "current": "#D1495B",
+ "lookahead": "#0072B2",
+ "future": "#FFFFFF",
+ "cellLine": "#8A8A8A"
+}

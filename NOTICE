@@ -1,0 +1,24 @@
+A Hands-on Guide to Streaming Speech Recognition and Synthesis
+Copyright 2026 Rocky Shi
+
+Text and figures: CC BY 4.0 (LICENSE-text). Code: Apache License 2.0 (LICENSE).
+
+This repository also contains material from others, under these terms:
+
+- code/serve/ch15/sherpa_server.py subclasses the streaming WebSocket server of k2-fsa/sherpa-onnx
+  (python-api-examples/streaming_server.py at tag v2.0.1, Copyright Xiaomi Corp., Apache License 2.0) and
+  contains modified copies of two of its methods (handle_connection, handle_connection_impl). The original files
+  are not included; code/serve/ch15/fetch_vendor.sh downloads them.
+- code/data/manifests/, code/serve/data/test_utts.jsonl and code/tts/textset/ contain transcripts of utterances
+  from LibriSpeech (Panayotov et al., CC BY 4.0, openslr.org/12), LibriTTS-R (Koizumi et al., CC BY 4.0,
+  openslr.org/141) and AISHELL-1 (Beijing Shell Shell Technology Co., Ltd., Apache License 2.0, openslr.org/33).
+- code/tts/results/ch13_audio/ contains audio decoded from a LibriTTS-R recording (CC BY 4.0) by Vocos
+  (charactr/vocos-mel-24khz, MIT) and by the Mimi codec (kyutai, CC BY 4.0).
+- code/serve/ch18/qwen3_tts_cascade.yaml is a copy of vLLM-Omni's deploy/qwen3_tts.yaml (v0.32.0, Apache
+  License 2.0), modified as described in its header. Some result files embed the text of that deploy file as
+  `deploy_config_text`.
+- Result files under code/**/results/ and figure data under figures/*/data/ contain samples, features, text
+  recognized from, transcripts of and audio statistics of the recordings above; figures/ch02/data/triptych.npz
+  holds samples and features of a LibriSpeech test-clean recording (CC BY 4.0).
+- Quotations and code excerpts in the chapters come from the sources cited next to them and remain under those
+  sources' terms.

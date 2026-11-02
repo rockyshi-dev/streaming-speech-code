@@ -1,0 +1,332 @@
+{
+  "what": "Codec frame rate, codebooks, bitrate and reconstruction distance, CPU",
+  "runinfo": {
+    "command": "python ch11_codecs/codec_roundtrip.py --threads 4",
+    "cwd": "code/tts",
+    "utc": "2026-10-31T08:37:17+00:00",
+    "python": "3.11.18",
+    "conda_env": "ssh-tts-cpu",
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e+dirty",
+    "host_cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01",
+    "loadavg_1_5_15_at_write": [
+      3.3212890625,
+      3.3828125,
+      2.580078125
+    ],
+    "cpu_count": 16,
+    "packages": {
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "transformers": "4.57.6",
+      "kokoro": "0.9.4",
+      "numpy": "1.26.4"
+    },
+    "torch_threads": 4,
+    "models": [
+      {
+        "repo": "kyutai/mimi",
+        "revision": "89091b3e466eb6a9d11e537bf26b144f194978f7"
+      },
+      {
+        "repo": "facebook/encodec_24khz",
+        "revision": "c1dbe2ae3f1de713481a3b3e7c47f357092ee040"
+      },
+      {
+        "repo": "descript/dac_24khz",
+        "revision": "6ba020b5ba7d9d8076fb90db7e67f27e31980f6e"
+      },
+      {
+        "repo": "hexgrad/Kokoro-82M",
+        "revision": "f3ff3571791e39611d31c381e3a41a3af07b4987"
+      },
+      {
+        "repo": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+        "revision": "0c0e3051f131929182e2c023b9537f8b1c68adfe"
+      }
+    ]
+  },
+  "clips": [
+    {
+      "id": "1089_134686_000002_000001",
+      "lang": "en",
+      "path": "$BOOK_DATA/inputs/libritts_r/1089_134686_000002_000001.wav",
+      "text": "After early nightfall the yellow lamps would light up, here and there, the squalid quarter of the brothels."
+    },
+    {
+      "id": "121_121726_000004_000003",
+      "lang": "en",
+      "path": "$BOOK_DATA/inputs/libritts_r/121_121726_000004_000003.wav",
+      "text": "Also, a popular contrivance whereby love making may be suspended but not stopped during the picnic season."
+    },
+    {
+      "id": "BAC009S0764W0121",
+      "lang": "zh",
+      "path": "$BOOK_DATA/inputs/aishell1/BAC009S0764W0121.wav",
+      "text": "甚至出现交易几乎停滞的情况"
+    },
+    {
+      "id": "BAC009S0768W0178",
+      "lang": "zh",
+      "path": "$BOOK_DATA/inputs/aishell1/BAC009S0768W0178.wav",
+      "text": "加上优质地块的连续供应"
+    }
+  ],
+  "metric_notes": {
+    "logmel_l1_db": "mean |20 log10 mel_orig - 20 log10 mel_decoded| over 80 mel bins, n_fft 1024, hop 256, magnitude mel floored at 1e-5",
+    "settings": "mimi/dac: number of codebooks; encodec: target bandwidth in kbit/s",
+    "frame_rate": "frame_rate_hz = 24,000 / samples_per_frame; the counted rate (frames / clip duration) differs from it by the last partial frame: Mimi and EnCodec pad it to a whole frame, DAC drops it",
+    "timing": "one warm-up encode+decode on 0.5 s per clip and setting, then one timed pass",
+    "aishell_clips": "16 kHz originals resampled to 24 kHz, so there is no content above 8 kHz"
+  },
+  "table": [
+    {
+      "codec": "mimi",
+      "setting": 8,
+      "codebooks": 8,
+      "codebook_size": 2048,
+      "samples_per_frame": 1920,
+      "frame_rate_hz": 12.5,
+      "frame_ms": 80.0,
+      "frame_rate_hz_counted": 12.594380163876306,
+      "frames_minus_duration_over_hop": [
+        0.5,
+        0.5,
+        0.4505208333333357,
+        0.4750000000000014
+      ],
+      "bits_per_frame": 88.0,
+      "kbit_per_s": 1.1,
+      "bytes_per_s": 137.5,
+      "lm_steps_per_s_flattened": 100.0,
+      "ms_per_step_flattened": 10.0,
+      "ms_per_step_depth_transformer": 80.0,
+      "logmel_l1_db_mean": 6.213023900985718,
+      "encode_rtf_mean": 0.03077114287739982,
+      "decode_rtf_mean": 0.04313012508676284
+    },
+    {
+      "codec": "mimi",
+      "setting": 16,
+      "codebooks": 16,
+      "codebook_size": 2048,
+      "samples_per_frame": 1920,
+      "frame_rate_hz": 12.5,
+      "frame_ms": 80.0,
+      "frame_rate_hz_counted": 12.594380163876306,
+      "frames_minus_duration_over_hop": [
+        0.5,
+        0.5,
+        0.4505208333333357,
+        0.4750000000000014
+      ],
+      "bits_per_frame": 176.0,
+      "kbit_per_s": 2.2,
+      "bytes_per_s": 275.0,
+      "lm_steps_per_s_flattened": 200.0,
+      "ms_per_step_flattened": 5.0,
+      "ms_per_step_depth_transformer": 80.0,
+      "logmel_l1_db_mean": 5.792677521705627,
+      "encode_rtf_mean": 0.027915023327682833,
+      "decode_rtf_mean": 0.033141398303309165
+    },
+    {
+      "codec": "mimi",
+      "setting": 32,
+      "codebooks": 32,
+      "codebook_size": 2048,
+      "samples_per_frame": 1920,
+      "frame_rate_hz": 12.5,
+      "frame_ms": 80.0,
+      "frame_rate_hz_counted": 12.594380163876306,
+      "frames_minus_duration_over_hop": [
+        0.5,
+        0.5,
+        0.4505208333333357,
+        0.4750000000000014
+      ],
+      "bits_per_frame": 352.0,
+      "kbit_per_s": 4.4,
+      "bytes_per_s": 550.0,
+      "lm_steps_per_s_flattened": 400.0,
+      "ms_per_step_flattened": 2.5,
+      "ms_per_step_depth_transformer": 80.0,
+      "logmel_l1_db_mean": 5.305371463298798,
+      "encode_rtf_mean": 0.029970021186719726,
+      "decode_rtf_mean": 0.034247849490086094
+    },
+    {
+      "codec": "encodec",
+      "setting": 1.5,
+      "codebooks": 2,
+      "codebook_size": 1024,
+      "samples_per_frame": 320,
+      "frame_rate_hz": 75.0,
+      "frame_ms": 13.333333333333334,
+      "frame_rate_hz_counted": 75.09655309605512,
+      "frames_minus_duration_over_hop": [
+        0.0,
+        0.0,
+        0.703125,
+        0.8500000000000227
+      ],
+      "bits_per_frame": 20.0,
+      "kbit_per_s": 1.5,
+      "bytes_per_s": 187.5,
+      "lm_steps_per_s_flattened": 150.0,
+      "ms_per_step_flattened": 6.666666666666667,
+      "ms_per_step_depth_transformer": 13.333333333333334,
+      "logmel_l1_db_mean": 6.582273483276367,
+      "encode_rtf_mean": 0.02195186078525748,
+      "decode_rtf_mean": 0.031625266475833254
+    },
+    {
+      "codec": "encodec",
+      "setting": 6.0,
+      "codebooks": 8,
+      "codebook_size": 1024,
+      "samples_per_frame": 320,
+      "frame_rate_hz": 75.0,
+      "frame_ms": 13.333333333333334,
+      "frame_rate_hz_counted": 75.09655309605512,
+      "frames_minus_duration_over_hop": [
+        0.0,
+        0.0,
+        0.703125,
+        0.8500000000000227
+      ],
+      "bits_per_frame": 80.0,
+      "kbit_per_s": 6.0,
+      "bytes_per_s": 750.0,
+      "lm_steps_per_s_flattened": 600.0,
+      "ms_per_step_flattened": 1.6666666666666667,
+      "ms_per_step_depth_transformer": 13.333333333333334,
+      "logmel_l1_db_mean": 5.199715435504913,
+      "encode_rtf_mean": 0.021125897526344754,
+      "decode_rtf_mean": 0.02274862563071095
+    },
+    {
+      "codec": "encodec",
+      "setting": 24.0,
+      "codebooks": 32,
+      "codebook_size": 1024,
+      "samples_per_frame": 320,
+      "frame_rate_hz": 75.0,
+      "frame_ms": 13.333333333333334,
+      "frame_rate_hz_counted": 75.09655309605512,
+      "frames_minus_duration_over_hop": [
+        0.0,
+        0.0,
+        0.703125,
+        0.8500000000000227
+      ],
+      "bits_per_frame": 320.0,
+      "kbit_per_s": 24.0,
+      "bytes_per_s": 3000.0,
+      "lm_steps_per_s_flattened": 2400.0,
+      "ms_per_step_flattened": 0.4166666666666667,
+      "ms_per_step_depth_transformer": 13.333333333333334,
+      "logmel_l1_db_mean": 4.448984503746033,
+      "encode_rtf_mean": 0.022865063463627735,
+      "decode_rtf_mean": 0.02276456422746094
+    },
+    {
+      "codec": "dac",
+      "setting": 8,
+      "codebooks": 8,
+      "codebook_size": 1024,
+      "samples_per_frame": 320,
+      "frame_rate_hz": 75.0,
+      "frame_ms": 13.333333333333334,
+      "frame_rate_hz_counted": 74.97268553861792,
+      "frames_minus_duration_over_hop": [
+        0.0,
+        0.0,
+        -0.296875,
+        -0.14999999999997726
+      ],
+      "bits_per_frame": 80.0,
+      "kbit_per_s": 6.0,
+      "bytes_per_s": 750.0,
+      "lm_steps_per_s_flattened": 600.0,
+      "ms_per_step_flattened": 1.6666666666666667,
+      "ms_per_step_depth_transformer": 13.333333333333334,
+      "logmel_l1_db_mean": 3.321155607700348,
+      "encode_rtf_mean": 0.15994126916794787,
+      "decode_rtf_mean": 0.3759419072742745
+    },
+    {
+      "codec": "dac",
+      "setting": 16,
+      "codebooks": 16,
+      "codebook_size": 1024,
+      "samples_per_frame": 320,
+      "frame_rate_hz": 75.0,
+      "frame_ms": 13.333333333333334,
+      "frame_rate_hz_counted": 74.97268553861792,
+      "frames_minus_duration_over_hop": [
+        0.0,
+        0.0,
+        -0.296875,
+        -0.14999999999997726
+      ],
+      "bits_per_frame": 160.0,
+      "kbit_per_s": 12.0,
+      "bytes_per_s": 1500.0,
+      "lm_steps_per_s_flattened": 1200.0,
+      "ms_per_step_flattened": 0.8333333333333334,
+      "ms_per_step_depth_transformer": 13.333333333333334,
+      "logmel_l1_db_mean": 2.57240754365921,
+      "encode_rtf_mean": 0.16081061336812483,
+      "decode_rtf_mean": 0.3366474718863639
+    },
+    {
+      "codec": "dac",
+      "setting": 32,
+      "codebooks": 32,
+      "codebook_size": 1024,
+      "samples_per_frame": 320,
+      "frame_rate_hz": 75.0,
+      "frame_ms": 13.333333333333334,
+      "frame_rate_hz_counted": 74.97268553861792,
+      "frames_minus_duration_over_hop": [
+        0.0,
+        0.0,
+        -0.296875,
+        -0.14999999999997726
+      ],
+      "bits_per_frame": 320.0,
+      "kbit_per_s": 24.0,
+      "bytes_per_s": 3000.0,
+      "lm_steps_per_s_flattened": 2400.0,
+      "ms_per_step_flattened": 0.4166666666666667,
+      "ms_per_step_depth_transformer": 13.333333333333334,
+      "logmel_l1_db_mean": 1.909426987171173,
+      "encode_rtf_mean": 0.15900313571160066,
+      "decode_rtf_mean": 0.3374422936163948
+    }
+  ],
+  "front_end_frame_rates": {
+    "vocos_mel_24khz": {
+      "source": "charactr/vocos-mel-24khz config.yaml (hop_length 256, n_mels 100)",
+      "frame_rate_hz": 93.75,
+      "samples_per_frame": 256
+    },
+    "kokoro_82m_counted": {
+      "frames": 171,
+      "samples": 102600,
+      "samples_per_frame": 600.0,
+      "frame_rate_hz": 40.0,
+      "source": "hexgrad/Kokoro-82M, counted from pred_dur"
+    },
+    "qwen3_tts_12hz_tokenizer": {
+      "source": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice speech_tokenizer/config.json",
+      "samples_per_frame": 1920,
+      "frame_rate_hz": 12.5,
+      "num_quantizers": 16,
+      "codebook_size": 2048,
+      "decoder_sliding_window_frames": 72
+    }
+  },
+  "raw_dir": "$BOOK_DATA/runs/ch11_codecs"
+}

@@ -1,0 +1,109 @@
+{
+ "source": "code/tts/results/ch11_codecs.json (code/tts/ch11_codecs/codec_roundtrip.py --threads 4, i5-12600K)",
+ "models": [
+  {
+   "repo": "kyutai/mimi",
+   "revision": "89091b3e466eb6a9d11e537bf26b144f194978f7"
+  },
+  {
+   "repo": "facebook/encodec_24khz",
+   "revision": "c1dbe2ae3f1de713481a3b3e7c47f357092ee040"
+  },
+  {
+   "repo": "descript/dac_24khz",
+   "revision": "6ba020b5ba7d9d8076fb90db7e67f27e31980f6e"
+  }
+ ],
+ "rows": [
+  {
+   "codec": "mimi",
+   "setting": 8,
+   "codebooks": 8,
+   "frame_rate_hz": 12.5,
+   "kbit_per_s": 1.1,
+   "logmel_l1_db_mean": 6.213023900985718,
+   "encode_rtf_mean": 0.03077114287739982,
+   "decode_rtf_mean": 0.04313012508676284
+  },
+  {
+   "codec": "mimi",
+   "setting": 16,
+   "codebooks": 16,
+   "frame_rate_hz": 12.5,
+   "kbit_per_s": 2.2,
+   "logmel_l1_db_mean": 5.792677521705627,
+   "encode_rtf_mean": 0.027915023327682833,
+   "decode_rtf_mean": 0.033141398303309165
+  },
+  {
+   "codec": "mimi",
+   "setting": 32,
+   "codebooks": 32,
+   "frame_rate_hz": 12.5,
+   "kbit_per_s": 4.4,
+   "logmel_l1_db_mean": 5.305371463298798,
+   "encode_rtf_mean": 0.029970021186719726,
+   "decode_rtf_mean": 0.034247849490086094
+  },
+  {
+   "codec": "encodec",
+   "setting": 1.5,
+   "codebooks": 2,
+   "frame_rate_hz": 75.0,
+   "kbit_per_s": 1.5,
+   "logmel_l1_db_mean": 6.582273483276367,
+   "encode_rtf_mean": 0.02195186078525748,
+   "decode_rtf_mean": 0.031625266475833254
+  },
+  {
+   "codec": "encodec",
+   "setting": 6.0,
+   "codebooks": 8,
+   "frame_rate_hz": 75.0,
+   "kbit_per_s": 6.0,
+   "logmel_l1_db_mean": 5.199715435504913,
+   "encode_rtf_mean": 0.021125897526344754,
+   "decode_rtf_mean": 0.02274862563071095
+  },
+  {
+   "codec": "encodec",
+   "setting": 24.0,
+   "codebooks": 32,
+   "frame_rate_hz": 75.0,
+   "kbit_per_s": 24.0,
+   "logmel_l1_db_mean": 4.448984503746033,
+   "encode_rtf_mean": 0.022865063463627735,
+   "decode_rtf_mean": 0.02276456422746094
+  },
+  {
+   "codec": "dac",
+   "setting": 8,
+   "codebooks": 8,
+   "frame_rate_hz": 75.0,
+   "kbit_per_s": 6.0,
+   "logmel_l1_db_mean": 3.321155607700348,
+   "encode_rtf_mean": 0.15994126916794787,
+   "decode_rtf_mean": 0.3759419072742745
+  },
+  {
+   "codec": "dac",
+   "setting": 16,
+   "codebooks": 16,
+   "frame_rate_hz": 75.0,
+   "kbit_per_s": 12.0,
+   "logmel_l1_db_mean": 2.57240754365921,
+   "encode_rtf_mean": 0.16081061336812483,
+   "decode_rtf_mean": 0.3366474718863639
+  },
+  {
+   "codec": "dac",
+   "setting": 32,
+   "codebooks": 32,
+   "frame_rate_hz": 75.0,
+   "kbit_per_s": 24.0,
+   "logmel_l1_db_mean": 1.909426987171173,
+   "encode_rtf_mean": 0.15900313571160066,
+   "decode_rtf_mean": 0.3374422936163948
+  }
+ ]
+}

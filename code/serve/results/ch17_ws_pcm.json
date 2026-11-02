@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "time_utc": "2026-10-31T09:12:41Z",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_threads": 16,
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01, 23028 MiB",
+    "python": "3.11.18",
+    "argv": [
+      "ch17/ws_transport.py",
+      "run",
+      "--codec",
+      "pcm",
+      "--out",
+      "$BOOK_DATA/runs/ch17_ws/pcm"
+    ],
+    "git_commit": "5da6bca",
+    "loadavg_start": [
+      9.58349609375,
+      8.88427734375,
+      6.1455078125
+    ],
+    "packages": {
+      "opuslib": "3.0.1",
+      "websockets": "17.3",
+      "numpy": "2.4.6"
+    },
+    "utterance": "2961-961-0008"
+  },
+  "codec": "pcm",
+  "bitrate_target": null,
+  "jitter_synthetic": null,
+  "frames": 358,
+  "frames_received": 358,
+  "frame_ms": 20,
+  "payload_kbps": 256.0,
+  "network_ms": {
+    "n": 358,
+    "p50": 1.07,
+    "p95": 1.15,
+    "mean": 1.07,
+    "max": 1.3
+  },
+  "capture_start_to_decoded_ms": {
+    "n": 358,
+    "p50": 21.87,
+    "p95": 22.31,
+    "mean": 21.87,
+    "max": 22.51
+  },
+  "encode_us": null,
+  "decode_us": {
+    "n": 358,
+    "p50": 17.0,
+    "p95": 17.7,
+    "mean": 17.2,
+    "max": 51.0
+  },
+  "in_order": true,
+  "notes": "network_ms is loopback WebSocket time plus any synthetic delay; capture_start_to_decoded_ms counts from the first sample of the frame (frame wait 20 ms + network + decode). Opus look-ahead is not in it: see ch17_opus_delay.json."
+}

@@ -1,0 +1,12 @@
+% A cascade (half duplex) against a full-duplex model with parallel streams (Moshi).
+\begin{tikzpicture}[node distance=4mm]
+  \node[device, minimum width=2.1cm, minimum height=0.9cm] (asr) {\figtitle{recognizer}};
+  \node[device, minimum width=2.1cm, minimum height=0.9cm, right=of asr] (turn) {\figtitle{turn detector}};
+  \node[device, minimum width=2.1cm, minimum height=0.9cm, right=of turn] (llm) {\figtitle{language model}};
+  \node[device, minimum width=2.1cm, minimum height=0.9cm, right=of llm] (tts) {\figtitle{synthesizer}};
+  \draw[dataflow] (asr) -- (turn); \draw[dataflow] (turn) -- (llm); \draw[dataflow] (llm) -- (tts);
+  \node[note, above=2pt of llm.north west, anchor=south] {cascade: a boundary, and a wait, between each model};
+  \node[memory, minimum width=10cm, minimum height=0.7cm, below=12mm of turn.south east, anchor=north] (user) {\figsub{user audio tokens, 12.5 Hz}};
+  \node[memory, highlight, minimum width=10cm, minimum height=0.7cm, below=2mm of user] (moshi) {\figsub{model text + audio tokens, 12.5 Hz (inner monologue)}};
+  \node[note, below=2pt of moshi] {full duplex (Moshi): both streams modelled together; first audio after 2 frames = 160 ms};
+\end{tikzpicture}

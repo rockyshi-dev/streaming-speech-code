@@ -1,0 +1,409 @@
+{
+ "source": "code/ch03_latency/harness_demo.py, real-time pacing, 1089-134686-0006.flac",
+ "chunk_ms": 160.0,
+ "audio_s": 10.555,
+ "speech_vad_s": [
+  0.576,
+  10.112
+ ],
+ "final_done_s": 10.607513276998361,
+ "final_words": 24,
+ "chunks": [
+  {
+   "arrival_s": 0.16,
+   "done_s": 0.1607,
+   "compute_ms": 0.56,
+   "words": 0
+  },
+  {
+   "arrival_s": 0.32,
+   "done_s": 0.3213,
+   "compute_ms": 1.18,
+   "words": 0
+  },
+  {
+   "arrival_s": 0.48,
+   "done_s": 0.5124,
+   "compute_ms": 32.35,
+   "words": 0
+  },
+  {
+   "arrival_s": 0.64,
+   "done_s": 0.6414,
+   "compute_ms": 1.25,
+   "words": 0
+  },
+  {
+   "arrival_s": 0.8,
+   "done_s": 0.8304,
+   "compute_ms": 30.21,
+   "words": 0
+  },
+  {
+   "arrival_s": 0.96,
+   "done_s": 0.9613,
+   "compute_ms": 1.19,
+   "words": 0
+  },
+  {
+   "arrival_s": 1.12,
+   "done_s": 1.1495,
+   "compute_ms": 29.42,
+   "words": 1
+  },
+  {
+   "arrival_s": 1.28,
+   "done_s": 1.2813,
+   "compute_ms": 1.18,
+   "words": 1
+  },
+  {
+   "arrival_s": 1.44,
+   "done_s": 1.4696,
+   "compute_ms": 29.45,
+   "words": 2
+  },
+  {
+   "arrival_s": 1.6,
+   "done_s": 1.6014,
+   "compute_ms": 1.23,
+   "words": 2
+  },
+  {
+   "arrival_s": 1.76,
+   "done_s": 1.7888,
+   "compute_ms": 28.67,
+   "words": 3
+  },
+  {
+   "arrival_s": 1.92,
+   "done_s": 1.9213,
+   "compute_ms": 1.16,
+   "words": 3
+  },
+  {
+   "arrival_s": 2.08,
+   "done_s": 2.1076,
+   "compute_ms": 27.42,
+   "words": 4
+  },
+  {
+   "arrival_s": 2.24,
+   "done_s": 2.2413,
+   "compute_ms": 1.16,
+   "words": 4
+  },
+  {
+   "arrival_s": 2.4,
+   "done_s": 2.4287,
+   "compute_ms": 28.59,
+   "words": 5
+  },
+  {
+   "arrival_s": 2.56,
+   "done_s": 2.5614,
+   "compute_ms": 1.2,
+   "words": 5
+  },
+  {
+   "arrival_s": 2.72,
+   "done_s": 2.7482,
+   "compute_ms": 28.06,
+   "words": 6
+  },
+  {
+   "arrival_s": 2.88,
+   "done_s": 2.8813,
+   "compute_ms": 1.18,
+   "words": 6
+  },
+  {
+   "arrival_s": 3.04,
+   "done_s": 3.069,
+   "compute_ms": 28.81,
+   "words": 6
+  },
+  {
+   "arrival_s": 3.2,
+   "done_s": 3.2013,
+   "compute_ms": 1.17,
+   "words": 6
+  },
+  {
+   "arrival_s": 3.36,
+   "done_s": 3.3883,
+   "compute_ms": 28.18,
+   "words": 7
+  },
+  {
+   "arrival_s": 3.52,
+   "done_s": 3.5214,
+   "compute_ms": 1.19,
+   "words": 7
+  },
+  {
+   "arrival_s": 3.68,
+   "done_s": 3.7086,
+   "compute_ms": 28.46,
+   "words": 9
+  },
+  {
+   "arrival_s": 3.84,
+   "done_s": 3.8413,
+   "compute_ms": 1.17,
+   "words": 9
+  },
+  {
+   "arrival_s": 4.0,
+   "done_s": 4.0286,
+   "compute_ms": 28.41,
+   "words": 10
+  },
+  {
+   "arrival_s": 4.16,
+   "done_s": 4.1613,
+   "compute_ms": 1.18,
+   "words": 10
+  },
+  {
+   "arrival_s": 4.32,
+   "done_s": 4.3481,
+   "compute_ms": 27.99,
+   "words": 10
+  },
+  {
+   "arrival_s": 4.48,
+   "done_s": 4.4813,
+   "compute_ms": 1.18,
+   "words": 10
+  },
+  {
+   "arrival_s": 4.64,
+   "done_s": 4.668,
+   "compute_ms": 27.89,
+   "words": 11
+  },
+  {
+   "arrival_s": 4.8,
+   "done_s": 4.8013,
+   "compute_ms": 1.16,
+   "words": 11
+  },
+  {
+   "arrival_s": 4.96,
+   "done_s": 4.9884,
+   "compute_ms": 28.28,
+   "words": 12
+  },
+  {
+   "arrival_s": 5.12,
+   "done_s": 5.1213,
+   "compute_ms": 1.19,
+   "words": 12
+  },
+  {
+   "arrival_s": 5.28,
+   "done_s": 5.3088,
+   "compute_ms": 28.66,
+   "words": 12
+  },
+  {
+   "arrival_s": 5.44,
+   "done_s": 5.4407,
+   "compute_ms": 0.5,
+   "words": 12
+  },
+  {
+   "arrival_s": 5.6,
+   "done_s": 5.6283,
+   "compute_ms": 28.18,
+   "words": 13
+  },
+  {
+   "arrival_s": 5.76,
+   "done_s": 5.7613,
+   "compute_ms": 1.21,
+   "words": 13
+  },
+  {
+   "arrival_s": 5.92,
+   "done_s": 5.945,
+   "compute_ms": 24.97,
+   "words": 14
+  },
+  {
+   "arrival_s": 6.08,
+   "done_s": 6.0813,
+   "compute_ms": 1.19,
+   "words": 14
+  },
+  {
+   "arrival_s": 6.24,
+   "done_s": 6.2688,
+   "compute_ms": 28.72,
+   "words": 15
+  },
+  {
+   "arrival_s": 6.4,
+   "done_s": 6.4014,
+   "compute_ms": 1.27,
+   "words": 15
+  },
+  {
+   "arrival_s": 6.56,
+   "done_s": 6.5889,
+   "compute_ms": 28.78,
+   "words": 15
+  },
+  {
+   "arrival_s": 6.72,
+   "done_s": 6.7214,
+   "compute_ms": 1.2,
+   "words": 15
+  },
+  {
+   "arrival_s": 6.88,
+   "done_s": 6.92,
+   "compute_ms": 39.91,
+   "words": 16
+  },
+  {
+   "arrival_s": 7.04,
+   "done_s": 7.0414,
+   "compute_ms": 1.19,
+   "words": 16
+  },
+  {
+   "arrival_s": 7.2,
+   "done_s": 7.2285,
+   "compute_ms": 28.38,
+   "words": 17
+  },
+  {
+   "arrival_s": 7.36,
+   "done_s": 7.3613,
+   "compute_ms": 1.2,
+   "words": 17
+  },
+  {
+   "arrival_s": 7.52,
+   "done_s": 7.549,
+   "compute_ms": 28.91,
+   "words": 17
+  },
+  {
+   "arrival_s": 7.68,
+   "done_s": 7.6814,
+   "compute_ms": 1.21,
+   "words": 17
+  },
+  {
+   "arrival_s": 7.84,
+   "done_s": 7.8683,
+   "compute_ms": 28.13,
+   "words": 17
+  },
+  {
+   "arrival_s": 8.0,
+   "done_s": 8.0014,
+   "compute_ms": 1.2,
+   "words": 17
+  },
+  {
+   "arrival_s": 8.16,
+   "done_s": 8.1876,
+   "compute_ms": 27.39,
+   "words": 18
+  },
+  {
+   "arrival_s": 8.32,
+   "done_s": 8.3214,
+   "compute_ms": 1.21,
+   "words": 18
+  },
+  {
+   "arrival_s": 8.48,
+   "done_s": 8.5088,
+   "compute_ms": 28.65,
+   "words": 20
+  },
+  {
+   "arrival_s": 8.64,
+   "done_s": 8.6414,
+   "compute_ms": 1.23,
+   "words": 20
+  },
+  {
+   "arrival_s": 8.8,
+   "done_s": 8.8284,
+   "compute_ms": 28.27,
+   "words": 20
+  },
+  {
+   "arrival_s": 8.96,
+   "done_s": 8.9614,
+   "compute_ms": 1.21,
+   "words": 20
+  },
+  {
+   "arrival_s": 9.12,
+   "done_s": 9.148,
+   "compute_ms": 27.88,
+   "words": 21
+  },
+  {
+   "arrival_s": 9.28,
+   "done_s": 9.2814,
+   "compute_ms": 1.21,
+   "words": 21
+  },
+  {
+   "arrival_s": 9.44,
+   "done_s": 9.4688,
+   "compute_ms": 28.62,
+   "words": 22
+  },
+  {
+   "arrival_s": 9.6,
+   "done_s": 9.6014,
+   "compute_ms": 1.22,
+   "words": 22
+  },
+  {
+   "arrival_s": 9.76,
+   "done_s": 9.7882,
+   "compute_ms": 28.08,
+   "words": 23
+  },
+  {
+   "arrival_s": 9.92,
+   "done_s": 9.9214,
+   "compute_ms": 1.23,
+   "words": 23
+  },
+  {
+   "arrival_s": 10.08,
+   "done_s": 10.1083,
+   "compute_ms": 28.1,
+   "words": 23
+  },
+  {
+   "arrival_s": 10.24,
+   "done_s": 10.2414,
+   "compute_ms": 1.21,
+   "words": 23
+  },
+  {
+   "arrival_s": 10.4,
+   "done_s": 10.4287,
+   "compute_ms": 28.57,
+   "words": 24
+  },
+  {
+   "arrival_s": 10.555,
+   "done_s": 10.5563,
+   "compute_ms": 1.18,
+   "words": 24
+  }
+ ]
+}

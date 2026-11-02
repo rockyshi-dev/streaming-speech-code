@@ -1,0 +1,253 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T08:18:45+00:00",
+    "command": "python ch06_decoding/hotwords.py --manifest librispeech-test-other-200",
+    "cwd": "code",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      1.498046875,
+      1.673828125,
+      1.623046875
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "manifest": "librispeech-test-other-200",
+    "recognizer": {
+      "model": "zipformer-en",
+      "int8": false,
+      "decoding_method": "modified_beam_search",
+      "max_active_paths": 4,
+      "num_threads": 1,
+      "hotwords_file": "$BOOK_DATA/runs/ch06/hotwords-librispeech-test-other-200.txt",
+      "hotwords_score": 1.5,
+      "enable_endpoint": false,
+      "rule1_min_trailing_silence": 2.4,
+      "rule2_min_trailing_silence": 1.2,
+      "rule3_min_utterance_length": 20.0,
+      "tail_padding_s": 0.66,
+      "files": {
+        "dir": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26",
+        "tokens": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt",
+        "encoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx",
+        "decoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx",
+        "joiner": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx",
+        "bpe_vocab": "$BOOK_DATA/derived/sherpa-onnx-streaming-zipformer-en-2023-06-26/bpe.vocab",
+        "bpe_model": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/bpe.model"
+      }
+    }
+  },
+  "hotwords": [
+    "analysis",
+    "anyone's",
+    "appeals",
+    "baghdad",
+    "bandinello",
+    "bassorah",
+    "beastly",
+    "belike",
+    "brahman",
+    "brought",
+    "buffeting",
+    "cacked",
+    "capitalists",
+    "cathedral",
+    "charlie",
+    "cheekbones",
+    "cheeke",
+    "christians",
+    "confectionary",
+    "corydon",
+    "crushing",
+    "disastrous",
+    "entirely",
+    "fafnir",
+    "farrinder",
+    "father",
+    "fauchelevent",
+    "fauvent",
+    "festal",
+    "flashlight",
+    "frog's",
+    "gentlemen",
+    "glispin's",
+    "gordon",
+    "gordon's",
+    "government",
+    "graeme",
+    "grammateus",
+    "greasy",
+    "greenbacks",
+    "helped",
+    "hermon",
+    "homepush",
+    "honour",
+    "jackal",
+    "joining",
+    "lauderdale",
+    "leslie",
+    "lilburn",
+    "lizabeth",
+    "looked",
+    "midriff",
+    "minister",
+    "murdoch",
+    "myrtilus",
+    "nearer",
+    "nights",
+    "nonetheless",
+    "nu'uman",
+    "obocock",
+    "owners",
+    "palaestra",
+    "pending",
+    "peonage",
+    "rachel",
+    "racked",
+    "realised",
+    "risdon",
+    "rope's",
+    "seller",
+    "sharrkan",
+    "sheriff",
+    "shuffle",
+    "sindbad",
+    "sinuhit",
+    "sparsely",
+    "stoker",
+    "stoned",
+    "though",
+    "tightening",
+    "ulrica",
+    "waitin",
+    "weevilly",
+    "whacks",
+    "wideawake",
+    "you've"
+  ],
+  "n_hotwords": 86,
+  "hotwords_score": 1.5,
+  "normalizer": {
+    "name": "en-lower+punct",
+    "steps": [
+      "drop_lang_tags",
+      "width_nfkc",
+      "lower",
+      "strip_punct"
+    ]
+  },
+  "baseline_modified_beam_search": {
+    "target_hits": 19,
+    "target_occurrences": 114,
+    "with_targets": {
+      "ref_len": 1714,
+      "sub": 167,
+      "dele": 10,
+      "ins": 26,
+      "errors": 203,
+      "rate": 0.11843640606767794,
+      "utterances": 75
+    },
+    "without_targets": {
+      "ref_len": 1738,
+      "sub": 53,
+      "dele": 11,
+      "ins": 2,
+      "errors": 66,
+      "rate": 0.0379746835443038,
+      "utterances": 125
+    }
+  },
+  "with_hotwords": {
+    "target_hits": 61,
+    "target_occurrences": 114,
+    "with_targets": {
+      "ref_len": 1714,
+      "sub": 127,
+      "dele": 14,
+      "ins": 17,
+      "errors": 158,
+      "rate": 0.09218203033838973,
+      "utterances": 75
+    },
+    "without_targets": {
+      "ref_len": 1738,
+      "sub": 56,
+      "dele": 11,
+      "ins": 2,
+      "errors": 69,
+      "rate": 0.039700805523590336,
+      "utterances": 125
+    }
+  },
+  "raw": {
+    "baseline": "$BOOK_DATA/runs/sherpa-zipformer-en-librispeech-test-other-200-modified_beam_search",
+    "hotwords": "$BOOK_DATA/runs/sherpa-zipformer-en-librispeech-test-other-200-modified_beam_search-hotwords"
+  },
+  "latency_with_hotwords": {
+    "first_token_delay_s": {
+      "p50": 0.6017632364991878,
+      "p90": 0.8626970974973256,
+      "p95": 0.9190142113510736,
+      "mean": 0.6569625425599857,
+      "n": 200
+    },
+    "final_latency_after_input_end_s": {
+      "p50": 0.04702339800132904,
+      "p90": 0.0698896360991057,
+      "p95": 0.07083595684835017,
+      "mean": 0.05252130474028089,
+      "n": 200
+    },
+    "final_latency_after_speech_end_s": {
+      "p50": 0.38188564599798736,
+      "p90": 0.5199248834040188,
+      "p95": 0.535778665399659,
+      "mean": 0.35091599224028086,
+      "n": 200
+    },
+    "endpoint_delay_s": {
+      "p50": null,
+      "p90": null,
+      "p95": null,
+      "mean": null,
+      "n": 0
+    },
+    "max_backlog_s": {
+      "p50": 0.0,
+      "p90": 0.0030617003009679507,
+      "p95": 0.013343907800335933,
+      "mean": 0.0013072715350295682,
+      "n": 200
+    },
+    "rtf": {
+      "p50": 0.07960105858655031,
+      "p90": 0.0878279815573868,
+      "p95": 0.09093675410903825,
+      "mean": 0.08071198046833644,
+      "n": 200
+    },
+    "corpus_rtf": 0.0788020269132024,
+    "audio_total_s": 1258.5249999999999,
+    "utterances": 200
+  }
+}

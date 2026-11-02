@@ -1,0 +1,85 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T05:35:20+00:00",
+    "command": "python code/ch04_alignment/chapter_examples.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.85888671875,
+      1.15673828125,
+      1.06884765625
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false
+  },
+  "ctc": {
+    "paths": {
+      "-ab": 0.045,
+      "a-b": 0.036,
+      "aab": 0.036,
+      "ab-": 0.096,
+      "abb": 0.048
+    },
+    "p_enumerated": 0.261,
+    "loss_enumerated": 1.3432348716594436,
+    "loss_torch": 1.3432348716594436,
+    "loss_forward_hbasr": 1.3432348716594436
+  },
+  "transducer": {
+    "alpha": [
+      [
+        1.0,
+        0.6,
+        0.24
+      ],
+      [
+        0.3,
+        0.51,
+        0.549
+      ]
+    ],
+    "p_forward": 0.4941,
+    "loss_forward": 0.7050173531304329,
+    "loss_torchaudio_float32": 0.7050174474716187
+  },
+  "joiner": {
+    "en": {
+      "utt_id": "1089-134686-0006",
+      "duration_s": 10.555,
+      "V_tokens_txt_lines": 502,
+      "U": 53,
+      "T_40ms": 264,
+      "joiner_values": 7156512,
+      "joiner_MB_fp32": 28.626048
+    },
+    "zh": {
+      "utt_id": "BAC009S0764W0140",
+      "duration_s": 6.167,
+      "V_tokens_txt_lines": 2002,
+      "U": 18,
+      "T_40ms": 155,
+      "joiner_values": 5895890,
+      "joiner_MB_fp32": 23.58356
+    }
+  }
+}

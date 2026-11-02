@@ -1,0 +1,231 @@
+{
+  "utterances": 200,
+  "audio_total_s": 1258.5249999999999,
+  "lang": "en",
+  "scoring_units": "words",
+  "default_normalizer": "en-lower+punct",
+  "accuracy": {
+    "raw": {
+      "ref_len": 3452,
+      "sub": 3407,
+      "dele": 45,
+      "ins": 16,
+      "errors": 3468,
+      "rate": 1.0046349942062573,
+      "normalizer": {
+        "name": "en-raw",
+        "steps": [
+          "collapse_ws"
+        ]
+      }
+    },
+    "lower": {
+      "ref_len": 3452,
+      "sub": 206,
+      "dele": 48,
+      "ins": 19,
+      "errors": 273,
+      "rate": 0.0790845886442642,
+      "normalizer": {
+        "name": "en-lower",
+        "steps": [
+          "lower"
+        ]
+      }
+    },
+    "lower+punct": {
+      "ref_len": 3452,
+      "sub": 206,
+      "dele": 48,
+      "ins": 19,
+      "errors": 273,
+      "rate": 0.0790845886442642,
+      "normalizer": {
+        "name": "en-lower+punct",
+        "steps": [
+          "drop_lang_tags",
+          "width_nfkc",
+          "lower",
+          "strip_punct"
+        ]
+      }
+    }
+  },
+  "stability": {
+    "UPWR": 0.3607946245983056,
+    "UPSR": 6.175,
+    "unstable_units": 1235,
+    "final_units": 3423,
+    "revisions": 1235,
+    "utterances": 200,
+    "normalizer": "en-lower+punct"
+  },
+  "latency": {
+    "first_token_delay_s": {
+      "p50": 0.5953929714987463,
+      "p90": 0.8833772721970163,
+      "p95": 0.9791847945035987,
+      "mean": 0.6248253273451169,
+      "n": 200
+    },
+    "final_latency_after_input_end_s": {
+      "p50": 0.01961622450107825,
+      "p90": 0.020186294701852604,
+      "p95": 0.024246404400691233,
+      "mean": 0.01661680975497875,
+      "n": 200
+    },
+    "final_latency_after_speech_end_s": {
+      "p50": 0.34541383600034203,
+      "p90": 0.4819758283025699,
+      "p95": 0.4987869498561369,
+      "mean": 0.3150114972549787,
+      "n": 200
+    },
+    "endpoint_delay_s": {
+      "p50": null,
+      "p90": null,
+      "p95": null,
+      "mean": null,
+      "n": 0
+    },
+    "max_backlog_s": {
+      "p50": 0.0,
+      "p90": 0.004032498201704504,
+      "p95": 0.009413025348331059,
+      "mean": 0.0010568783100286972,
+      "n": 200
+    },
+    "rtf": {
+      "p50": 0.12183912746926094,
+      "p90": 0.12348320652706579,
+      "p95": 0.12391781361162478,
+      "mean": 0.12206155840065686,
+      "n": 200
+    },
+    "corpus_rtf": 0.12183451717666226,
+    "audio_total_s": 1258.5249999999999,
+    "utterances": 200
+  },
+  "raw": "$BOOK_DATA/runs/nemo-fastconformer-en-multi-librispeech-test-other-200-rnnt-ctx70_0/utts.jsonl",
+  "word_emission_latency_vs_forced_alignment_s": {
+    "p50": 0.4992420309977026,
+    "p90": 0.679466493601794,
+    "p95": 0.7392265189012687,
+    "mean": 0.4967347578552407,
+    "n": 3198,
+    "definition": "time a correctly recognized word first appears in a partial result that never changes it again, minus that word's end time in a wav2vec 2.0 forced alignment of the reference (20 ms frames)"
+  },
+  "final_latency_after_last_aligned_word_s": {
+    "p50": 0.48991934799661974,
+    "p90": 0.6491670006021166,
+    "p95": 0.670481796438995,
+    "mean": 0.4634418097549786,
+    "n": 200
+  },
+  "provenance": {
+    "when_utc": "2026-10-30T16:58:50+00:00",
+    "command": "python ch09_measure/eval_nemo.py --model fastconformer-en-multi --manifests librispeech-test-clean-200 librispeech-test-other-200 --decoders rnnt ctc",
+    "cwd": "code",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cu126",
+      "torchaudio": "2.8.0+cu126",
+      "jiwer": "4.0.0",
+      "nemo_toolkit": "3.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      1.11669921875,
+      1.283203125,
+      1.34521484375
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "manifest": "librispeech-test-other-200",
+    "recognizer": {
+      "model": "fastconformer-en-multi",
+      "att_context_size": [
+        70,
+        0
+      ],
+      "decoder": "rnnt",
+      "target_lang": "",
+      "device": "cuda"
+    },
+    "streaming_cfg": {
+      "chunk_size_frames": [
+        1,
+        8
+      ],
+      "shift_size_frames": [
+        1,
+        8
+      ],
+      "pre_encode_cache_size": [
+        0,
+        9
+      ],
+      "drop_extra_pre_encoded": 2,
+      "valid_out_len": 1,
+      "last_channel_cache_size": 70,
+      "att_context_size": [
+        70,
+        0
+      ],
+      "subsampling_factor": 8
+    },
+    "chunk_ms": 160.0,
+    "pace": "simulated",
+    "track": "GPU",
+    "gpu_torch": "NVIDIA GeForce RTX 4090",
+    "loadavg_at_end": [
+      1.81494140625,
+      1.408203125,
+      1.37451171875
+    ]
+  },
+  "rescored": {
+    "when_utc": "2026-10-31T08:35:36+00:00",
+    "command": "python code/ch09_measure/rescore.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      4.94384765625,
+      3.66748046875,
+      2.57177734375
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false
+  }
+}

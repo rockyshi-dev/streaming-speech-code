@@ -1,0 +1,287 @@
+{
+  "meta": {
+    "time_utc": "2026-10-31T06:57:07Z",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_threads": 16,
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01, 23028 MiB",
+    "python": "3.11.18",
+    "argv": [
+      "ch18/cascade.py",
+      "--name",
+      "cascade_sil500_prefetch",
+      "--endpoint",
+      "silence",
+      "--silence-ms",
+      "500",
+      "--tts-prefetch"
+    ],
+    "git_commit": "5da6bca",
+    "loadavg_start": [
+      1.11083984375,
+      1.32421875,
+      1.2001953125
+    ],
+    "packages": {
+      "httpx": "0.28.1",
+      "websockets": "17.3",
+      "onnxruntime": "1.31.1",
+      "transformers": "4.57.1",
+      "numpy": "2.4.6"
+    },
+    "args": {
+      "name": "cascade_sil500_prefetch",
+      "turns": 50,
+      "manifest": "code/serve/data/test_utts.jsonl",
+      "asr_url": "ws://127.0.0.1:6010",
+      "lang_hint": true,
+      "asr_windows": 5,
+      "llm_url": "http://127.0.0.1:8000",
+      "llm_model": "qwen3-1.7b",
+      "max_tokens": 80,
+      "long_tokens": 512,
+      "tts_url": "http://127.0.0.1:8091",
+      "tts_model": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+      "endpoint": "silence",
+      "silence_ms": 500.0,
+      "trigger_ms": 200,
+      "fallback_ms": 3000,
+      "start_ms": 96,
+      "first_min_chars": null,
+      "tts_prefetch": true,
+      "prebuffer_ms": 0.0,
+      "tail_s": 3.5,
+      "gap_s": 0.5,
+      "barge_in": false,
+      "barge_delay": 0.5,
+      "save_audio": false,
+      "results_dir": "code/serve/results"
+    }
+  },
+  "raw": "$BOOK_DATA/runs/cascade_sil500_prefetch/turns.jsonl",
+  "turns": 50,
+  "premature_endpoints": 7,
+  "endpoint_reasons": {
+    "silence": 50
+  },
+  "asr_error_rate": {
+    "en": {
+      "errors": 11,
+      "units": 435,
+      "rate": 0.0253
+    },
+    "zh": {
+      "errors": 50,
+      "units": 314,
+      "rate": 0.1592
+    }
+  },
+  "budget_all": {
+    "turns_used": 43,
+    "endpoint_delay_ms": {
+      "n": 43,
+      "p50": 514.0,
+      "p95": 546.0,
+      "mean": 524.0,
+      "max": 546.0
+    },
+    "asr_final_after_endpoint_ms": {
+      "n": 43,
+      "p50": 24.0,
+      "p95": 36.0,
+      "mean": 27.0,
+      "max": 37.0
+    },
+    "llm_request_after_final_ms": {
+      "n": 43,
+      "p50": 0.0,
+      "p95": 0.0,
+      "mean": 0.0,
+      "max": 0.0
+    },
+    "llm_first_token_ms": {
+      "n": 43,
+      "p50": 13.0,
+      "p95": 18.0,
+      "mean": 13.0,
+      "max": 20.0
+    },
+    "sentence_aggregation_ms": {
+      "n": 43,
+      "p50": 70.0,
+      "p95": 116.0,
+      "mean": 72.0,
+      "max": 166.0
+    },
+    "tts_first_audio_ms": {
+      "n": 43,
+      "p50": 306.0,
+      "p95": 385.0,
+      "mean": 319.0,
+      "max": 433.0
+    },
+    "playout_ms": {
+      "n": 43,
+      "p50": 10.0,
+      "p95": 20.0,
+      "mean": 7.0,
+      "max": 20.0
+    },
+    "voice_to_voice_ms": {
+      "n": 43,
+      "p50": 954.0,
+      "p95": 1043.0,
+      "mean": 962.0,
+      "max": 1101.0
+    },
+    "eos_to_final_transcript_ms": {
+      "n": 43,
+      "p50": 548.0,
+      "p95": 579.0,
+      "mean": 550.0,
+      "max": 581.0
+    },
+    "underruns_total": 0,
+    "turns_with_underrun": 0,
+    "turns_with_underrun_from_first_pcm": 43
+  },
+  "budget_by_lang": {
+    "en": {
+      "turns_used": 21,
+      "endpoint_delay_ms": {
+        "n": 21,
+        "p50": 514.0,
+        "p95": 546.0,
+        "mean": 520.0,
+        "max": 546.0
+      },
+      "asr_final_after_endpoint_ms": {
+        "n": 21,
+        "p50": 24.0,
+        "p95": 36.0,
+        "mean": 27.0,
+        "max": 37.0
+      },
+      "llm_request_after_final_ms": {
+        "n": 21,
+        "p50": 0.0,
+        "p95": 0.0,
+        "mean": 0.0,
+        "max": 0.0
+      },
+      "llm_first_token_ms": {
+        "n": 21,
+        "p50": 13.0,
+        "p95": 18.0,
+        "mean": 14.0,
+        "max": 20.0
+      },
+      "sentence_aggregation_ms": {
+        "n": 21,
+        "p50": 82.0,
+        "p95": 116.0,
+        "mean": 83.0,
+        "max": 166.0
+      },
+      "tts_first_audio_ms": {
+        "n": 21,
+        "p50": 308.0,
+        "p95": 369.0,
+        "mean": 320.0,
+        "max": 387.0
+      },
+      "playout_ms": {
+        "n": 21,
+        "p50": 10.0,
+        "p95": 20.0,
+        "mean": 9.0,
+        "max": 20.0
+      },
+      "voice_to_voice_ms": {
+        "n": 21,
+        "p50": 970.0,
+        "p95": 1017.0,
+        "mean": 973.0,
+        "max": 1071.0
+      },
+      "eos_to_final_transcript_ms": {
+        "n": 21,
+        "p50": 548.0,
+        "p95": 570.0,
+        "mean": 548.0,
+        "max": 580.0
+      },
+      "underruns_total": 0,
+      "turns_with_underrun": 0,
+      "turns_with_underrun_from_first_pcm": 21
+    },
+    "zh": {
+      "turns_used": 22,
+      "endpoint_delay_ms": {
+        "n": 22,
+        "p50": 514.0,
+        "p95": 546.0,
+        "mean": 527.0,
+        "max": 546.0
+      },
+      "asr_final_after_endpoint_ms": {
+        "n": 22,
+        "p50": 23.0,
+        "p95": 36.0,
+        "mean": 26.0,
+        "max": 37.0
+      },
+      "llm_request_after_final_ms": {
+        "n": 22,
+        "p50": 0.0,
+        "p95": 0.0,
+        "mean": 0.0,
+        "max": 0.0
+      },
+      "llm_first_token_ms": {
+        "n": 22,
+        "p50": 12.0,
+        "p95": 15.0,
+        "mean": 13.0,
+        "max": 17.0
+      },
+      "sentence_aggregation_ms": {
+        "n": 22,
+        "p50": 52.0,
+        "p95": 108.0,
+        "mean": 61.0,
+        "max": 156.0
+      },
+      "tts_first_audio_ms": {
+        "n": 22,
+        "p50": 303.0,
+        "p95": 395.0,
+        "mean": 317.0,
+        "max": 433.0
+      },
+      "playout_ms": {
+        "n": 22,
+        "p50": 10.0,
+        "p95": 10.0,
+        "mean": 6.0,
+        "max": 20.0
+      },
+      "voice_to_voice_ms": {
+        "n": 22,
+        "p50": 931.0,
+        "p95": 1043.0,
+        "mean": 951.0,
+        "max": 1101.0
+      },
+      "eos_to_final_transcript_ms": {
+        "n": 22,
+        "p50": 549.0,
+        "p95": 579.0,
+        "mean": 553.0,
+        "max": 581.0
+      },
+      "underruns_total": 0,
+      "turns_with_underrun": 0,
+      "turns_with_underrun_from_first_pcm": 22
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+ "gates": {
+  "G0": [
+   true,
+   "result GPU 'NVIDIA GeForce RTX 4090', baseline GPU 'NVIDIA GeForce RTX 4090'"
+  ],
+  "G1": [
+   true,
+   "largest MTP graph size 192; max_num_seqs: 192 lines in stored deploy text: 2"
+  ],
+  "G2": [
+   true,
+   "2 differing lines"
+  ],
+  "G3": [
+   null,
+   "needs two visits of level 64 with completed requests"
+  ],
+  "G5": [
+   true,
+   "readings before, after: ['0', '0']"
+  ]
+ },
+ "levels": [
+  {
+   "level": "64",
+   "N": 64,
+   "visit": 0,
+   "n": 192,
+   "rtf_p50": 0.6189648339922786,
+   "ttfa_p50": 1.4046879925008398,
+   "ttfa_p95": 1.5401168741012952,
+   "requests_with_underrun": 0,
+   "audio_s_per_wall_s": 91.40019607010015,
+   "mean_in_flight_est": 54.322769360911494,
+   "G4_ok": true,
+   "G6a_hits": 0,
+   "G6a_ok": true,
+   "G6b_mean_audio_s": 6.041250000000001,
+   "G6b_ok": true,
+   "G6c_preemptions": 0.0,
+   "G6c_ok": true,
+   "G6d_anomaly_share": 0.036458333333333336,
+   "G6d_ok": true,
+   "G7_loop_p99_ms": 3.666730999830179,
+   "G7_ok": true
+  },
+  {
+   "level": "128 (visit 1)",
+   "N": 128,
+   "visit": 1,
+   "n": 384,
+   "rtf_p50": 1.1520950700718275,
+   "ttfa_p50": 2.5476855735032586,
+   "ttfa_p95": 2.774683449904478,
+   "requests_with_underrun": 205,
+   "audio_s_per_wall_s": 100.88270429160946,
+   "mean_in_flight_est": 108.4618459988122,
+   "G4_ok": true,
+   "G6a_hits": 0,
+   "G6a_ok": true,
+   "G6b_mean_audio_s": 6.010833333333333,
+   "G6b_ok": true,
+   "G6c_preemptions": 0.0,
+   "G6c_ok": true,
+   "G6d_anomaly_share": 0.020833333333333332,
+   "G6d_ok": true,
+   "G7_loop_p99_ms": 2.8918720001820475,
+   "G7_ok": true
+  }
+ ],
+ "anomaly_threshold_rel_dev": 0.38528138528138534,
+ "first_rtf_ge_1": 128,
+ "first_underrun": 128,
+ "first_level_failing_a_G6_or_G7_gate": null,
+ "prediction_holds": null,
+ "run_valid": false,
+ "all_levels_clean": true
+}

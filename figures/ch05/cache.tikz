@@ -1,0 +1,12 @@
+% Per-layer state a cache-aware FastConformer keeps between chunks (NeMo v3.0.0 get_initial_cache_state):
+% the last 70 attention steps and the last 8 causal-conv inputs.
+\begin{tikzpicture}[node distance=3mm]
+  \node[memory, minimum width=1.2cm, minimum height=0.8cm] (old) {\figsub{oldest}};
+  \node[memory, minimum width=5.2cm, minimum height=0.8cm, right=0mm of old] (mid) {\figsub{cache\_last\_channel: 70 steps of attention context}};
+  \node[device, highlight, minimum width=1.6cm, minimum height=0.8cm, right=0mm of mid] (new) {\figsub{new chunk}};
+  \node[note, below=2pt of old] {drops out};
+  \node[note, below=2pt of new] {appended};
+  \node[memory, minimum width=3cm, minimum height=0.8cm, below=12mm of mid.west, anchor=west] (conv) {\figsub{cache\_last\_time: 8 conv inputs}};
+  \node[note, right=3mm of conv] {kernel 9, causal: the last 8 inputs are carried over};
+  \node[note, above=3pt of mid] {per layer, per stream; 17 layers in the shipped model};
+\end{tikzpicture}

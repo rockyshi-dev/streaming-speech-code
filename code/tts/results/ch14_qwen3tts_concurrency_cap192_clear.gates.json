@@ -1,0 +1,102 @@
+{
+ "gates": {
+  "G0": [
+   true,
+   "result GPU 'NVIDIA GeForce RTX 4090', baseline GPU 'NVIDIA GeForce RTX 4090'"
+  ],
+  "G1": [
+   true,
+   "largest MTP graph size 192; max_num_seqs: 192 lines in stored deploy text: 2"
+  ],
+  "G2": [
+   true,
+   "2 differing lines"
+  ],
+  "G3": [
+   null,
+   "needs two visits of level 64 with completed requests"
+  ],
+  "G5": [
+   true,
+   "readings before, after: ['0', '0']"
+  ]
+ },
+ "levels": [
+  {
+   "level": "64",
+   "N": 64,
+   "visit": 0,
+   "n": 192,
+   "rtf_p50": 0.6188306761619407,
+   "ttfa_p50": 1.406293634998292,
+   "ttfa_p95": 1.5757790308511175,
+   "requests_with_underrun": 0,
+   "audio_s_per_wall_s": 92.31376307793315,
+   "mean_in_flight_est": 54.38081194353018,
+   "G4_ok": true,
+   "G6a_hits": 0,
+   "G6a_ok": true,
+   "G6b_mean_audio_s": 6.0112499999999995,
+   "G6b_ok": true,
+   "G6c_preemptions": 0.0,
+   "G6c_ok": true,
+   "G6d_anomaly_share": 0.020833333333333332,
+   "G6d_ok": true,
+   "G7_loop_p99_ms": 2.3687469967990182,
+   "G7_ok": true
+  },
+  {
+   "level": "112 (visit 1)",
+   "N": 112,
+   "visit": 1,
+   "n": 336,
+   "rtf_p50": 1.006202842386109,
+   "ttfa_p50": 2.2340389764976862,
+   "ttfa_p95": 2.433064227750947,
+   "requests_with_underrun": 1,
+   "audio_s_per_wall_s": 99.72231238282541,
+   "mean_in_flight_est": 93.62626252664091,
+   "G4_ok": true,
+   "G6a_hits": 0,
+   "G6a_ok": true,
+   "G6b_mean_audio_s": 6.041904761904762,
+   "G6b_ok": true,
+   "G6c_preemptions": 0.0,
+   "G6c_ok": true,
+   "G6d_anomaly_share": 0.023809523809523808,
+   "G6d_ok": true,
+   "G7_loop_p99_ms": 2.7733629997237585,
+   "G7_ok": true
+  },
+  {
+   "level": "160 (visit 2)",
+   "N": 160,
+   "visit": 2,
+   "n": 480,
+   "rtf_p50": 1.4211343554437397,
+   "ttfa_p50": 3.163344666998455,
+   "ttfa_p95": 3.617963629854421,
+   "requests_with_underrun": 321,
+   "audio_s_per_wall_s": 103.84936892537729,
+   "mean_in_flight_est": 137.947019332188,
+   "G4_ok": true,
+   "G6a_hits": 0,
+   "G6a_ok": true,
+   "G6b_mean_audio_s": 5.9445,
+   "G6b_ok": true,
+   "G6c_preemptions": 0.0,
+   "G6c_ok": true,
+   "G6d_anomaly_share": 0.014583333333333334,
+   "G6d_ok": true,
+   "G7_loop_p99_ms": 2.5085420004324988,
+   "G7_ok": true
+  }
+ ],
+ "anomaly_threshold_rel_dev": 0.38528138528138534,
+ "first_rtf_ge_1": 112,
+ "first_underrun": 112,
+ "first_level_failing_a_G6_or_G7_gate": null,
+ "prediction_holds": null,
+ "run_valid": false,
+ "all_levels_clean": true
+}

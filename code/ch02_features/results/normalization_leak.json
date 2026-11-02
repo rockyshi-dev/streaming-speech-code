@@ -1,0 +1,79 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T05:34:47+00:00",
+    "command": "python code/ch02_features/normalization_leak.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.876953125,
+      1.19677734375,
+      1.07763671875
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "input": "$BOOK_DATASETS/librispeech/extracted/LibriSpeech/test-clean/1089/134686/1089-134686-0006.flac"
+  },
+  "prefix_frames": 100,
+  "test1_prefix_leak_max_abs": {
+    "utterance_cmvn": 1.0139210224151611,
+    "utterance_cmn_mean_only": 3.1307532787323,
+    "causal_cmvn_running": 0.0,
+    "causal_cmvn_with_prior_100_frames": 0.0,
+    "sliding_cmn_600": 0.0,
+    "none": 0.0
+  },
+  "test2_future_change_mean_abs": {
+    "utterance_cmvn": {
+      "rest_of_utterance": 0.0,
+      "4_s_silence": 2.126850128173828,
+      "4_s_loud_noise": 1.2829091548919678
+    },
+    "utterance_cmn_mean_only": {
+      "rest_of_utterance": 0.0,
+      "4_s_silence": 7.516711235046387,
+      "4_s_loud_noise": 6.763153076171875
+    },
+    "causal_cmvn_running": {
+      "rest_of_utterance": 0.0,
+      "4_s_silence": 0.0,
+      "4_s_loud_noise": 0.0
+    },
+    "causal_cmvn_with_prior_100_frames": {
+      "rest_of_utterance": 0.0,
+      "4_s_silence": 0.0,
+      "4_s_loud_noise": 0.0
+    },
+    "sliding_cmn_600": {
+      "rest_of_utterance": 0.0,
+      "4_s_silence": 0.0,
+      "4_s_loud_noise": 0.0
+    },
+    "none": {
+      "rest_of_utterance": 0.0,
+      "4_s_silence": 0.0,
+      "4_s_loud_noise": 0.0
+    }
+  },
+  "test2_frames_compared": 99,
+  "note": "causal_cmvn_with_prior uses statistics of this utterance as the prior only to give the running estimate a start; in deployment the prior is a fixed global statistic. Test 2 compares frames 0-98 only: frame 99 has a 25 ms window that reaches past 1 s."
+}

@@ -1,0 +1,67 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T08:35:41+00:00",
+    "command": "python code/ch07_endpoint/silero_packet_rounding.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      4.7080078125,
+      3.6396484375,
+      2.568359375
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false
+  },
+  "min_silence_ms": {
+    "100": {
+      "n": 48,
+      "p50_ms_32ms_windows": 298,
+      "p50_ms_rounded_to_160ms_packets": 370
+    },
+    "200": {
+      "n": 57,
+      "p50_ms_32ms_windows": 400,
+      "p50_ms_rounded_to_160ms_packets": 480
+    },
+    "300": {
+      "n": 71,
+      "p50_ms_32ms_windows": 504,
+      "p50_ms_rounded_to_160ms_packets": 560
+    },
+    "500": {
+      "n": 85,
+      "p50_ms_32ms_windows": 696,
+      "p50_ms_rounded_to_160ms_packets": 760
+    },
+    "800": {
+      "n": 95,
+      "p50_ms_32ms_windows": 976,
+      "p50_ms_rounded_to_160ms_packets": 1040
+    },
+    "1000": {
+      "n": 98,
+      "p50_ms_32ms_windows": 1200,
+      "p50_ms_rounded_to_160ms_packets": 1260
+    }
+  }
+}

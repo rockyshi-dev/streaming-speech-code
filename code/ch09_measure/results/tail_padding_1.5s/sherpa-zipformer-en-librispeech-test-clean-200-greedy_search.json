@@ -1,0 +1,198 @@
+{
+  "utterances": 200,
+  "audio_total_s": 1514.8350625000005,
+  "lang": "en",
+  "scoring_units": "words",
+  "default_normalizer": "en-lower+punct",
+  "accuracy": {
+    "raw": {
+      "ref_len": 4091,
+      "sub": 103,
+      "dele": 5,
+      "ins": 27,
+      "errors": 135,
+      "rate": 0.0329992666829626,
+      "normalizer": {
+        "name": "en-raw",
+        "steps": [
+          "collapse_ws"
+        ]
+      }
+    },
+    "lower": {
+      "ref_len": 4091,
+      "sub": 103,
+      "dele": 5,
+      "ins": 27,
+      "errors": 135,
+      "rate": 0.0329992666829626,
+      "normalizer": {
+        "name": "en-lower",
+        "steps": [
+          "lower"
+        ]
+      }
+    },
+    "lower+punct": {
+      "ref_len": 4091,
+      "sub": 103,
+      "dele": 5,
+      "ins": 27,
+      "errors": 135,
+      "rate": 0.0329992666829626,
+      "normalizer": {
+        "name": "en-lower+punct",
+        "steps": [
+          "drop_lang_tags",
+          "width_nfkc",
+          "lower",
+          "strip_punct"
+        ]
+      }
+    }
+  },
+  "stability": {
+    "UPWR": 0.29686360320933625,
+    "UPSR": 6.105,
+    "unstable_units": 1221,
+    "final_units": 4113,
+    "revisions": 1221,
+    "utterances": 200,
+    "normalizer": "en-lower+punct"
+  },
+  "latency": {
+    "first_token_delay_s": {
+      "p50": 0.6317173240002449,
+      "p90": 0.8869488106975623,
+      "p95": 0.9197346124020405,
+      "mean": 0.6648894902400548,
+      "n": 200
+    },
+    "final_latency_after_input_end_s": {
+      "p50": 0.11297199999899021,
+      "p90": 0.1247037593035202,
+      "p95": 0.12726066130089747,
+      "mean": 0.11300503925994651,
+      "n": 200
+    },
+    "final_latency_after_speech_end_s": {
+      "p50": 0.38005721049876584,
+      "p90": 0.5699829283981961,
+      "p95": 0.5935904930514285,
+      "mean": 0.37191535175994644,
+      "n": 200
+    },
+    "endpoint_delay_s": {
+      "p50": null,
+      "p90": null,
+      "p95": null,
+      "mean": null,
+      "n": 0
+    },
+    "max_backlog_s": {
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0022605658504111633,
+      "mean": 0.0006094410850114884,
+      "n": 200
+    },
+    "rtf": {
+      "p50": 0.08830102212449649,
+      "p90": 0.10866572034610246,
+      "p95": 0.1135582085222558,
+      "mean": 0.09180939127299059,
+      "n": 200
+    },
+    "corpus_rtf": 0.08571709426954419,
+    "audio_total_s": 1514.8350625000005,
+    "utterances": 200
+  },
+  "raw": "$BOOK_DATA/runs/sherpa-zipformer-en-librispeech-test-clean-200-greedy_search-tail1.5/utts.jsonl",
+  "emission_lag_vs_model_timestamps_s": {
+    "p50": 0.46259300530262415,
+    "p90": 0.7424760860153186,
+    "p95": 0.8223600227722201,
+    "mean": 0.47906999352505353,
+    "n": 4113
+  },
+  "word_emission_latency_vs_forced_alignment_s": {
+    "p50": 0.5824306919990336,
+    "p90": 0.7424750367982776,
+    "p95": 0.7825883406979846,
+    "mean": 0.5782928651210426,
+    "n": 3983,
+    "definition": "time a correctly recognized word first appears in a partial result that never changes it again, minus that word's end time in a wav2vec 2.0 forced alignment of the reference (20 ms frames)"
+  },
+  "final_latency_after_last_aligned_word_s": {
+    "p50": 0.5237686099991694,
+    "p90": 0.7273924445986634,
+    "p95": 0.7774331865021012,
+    "mean": 0.5335803517599463,
+    "n": 200
+  },
+  "provenance": {
+    "when_utc": "2026-10-31T08:20:12+00:00",
+    "command": "python code/ch09_measure/eval_sherpa.py --manifest librispeech-test-clean-200 --decoding greedy_search --tail-padding-s 1.5 --runs-suffix=-tail1.5 --results-dir code/ch09_measure/results/tail_padding_1.5s",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      1.10791015625,
+      1.49462890625,
+      1.5615234375
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "manifest": "librispeech-test-clean-200",
+    "recognizer": {
+      "model": "zipformer-en",
+      "int8": false,
+      "decoding_method": "greedy_search",
+      "max_active_paths": 4,
+      "num_threads": 1,
+      "hotwords_file": "",
+      "hotwords_score": 1.5,
+      "enable_endpoint": false,
+      "rule1_min_trailing_silence": 2.4,
+      "rule2_min_trailing_silence": 1.2,
+      "rule3_min_utterance_length": 20.0,
+      "tail_padding_s": 1.5,
+      "files": {
+        "dir": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26",
+        "tokens": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt",
+        "encoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx",
+        "decoder": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx",
+        "joiner": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx",
+        "bpe_vocab": "$BOOK_DATA/derived/sherpa-onnx-streaming-zipformer-en-2023-06-26/bpe.vocab",
+        "bpe_model": "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-en-2023-06-26/bpe.model"
+      }
+    },
+    "chunk_ms": 160.0,
+    "pace": "simulated",
+    "track": "CPU",
+    "loadavg_at_end": [
+      2.251953125,
+      1.7421875,
+      1.6396484375
+    ]
+  }
+}

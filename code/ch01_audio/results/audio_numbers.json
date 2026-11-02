@@ -1,0 +1,148 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T05:34:43+00:00",
+    "command": "python code/ch01_audio/audio_numbers.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.8662109375,
+      1.2001953125,
+      1.078125
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "input": "$BOOK_DATASETS/librispeech/extracted/LibriSpeech/test-clean/1089/134686/1089-134686-0006.flac"
+  },
+  "arithmetic": {
+    "samples_in_5_s_at_16k": 80000,
+    "bytes_per_s_16k_int16_mono": 32000,
+    "bytes_per_s_16k_float32_mono": 64000,
+    "kbps_16k_int16_mono": 256.0,
+    "kbps_24k_int16_mono": 384.0,
+    "kbps_48k_int16_stereo": 1536.0,
+    "kbps_8k_8bit_mono_(G.711 rate)": 64.0,
+    "samples_per_160ms_chunk_16k": 2560,
+    "bytes_per_160ms_chunk_16k_int16": 5120,
+    "samples_per_10ms_hop_16k": 160,
+    "samples_per_25ms_window_16k": 400,
+    "samples_per_20ms_opus_frame_48k": 960,
+    "feature_frames_per_160ms_chunk": 16.0,
+    "int16_levels": 65536,
+    "gain_for_half_amplitude_db": -6.020599913279624
+  },
+  "pcm": {
+    "utterance_s": 10.555,
+    "file_bytes_int16_wav": 337804,
+    "file_bytes_float32_wav": 675600,
+    "raw_s16le_bytes": 337760,
+    "first_4_samples_int16": [
+      -19,
+      -23,
+      -17,
+      -18
+    ],
+    "first_8_bytes_hex": "ed ff e9 ff ef ff ee ff",
+    "level_dbfs": -26.53613255391024,
+    "level_dbfs_after_-6.02_dB": -32.556132970803574,
+    "int16_roundtrip_max_abs_error": 3.0517578125e-05,
+    "misreads": [
+      {
+        "name": "int16 LE (correct)",
+        "n_samples": 168880,
+        "duration_s": 10.555,
+        "peak": 0.580474853515625,
+        "note": "reference"
+      },
+      {
+        "name": "int16 BE (wrong endianness)",
+        "n_samples": 168880,
+        "duration_s": 10.555,
+        "peak": 1.0,
+        "note": "same length, every sample's bytes swapped: loud broadband noise"
+      },
+      {
+        "name": "float32 LE (wrong dtype)",
+        "n_samples": 84440,
+        "duration_s": 5.2775,
+        "peak": 3.4028119054118145e+38,
+        "note": "half as many samples, values are not in [-1, 1]: garbage or NaN/inf"
+      },
+      {
+        "name": "int16 read as stereo",
+        "n_samples": 84440,
+        "duration_s": 5.2775,
+        "peak": 0.5518798828125,
+        "note": "every second sample dropped: half the duration if played at the original rate"
+      },
+      {
+        "name": "16 kHz played as 8 kHz",
+        "n_samples": 168880,
+        "duration_s": 21.11,
+        "peak": 0.580474853515625,
+        "note": "same samples, wrong rate header: twice as long, one octave lower"
+      }
+    ],
+    "float32_misread_fraction_nonfinite": 0.18070819516816675,
+    "float32_misread_fraction_outside_unit": 0.42867261242248594
+  },
+  "resampling": {
+    "input": "1 kHz + 10 kHz tones at 48 kHz, 1 s; 10 kHz is above the 8 kHz Nyquist limit of 16 kHz audio",
+    "proper_energy_near_6kHz_db": -45.09289126156689,
+    "naive_energy_near_6kHz_db": -3.0102998697794807,
+    "proper_energy_near_1kHz_db": -0.00021263687504373885,
+    "naive_energy_near_1kHz_db": -3.010300043500156,
+    "note": "dropping 2 of every 3 samples folds 10 kHz to 16 - 10 = 6 kHz (an alias); the windowed-sinc resampler removes it first",
+    "utt_16k_to_48k_to_16k_max_abs_error": 0.013078948482871056,
+    "utt_16k_to_48k_to_16k_snr_db": 40.820145876849395
+  },
+  "chunking": {
+    "chunk_ms": 160,
+    "chunk_samples": 2560,
+    "n_chunks": 66,
+    "last_chunk_samples": 2480,
+    "last_chunk_ms": 155.0,
+    "first_three": [
+      {
+        "index": 0,
+        "start_sample": 0,
+        "end_sample": 2560,
+        "start_ms": 0.0,
+        "bytes_int16": 5120
+      },
+      {
+        "index": 1,
+        "start_sample": 2560,
+        "end_sample": 5120,
+        "start_ms": 160.0,
+        "bytes_int16": 5120
+      },
+      {
+        "index": 2,
+        "start_sample": 5120,
+        "end_sample": 7680,
+        "start_ms": 320.0,
+        "bytes_int16": 5120
+      }
+    ]
+  }
+}

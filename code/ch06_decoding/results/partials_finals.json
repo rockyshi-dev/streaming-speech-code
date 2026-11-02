@@ -1,0 +1,389 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T07:56:24+00:00",
+    "command": "python code/ch06_decoding/partials_finals.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.96630859375,
+      2.0361328125,
+      2.34375
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false
+  },
+  "cases": [
+    {
+      "lang": "en",
+      "decoder": "greedy_search",
+      "wav": "$BOOK_DATASETS/librispeech/extracted/LibriSpeech/test-other/1688/142285/1688-142285-0007.flac",
+      "ref": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF WHAT HE SAID",
+      "final": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF WHAT HE SAID",
+      "waterfall": [
+        {
+          "t_s": 1.143,
+          "text": "I"
+        },
+        {
+          "t_s": 1.463,
+          "text": "I REALLY"
+        },
+        {
+          "t_s": 1.783,
+          "text": "I REALLY WAS"
+        },
+        {
+          "t_s": 2.103,
+          "text": "I REALLY WAS VERY MUCH"
+        },
+        {
+          "t_s": 2.423,
+          "text": "I REALLY WAS VERY MUCH A"
+        },
+        {
+          "t_s": 2.743,
+          "text": "I REALLY WAS VERY MUCH AFRAID"
+        },
+        {
+          "t_s": 3.383,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOW"
+        },
+        {
+          "t_s": 3.703,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM"
+        },
+        {
+          "t_s": 4.023,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW"
+        },
+        {
+          "t_s": 4.343,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH"
+        },
+        {
+          "t_s": 4.662,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED"
+        },
+        {
+          "t_s": 4.982,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS"
+        },
+        {
+          "t_s": 5.622,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT"
+        },
+        {
+          "t_s": 5.942,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME"
+        },
+        {
+          "t_s": 6.263,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF"
+        },
+        {
+          "t_s": 6.582,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF WHAT"
+        },
+        {
+          "t_s": 6.902,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF WHAT HE"
+        },
+        {
+          "t_s": 7.105,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF WHAT HE SAID"
+        }
+      ],
+      "unstable_units": 2,
+      "revisions": 2,
+      "final_units": 21,
+      "UPWR": 0.09523809523809523,
+      "summary": {
+        "utt_id": "1688-142285-0007.flac",
+        "audio_s": 7.06,
+        "rtf": 0.07493619178724789,
+        "first_partial_s": 1.1427393770001073,
+        "first_token_delay_s": 0.5667393770001073,
+        "final_latency_after_input_end_s": 0.04497771200112766,
+        "final_latency_after_speech_end_s": 0.3529777120011275,
+        "endpoint_delay_s": null,
+        "max_backlog_s": 0.0,
+        "n_chunks": 45
+      }
+    },
+    {
+      "lang": "en",
+      "decoder": "modified_beam_search",
+      "wav": "$BOOK_DATASETS/librispeech/extracted/LibriSpeech/test-other/1688/142285/1688-142285-0007.flac",
+      "ref": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF WHAT HE SAID",
+      "final": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF WHAT HE SAID",
+      "waterfall": [
+        {
+          "t_s": 1.143,
+          "text": "I"
+        },
+        {
+          "t_s": 1.463,
+          "text": "I REALLY"
+        },
+        {
+          "t_s": 1.783,
+          "text": "I REALLY WAS"
+        },
+        {
+          "t_s": 2.103,
+          "text": "I REALLY WAS VERY MUCH"
+        },
+        {
+          "t_s": 2.423,
+          "text": "I REALLY WAS VERY MUCH A"
+        },
+        {
+          "t_s": 2.743,
+          "text": "I REALLY WAS VERY MUCH AFRAID"
+        },
+        {
+          "t_s": 3.383,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOW"
+        },
+        {
+          "t_s": 3.703,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM"
+        },
+        {
+          "t_s": 4.023,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW"
+        },
+        {
+          "t_s": 4.343,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH"
+        },
+        {
+          "t_s": 4.663,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED"
+        },
+        {
+          "t_s": 4.983,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS"
+        },
+        {
+          "t_s": 5.623,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT"
+        },
+        {
+          "t_s": 5.943,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME"
+        },
+        {
+          "t_s": 6.263,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF"
+        },
+        {
+          "t_s": 6.583,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF WHAT"
+        },
+        {
+          "t_s": 6.903,
+          "text": "I REALLY WAS VERY MUCH AFRAID OF SHOWING HIM HOW MUCH SHOCKED I WAS AT SOME PARTS OF WHAT HE SAID"
+        }
+      ],
+      "unstable_units": 2,
+      "revisions": 2,
+      "final_units": 21,
+      "UPWR": 0.09523809523809523,
+      "summary": {
+        "utt_id": "1688-142285-0007.flac",
+        "audio_s": 7.06,
+        "rtf": 0.07566110297434676,
+        "first_partial_s": 1.1428436269972009,
+        "first_token_delay_s": 0.5668436269972009,
+        "final_latency_after_input_end_s": 0.045846220000385074,
+        "final_latency_after_speech_end_s": 0.3538462200003849,
+        "endpoint_delay_s": null,
+        "max_backlog_s": 0.0,
+        "n_chunks": 45
+      }
+    },
+    {
+      "lang": "zh",
+      "decoder": "greedy_search",
+      "wav": "$BOOK_DATASETS/aishell1/wav/test/S0764/BAC009S0764W0140.wav",
+      "ref": "其中  广州  深圳  甚至  出现  了  多  个  日光  盘",
+      "final": "其中广州深圳甚至出现了多个日光盘",
+      "waterfall": [
+        {
+          "t_s": 0.824,
+          "text": "其"
+        },
+        {
+          "t_s": 1.143,
+          "text": "其中"
+        },
+        {
+          "t_s": 1.783,
+          "text": "其中广"
+        },
+        {
+          "t_s": 2.103,
+          "text": "其中广州"
+        },
+        {
+          "t_s": 2.744,
+          "text": "其中广州深"
+        },
+        {
+          "t_s": 3.063,
+          "text": "其中广州深圳"
+        },
+        {
+          "t_s": 3.704,
+          "text": "其中广州深圳甚至"
+        },
+        {
+          "t_s": 4.023,
+          "text": "其中广州深圳甚至出"
+        },
+        {
+          "t_s": 4.343,
+          "text": "其中广州深圳甚至出现"
+        },
+        {
+          "t_s": 4.663,
+          "text": "其中广州深圳甚至出现了"
+        },
+        {
+          "t_s": 4.983,
+          "text": "其中广州深圳甚至出现了多"
+        },
+        {
+          "t_s": 5.303,
+          "text": "其中广州深圳甚至出现了多个"
+        },
+        {
+          "t_s": 5.623,
+          "text": "其中广州深圳甚至出现了多个日光"
+        },
+        {
+          "t_s": 5.943,
+          "text": "其中广州深圳甚至出现了多个日光盘"
+        }
+      ],
+      "unstable_units": 0,
+      "revisions": 0,
+      "final_units": 16,
+      "UPWR": 0.0,
+      "summary": {
+        "utt_id": "BAC009S0764W0140.wav",
+        "audio_s": 6.167,
+        "rtf": 0.0773526695309365,
+        "first_partial_s": 0.8238094390006154,
+        "first_token_delay_s": 0.3118094390006154,
+        "final_latency_after_input_end_s": 0.046739105997403385,
+        "final_latency_after_speech_end_s": 0.4217391059974034,
+        "endpoint_delay_s": null,
+        "max_backlog_s": 0.0,
+        "n_chunks": 39
+      }
+    },
+    {
+      "lang": "zh",
+      "decoder": "modified_beam_search",
+      "wav": "$BOOK_DATASETS/aishell1/wav/test/S0764/BAC009S0764W0140.wav",
+      "ref": "其中  广州  深圳  甚至  出现  了  多  个  日光  盘",
+      "final": "其中广州深圳甚至出现了多个日光盘",
+      "waterfall": [
+        {
+          "t_s": 0.824,
+          "text": "其"
+        },
+        {
+          "t_s": 1.144,
+          "text": "其中"
+        },
+        {
+          "t_s": 1.784,
+          "text": "其中广"
+        },
+        {
+          "t_s": 2.104,
+          "text": "其中广州"
+        },
+        {
+          "t_s": 2.744,
+          "text": "其中广州深"
+        },
+        {
+          "t_s": 3.064,
+          "text": "其中广州深圳"
+        },
+        {
+          "t_s": 3.704,
+          "text": "其中广州深圳甚至"
+        },
+        {
+          "t_s": 4.024,
+          "text": "其中广州深圳甚至出"
+        },
+        {
+          "t_s": 4.344,
+          "text": "其中广州深圳甚至出现"
+        },
+        {
+          "t_s": 4.665,
+          "text": "其中广州深圳甚至出现了"
+        },
+        {
+          "t_s": 4.984,
+          "text": "其中广州深圳甚至出现了多"
+        },
+        {
+          "t_s": 5.304,
+          "text": "其中广州深圳甚至出现了多个"
+        },
+        {
+          "t_s": 5.624,
+          "text": "其中广州深圳甚至出现了多个日光"
+        },
+        {
+          "t_s": 5.944,
+          "text": "其中广州深圳甚至出现了多个日光盘"
+        }
+      ],
+      "unstable_units": 0,
+      "revisions": 0,
+      "final_units": 16,
+      "UPWR": 0.0,
+      "summary": {
+        "utt_id": "BAC009S0764W0140.wav",
+        "audio_s": 6.167,
+        "rtf": 0.07965997227292076,
+        "first_partial_s": 0.8244983960001264,
+        "first_token_delay_s": 0.3124983960001264,
+        "final_latency_after_input_end_s": 0.04883318199790665,
+        "final_latency_after_speech_end_s": 0.42383318199790665,
+        "endpoint_delay_s": null,
+        "max_backlog_s": 0.0,
+        "n_chunks": 39
+      }
+    }
+  ]
+}

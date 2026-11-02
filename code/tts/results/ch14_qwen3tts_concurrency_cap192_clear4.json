@@ -1,0 +1,661 @@
+{
+  "what": "Qwen3-TTS on vLLM-Omni: TTFA, RTF and underruns vs concurrent streams, one GPU (runinfo.gpu names it)",
+  "runinfo": {
+    "command": "python code/tts/gpu/qwen3tts_client.py concurrency --name ch14_qwen3tts_concurrency_cap192_clear4 --levels 64,192 --requests 40 --min-rounds 3",
+    "cwd": ".",
+    "utc": "2026-10-31T17:40:49+00:00",
+    "python": "3.12.16",
+    "conda_env": "ssh-tts-gpu",
+    "git_commit": "69680d7e580e3a074164375f73e899d5e5097aba+dirty",
+    "host_cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01",
+    "loadavg_1_5_15_at_write": [
+      1.06103515625,
+      0.84814453125,
+      0.865234375
+    ],
+    "cpu_count": 16,
+    "packages": {
+      "vllm": "0.32.0",
+      "vllm-omni": "0.32.0",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.19.0",
+      "aiohttp": "3.14.5",
+      "numpy": "2.3.5"
+    },
+    "server": {
+      "model": {
+        "repo": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+        "revision": "0c0e3051f131929182e2c023b9537f8b1c68adfe"
+      },
+      "url": "http://127.0.0.1:8091",
+      "deploy_config": "$BOOK_DATA/runs/deploy/qwen3_tts_seqs192.yaml",
+      "deploy_config_text": "# Qwen3-TTS deploy: talker → code2wav via shared-memory chunk streaming.\n# Verified on 1x H100.\n#\n# Runner selection:\n#   Model Runner V2 (MRV2) is EXPERIMENTAL and is the default runner on CUDA\n#   for this model. Set `model_runner: v1` to opt out. The `platforms:`\n#   sections at the end of this file keep V1 on NPU, XPU, ROCm and MUSA.\n#   See docs/configuration/stage_configs.md (\"Qwen3-TTS with Model Runner V2\").\n#\n# Fields omitted from a stage fall back to StageDeployConfig defaults (see\n# vllm_omni/config/stage_config.py). Notable choices for this model:\n#   * Stage 0 (talker) sets max_num_batched_tokens=512 for async-chunk\n#     latency tuning (not correctness) — small per-step batches keep\n#     first-chunk latency low, and the MRV2 profiles rely on that bound.\n#   * Stage 1 (code2wav) sets max_num_batched_tokens=65536 for correctness:\n#     codec prefill length (Q * num_frames) exceeds the 32k default.\n#   * Stage 0 does not set enforce_eager — talker runs cudagraph by default.\n#     Stage 1 defaults to false so Code2Wav can use its inner cudagraph;\n#     set true to disable that path in eager mode.\nmodel_runner: v2\nasync_chunk: true\n\nconnectors:\n  connector_of_shared_memory:\n    name: SharedMemoryConnector\n    extra:\n      talker_first_audio: true\n      codec_streaming: true\n      connector_get_sleep_s: 0.01\n      connector_get_max_wait_first_chunk: 3000\n      connector_get_max_wait: 300\n      # Must match the decoder sliding attention window.\n      codec_chunk_frames: 25\n      codec_left_context_frames: 72\n      # Emit only the first audio chunk early, then return to codec_chunk_frames.\n      initial_codec_chunk_frames: 1\n      # Chunk ramp (opt-in): gradual size increase for first N chunks to\n      # eliminate the IC→steady cliff (1→25). Uncomment to enable.\n      # Each entry is the size of that chunk index; indices past the table\n      # fall back to codec_chunk_frames. When enabled, ramp overrides\n      # initial_codec_chunk_frames (including the per-request API field).\n      # Example:\n      #   codec_chunk_ramp: [4, 4, 8, 16, 25]\n      # Adaptive chunk ramp (opt-in, takes precedence over fixed codec_chunk_ramp):\n      # Chunk 0 uses dynamic IC; chunk 1+ sizes from live buffer-depth feedback.\n      # Self-tunes across hardware (NPU/NVIDIA) and load conditions.\n      # codec_chunk_adaptive: true\n      # codec_chunk_min_frames: 2\n      # Code2Wav decode + transfer margin\n      # codec_chunk_safety_margin_ms: 50\n      # EWMA->delta divisor (delta=max(delta_min, int(ewma/divisor))); higher=gentler ramp\n      # codec_chunk_ramp_divisor: 15\n      # min chunk-size growth per emit\n      # codec_chunk_ramp_delta_min: 2\n      # Decoder CUDA Graph sizing:\n      #   * async_chunk=true derives all stateful ICL/xvec shapes from\n      #     codec_chunk_ramp when enabled, otherwise from\n      #     initial_codec_chunk_frames, codec_chunk_frames, and sliding_window;\n      #     decode_cudagraph_capture_sizes is ignored in this mode.\n      #   * async_chunk=false captures stateless shapes 150 and\n      #     decode_chunk_frames + decode_left_context_frames (325 by default).\n      #     Extra stateless shapes may be added (union, not intersection) with:\n      #       decode_cudagraph_capture_sizes: [97, 400]\n      # Graph batch size defaults to 1. Add larger buckets only when needed:\n      #   decode_cudagraph_batch_sizes: [1, 2, 4]\n      # Limit eager batches to reduce temporary stateful cache allocations; CUDA Graph batching uses the buckets above.\n      decode_batch_max_size: 4\n\nstages:\n  - stage_id: 0\n    max_num_seqs: 192\n    gpu_memory_utilization: 0.3\n    trust_remote_code: true\n    # Omni prefix cache (reuse of talker codec rows on shared prefixes). Off\n    # by default; set true when text repeats across requests (same voice or\n    # shared ref_audio). The talker opts out of hidden-state caching and\n    # defers codes.audio writes, so per-step cost is small. Stage 1 (codec\n    # decoder) is not a supported prefix-cache stage: keep it false there.\n    # See docs/design/feature/prefix_caching.md for the stage matrix.\n    enable_prefix_caching: false\n    async_scheduling: true\n    # Bound per-step prefill work (validated MRV2 basic profile). Small\n    # per-step batches keep first-chunk latency low.\n    max_num_batched_tokens: 512\n    max_model_len: 4096\n    devices: \"0\"\n    output_connectors:\n      to_stage_1: connector_of_shared_memory\n    # Serving-side runaway ceiling for requests without max_new_tokens:\n    # max(codec_budget_min_frames, codec_budget_frames_per_text_token *\n    # input text tokens) codec frames, capped by max_tokens below. Each key\n    # takes a number (all tasks) or a per-task mapping; a rate of 0 disables\n    # the ceiling. Defaults shown:\n    # additional_config:\n    #   codec_budget_frames_per_text_token: {Base: 12, CustomVoice: 40, VoiceDesign: 40}\n    #   codec_budget_min_frames: {Base: 192, CustomVoice: 400, VoiceDesign: 400}\n    default_sampling_params:\n      temperature: 0.9\n      top_k: 50\n      max_tokens: 4096\n      # Official qwen-tts generates the talker with min_new_tokens=2; without\n      # it, checkpoints that sample codec EOS on the first frame return empty\n      # audio (HTTP 400). See #4962.\n      min_tokens: 2\n      repetition_penalty: 1.05\n    # Suppress codebook-0 silence tokens for the first N decode frames of a\n    # request (#4966). Applies to every request on this stage, so intended\n    # for x-vector-only (Base voice-clone) deploys. 0 = off.\n    silence_ban_frames: 0\n    subtalker_sampling_params:\n      do_sample: true\n      temperature: 0.9\n      top_k: 50\n      top_p: 1.0\n\n  - stage_id: 1\n    # Decoder compute dtype on GPU/NPU; 310P requires FP16 and overrides this.\n    dtype: bfloat16\n    # Tuned for Base voice clone; CustomVoice / VoiceDesign are TTFA-optimal at 1.\n    max_num_seqs: 192\n    gpu_memory_utilization: 0.3\n    enforce_eager: false\n    trust_remote_code: true\n    enable_prefix_caching: false\n    async_scheduling: true\n    # Must be divisible by num_code_groups and cover (left_context + chunk).\n    # Prefill length is Q * num_frames (e.g. 16 * 2148 = 34368); keep\n    # headroom past 32k.\n    max_num_batched_tokens: 65536\n    # async_chunk appends windows per step; max_model_len must cover the\n    # accumulated flat codec stream.\n    max_model_len: 65536\n    devices: \"0\"\n    input_connectors:\n      from_stage_0: connector_of_shared_memory\n    default_sampling_params:\n      temperature: 0.0\n      top_p: 1.0\n      top_k: -1\n      max_tokens: 65536\n      repetition_penalty: 1.0\n\nplatforms:\n  rocm:\n    # MRV2 is not qualified on ROCm; keep the legacy V1 runner.\n    model_runner: v1\n    stages:\n      - stage_id: 1\n        # MIOpen Conv1d cannot be invoked while vLLM captures the outer\n        # Code2Wav model graph. Keep CUDA's graph-enabled default, but run\n        # Stage 1 eager on ROCm so decoder convolutions execute normally.\n        enforce_eager: true\n  npu:\n    model_runner: v1\n    stages:\n      - stage_id: 0\n        enforce_eager: false\n        compilation_config:\n          cudagraph_mode: PIECEWISE\n      - stage_id: 1\n        compilation_config:\n          cudagraph_mode: PIECEWISE\n  xpu:\n    model_runner: v1\n    stages:\n      - stage_id: 1\n        # Level Zero cannot capture the Code2Wav graph.\n        enforce_eager: true\n  musa:\n    model_runner: v1\n"
+    },
+    "levels": [
+      64,
+      192
+    ],
+    "repeats": 1,
+    "requests_per_level": "max(40, 3 x N)",
+    "per_level_warmup": "one untimed burst of N simultaneous requests",
+    "seed": 1234,
+    "voices": {
+      "en": [
+        "ryan",
+        "English"
+      ],
+      "zh": [
+        "vivian",
+        "Chinese"
+      ]
+    },
+    "load_model": "closed loop: N workers, each sends its next request when the previous one has fully arrived; requests alternate en/zh",
+    "player": "playback starts at the first audible piece, no pre-buffer"
+  },
+  "back_to_back_check": [
+    {
+      "k": 0,
+      "ttfa_s": 0.3023382989995298,
+      "first_pcm_s": 0.03438606999407057,
+      "first_pieces_samples": [
+        1920,
+        48000,
+        48000,
+        48000
+      ],
+      "rtf": 0.13790438810934663
+    },
+    {
+      "k": 1,
+      "ttfa_s": 0.2961019900030806,
+      "first_pcm_s": 0.028830335002567153,
+      "first_pieces_samples": [
+        1920,
+        48000,
+        48000,
+        48000
+      ],
+      "rtf": 0.13708054893313823
+    },
+    {
+      "k": 2,
+      "ttfa_s": 0.30215782600134844,
+      "first_pcm_s": 0.03666979099944001,
+      "first_pieces_samples": [
+        1920,
+        48000,
+        48000,
+        48000
+      ],
+      "rtf": 0.13810953749980845
+    },
+    {
+      "k": 3,
+      "ttfa_s": 0.3067860329974792,
+      "first_pcm_s": 0.04021269400254823,
+      "first_pieces_samples": [
+        1920,
+        48000,
+        48000,
+        48000
+      ],
+      "rtf": 0.13864282057888555
+    },
+    {
+      "k": 4,
+      "ttfa_s": 0.30492757199681364,
+      "first_pcm_s": 0.03803535299812211,
+      "first_pieces_samples": [
+        1920,
+        48000,
+        48000,
+        48000
+      ],
+      "rtf": 0.1383542804876747
+    }
+  ],
+  "table": [
+    {
+      "concurrency": 64,
+      "repeat": 0,
+      "visit": 0,
+      "lang": "all",
+      "n": 192,
+      "n_ok": 192,
+      "errors": [],
+      "ttfa_s": {
+        "n": 192,
+        "mean": 1.3682737655420472,
+        "p50": 1.3898152360015956,
+        "p95": 1.5556850887995097,
+        "p99": 1.6521028971753549,
+        "min": 0.8040688580003916,
+        "max": 1.6530362220000825
+      },
+      "first_pcm_s": {
+        "n": 192,
+        "mean": 0.14139132628152615,
+        "p50": 0.13367944899800932,
+        "p95": 0.2356670899036544,
+        "p99": 0.23817081053377478,
+        "min": 0.06573528400622308,
+        "max": 0.23876430200471077
+      },
+      "rtf": {
+        "n": 192,
+        "mean": 0.6184846401959848,
+        "p50": 0.6300153191246853,
+        "p95": 0.6962819259105013,
+        "p99": 0.7192153600898585,
+        "min": 0.34346925326051697,
+        "max": 0.7327217260717589
+      },
+      "audio_s": {
+        "n": 192,
+        "mean": 5.974166666666666,
+        "p50": 4.76,
+        "p95": 12.791999999999998,
+        "p99": 14.361600000000008,
+        "min": 2.08,
+        "max": 16.48
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 192,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 192,
+        "mean": 1.0083559120598882,
+        "p50": 1.0444720894993225,
+        "p95": 1.2339610681259727,
+        "p99": 1.263129354136472,
+        "min": 0.18614023699774407,
+        "max": 1.3086135744997591
+      },
+      "piece_dur_p50_s": {
+        "n": 192,
+        "mean": 1.3778506944444444,
+        "p50": 1.3640833333333333,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 0.16,
+        "max": 2.0
+      },
+      "level_wall_s": 12.609220181999262,
+      "audio_s_per_wall_s": 90.96835358918527,
+      "mean_in_flight_est": 54.30981975980235,
+      "loop_overshoot_s": {
+        "n": 1214,
+        "p50": 0.00014310400205431485,
+        "p99": 0.002841666997701395
+      },
+      "preemptions_start": 0.0,
+      "preemptions_end": 0.0,
+      "warmup_errors": 0,
+      "wall_start_epoch": 1793468387.7928526,
+      "wall_end_epoch": 1793468400.4020748
+    },
+    {
+      "concurrency": 64,
+      "repeat": 0,
+      "visit": 0,
+      "lang": "en",
+      "n": 96,
+      "n_ok": 96,
+      "errors": [],
+      "ttfa_s": {
+        "n": 96,
+        "mean": 1.369915678271127,
+        "p50": 1.3986274514973047,
+        "p95": 1.5557634244960354,
+        "p99": 1.582932326294758,
+        "min": 0.8040688580003916,
+        "max": 1.6524673539970536
+      },
+      "first_pcm_s": {
+        "n": 96,
+        "mean": 0.1421982829690478,
+        "p50": 0.13515037750039482,
+        "p95": 0.23717683299946657,
+        "p99": 0.23831037774471042,
+        "min": 0.06573528400622308,
+        "max": 0.23876430200471077
+      },
+      "rtf": {
+        "n": 96,
+        "mean": 0.5914015450430673,
+        "p50": 0.603360459594998,
+        "p95": 0.6634573283269802,
+        "p99": 0.6891949097560205,
+        "min": 0.34346925326051697,
+        "max": 0.6902763851408139
+      },
+      "audio_s": {
+        "n": 96,
+        "mean": 8.298333333333334,
+        "p50": 7.04,
+        "p95": 13.58,
+        "p99": 16.404,
+        "min": 3.52,
+        "max": 16.48
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 96,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 96,
+        "mean": 1.0410903495522537,
+        "p50": 1.1330520829978923,
+        "p95": 1.2279309361247215,
+        "p99": 1.2545253034761117,
+        "min": 0.18614023699774407,
+        "max": 1.2745603660005145
+      },
+      "piece_dur_p50_s": {
+        "n": 96,
+        "mean": 1.6424956597222227,
+        "p50": 1.76,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 0.6359166666666667,
+        "max": 2.0
+      },
+      "level_wall_s": 12.609220181999262,
+      "audio_s_per_wall_s": 90.96835358918527,
+      "mean_in_flight_est": 36.44668978221693,
+      "loop_overshoot_s": {
+        "n": 1214,
+        "p50": 0.00014310400205431485,
+        "p99": 0.002841666997701395
+      },
+      "preemptions_start": 0.0,
+      "preemptions_end": 0.0,
+      "warmup_errors": 0,
+      "wall_start_epoch": 1793468387.7928526,
+      "wall_end_epoch": 1793468400.4020748
+    },
+    {
+      "concurrency": 64,
+      "repeat": 0,
+      "visit": 0,
+      "lang": "zh",
+      "n": 96,
+      "n_ok": 96,
+      "errors": [],
+      "ttfa_s": {
+        "n": 96,
+        "mean": 1.3666318528129675,
+        "p50": 1.3859310790030577,
+        "p95": 1.5538899867515283,
+        "p99": 1.6521153204954317,
+        "min": 0.8600432829989586,
+        "max": 1.6530362220000825
+      },
+      "first_pcm_s": {
+        "n": 96,
+        "mean": 0.14058436959400447,
+        "p50": 0.13152591900143307,
+        "p95": 0.23536741074713063,
+        "p99": 0.23707845924982393,
+        "min": 0.07805884000117658,
+        "max": 0.23742793100245763
+      },
+      "rtf": {
+        "n": 96,
+        "mean": 0.6455677353489023,
+        "p50": 0.6615028366434447,
+        "p95": 0.6995588023740409,
+        "p99": 0.7221305227059679,
+        "min": 0.5323888606020589,
+        "max": 0.7327217260717589
+      },
+      "audio_s": {
+        "n": 96,
+        "mean": 3.65,
+        "p50": 3.36,
+        "p95": 5.68,
+        "p99": 6.407999999999995,
+        "min": 2.08,
+        "max": 8.08
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 96,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 96,
+        "mean": 0.9756214745675228,
+        "p50": 0.9691035387513693,
+        "p95": 1.2415901055010181,
+        "p99": 1.2643295525014764,
+        "min": 0.27959540400479455,
+        "max": 1.3086135744997591
+      },
+      "piece_dur_p50_s": {
+        "n": 96,
+        "mean": 1.1132057291666666,
+        "p50": 1.12,
+        "p95": 1.7200000000000002,
+        "p99": 2.0,
+        "min": 0.16,
+        "max": 2.0
+      },
+      "level_wall_s": 12.609220181999262,
+      "audio_s_per_wall_s": 90.96835358918527,
+      "mean_in_flight_est": 17.86312997758542,
+      "loop_overshoot_s": {
+        "n": 1214,
+        "p50": 0.00014310400205431485,
+        "p99": 0.002841666997701395
+      },
+      "preemptions_start": 0.0,
+      "preemptions_end": 0.0,
+      "warmup_errors": 0,
+      "wall_start_epoch": 1793468387.7928526,
+      "wall_end_epoch": 1793468400.4020748
+    },
+    {
+      "concurrency": 192,
+      "repeat": 0,
+      "visit": 1,
+      "lang": "all",
+      "n": 576,
+      "n_ok": 515,
+      "errors": [
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}"
+      ],
+      "ttfa_s": {
+        "n": 515,
+        "mean": 3.712938039788289,
+        "p50": 3.7736611910004285,
+        "p95": 4.742557575603859,
+        "p99": 5.125098031780654,
+        "min": 1.5843123430022388,
+        "max": 5.258166448002157
+      },
+      "first_pcm_s": {
+        "n": 515,
+        "mean": 0.6249146518834643,
+        "p50": 0.4318862349973642,
+        "p95": 1.5341050242037453,
+        "p99": 1.958739549798775,
+        "min": 0.11652907799725654,
+        "max": 2.101486601997749
+      },
+      "rtf": {
+        "n": 515,
+        "mean": 1.6352627856150395,
+        "p50": 1.643331860950004,
+        "p95": 2.003623060716204,
+        "p99": 2.2753375442098007,
+        "min": 0.6689184085060322,
+        "max": 2.5890046035019623
+      },
+      "audio_s": {
+        "n": 515,
+        "mean": 5.863611650485438,
+        "p50": 4.8,
+        "p95": 12.64,
+        "p99": 14.617600000000003,
+        "min": 1.92,
+        "max": 17.28
+      },
+      "underruns_total": 763,
+      "requests_with_underrun": 398,
+      "stall_s": {
+        "n": 515,
+        "mean": 1.3499102026854606,
+        "p50": 0.9066005450021475,
+        "p95": 4.78648624030058,
+        "p99": 5.563769804520562,
+        "min": 0.0,
+        "max": 7.183192357997468
+      },
+      "inter_arrival_p50_s": {
+        "n": 515,
+        "mean": 2.4778725971785676,
+        "p50": 2.63500066350025,
+        "p95": 3.2820105649498146,
+        "p99": 3.388222674939898,
+        "min": 0.29065135800192365,
+        "max": 3.4441454730040277
+      },
+      "piece_dur_p50_s": {
+        "n": 515,
+        "mean": 1.3107173948220066,
+        "p50": 1.28,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 0.08,
+        "max": 2.0
+      },
+      "level_wall_s": 28.92987094399723,
+      "audio_s_per_wall_s": 104.38207643047166,
+      "mean_in_flight_est": 162.31992880297832,
+      "loop_overshoot_s": {
+        "n": 2808,
+        "p50": 0.000139697005797643,
+        "p99": 0.0024052809987915678
+      },
+      "preemptions_start": 0.0,
+      "preemptions_end": 0.0,
+      "warmup_errors": 0,
+      "wall_start_epoch": 1793468413.9492428,
+      "wall_end_epoch": 1793468442.879117
+    },
+    {
+      "concurrency": 192,
+      "repeat": 0,
+      "visit": 1,
+      "lang": "en",
+      "n": 288,
+      "n_ok": 257,
+      "errors": [
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "ClientPayloadError: Response payload is not completed: <TransferEncodingError: 400, message='Not enough data to satisfy transfer length header.'>",
+        "ClientPayloadError: Response payload is not completed: <TransferEncodingError: 400, message='Not enough data to satisfy transfer length header.'>"
+      ],
+      "ttfa_s": {
+        "n": 257,
+        "mean": 3.7078294398443212,
+        "p50": 3.7736611910004285,
+        "p95": 4.743581445800373,
+        "p99": 5.097476218318625,
+        "min": 1.5843123430022388,
+        "max": 5.257416465996357
+      },
+      "first_pcm_s": {
+        "n": 257,
+        "mean": 0.6240811359143469,
+        "p50": 0.42865044999780366,
+        "p95": 1.5349676099984209,
+        "p99": 1.8761969498376128,
+        "min": 0.11652907799725654,
+        "max": 2.100623785001517
+      },
+      "rtf": {
+        "n": 257,
+        "mean": 1.529556592280316,
+        "p50": 1.5971567315368742,
+        "p95": 1.823257232559302,
+        "p99": 1.921527937196668,
+        "min": 0.6689184085060322,
+        "max": 2.0408516722491186
+      },
+      "audio_s": {
+        "n": 257,
+        "mean": 8.103657587548637,
+        "p50": 6.96,
+        "p95": 13.455999999999998,
+        "p99": 15.206399999999999,
+        "min": 2.96,
+        "max": 17.28
+      },
+      "underruns_total": 599,
+      "requests_with_underrun": 252,
+      "stall_s": {
+        "n": 257,
+        "mean": 2.2744457530194686,
+        "p50": 1.8543414079994545,
+        "p95": 5.434678222002113,
+        "p99": 6.589481569719501,
+        "min": 0.0,
+        "max": 7.183192357997468
+      },
+      "inter_arrival_p50_s": {
+        "n": 257,
+        "mean": 2.553167643704121,
+        "p50": 2.8490641949974815,
+        "p95": 3.257791313204507,
+        "p99": 3.3829641289962455,
+        "min": 0.5584894190033083,
+        "max": 3.4441454730040277
+      },
+      "piece_dur_p50_s": {
+        "n": 257,
+        "mean": 1.539338197146563,
+        "p50": 1.6,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 0.6359166666666667,
+        "max": 2.0
+      },
+      "level_wall_s": 28.92987094399723,
+      "audio_s_per_wall_s": 104.38207643047166,
+      "mean_in_flight_est": 106.23190007312009,
+      "loop_overshoot_s": {
+        "n": 2808,
+        "p50": 0.000139697005797643,
+        "p99": 0.0024052809987915678
+      },
+      "preemptions_start": 0.0,
+      "preemptions_end": 0.0,
+      "warmup_errors": 0,
+      "wall_start_epoch": 1793468413.9492428,
+      "wall_end_epoch": 1793468442.879117
+    },
+    {
+      "concurrency": 192,
+      "repeat": 0,
+      "visit": 1,
+      "lang": "zh",
+      "n": 288,
+      "n_ok": 258,
+      "errors": [
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+        "HTTP 500: {\"error\":{\"message\":\"Speech generation failed: Request was preempted and this stage cannot replay its decode state; the output generated so far is truncated. Raise the stage's gpu_memory_utilization or lower max_num_seqs to avoid preemption.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}"
+      ],
+      "ttfa_s": {
+        "n": 258,
+        "mean": 3.7180268389572806,
+        "p50": 3.7795090604995494,
+        "p95": 4.742148070501935,
+        "p99": 5.187235994351504,
+        "min": 1.7322360369944363,
+        "max": 5.258166448002157
+      },
+      "first_pcm_s": {
+        "n": 258,
+        "mean": 0.6257449371705308,
+        "p50": 0.4387422210020304,
+        "p95": 1.5068361285011627,
+        "p99": 2.0048503314108537,
+        "min": 0.12905188399599865,
+        "max": 2.101486601997749
+      },
+      "rtf": {
+        "n": 258,
+        "mean": 1.740559265022109,
+        "p50": 1.7540312006878127,
+        "p95": 2.1300634481038783,
+        "p99": 2.3298489541493757,
+        "min": 1.0600698261513524,
+        "max": 2.5890046035019623
+      },
+      "audio_s": {
+        "n": 258,
+        "mean": 3.6322480620155044,
+        "p50": 3.36,
+        "p95": 5.44,
+        "p99": 6.5144,
+        "min": 1.92,
+        "max": 6.88
+      },
+      "underruns_total": 164,
+      "requests_with_underrun": 146,
+      "stall_s": {
+        "n": 258,
+        "mean": 0.42895812347677853,
+        "p50": 0.11864869799857836,
+        "p95": 1.3769626165994118,
+        "p99": 2.4492296953484765,
+        "min": 0.0,
+        "max": 2.551990403999225
+      },
+      "inter_arrival_p50_s": {
+        "n": 258,
+        "mean": 2.402869391918617,
+        "p50": 2.4334351459983736,
+        "p95": 3.284722027403768,
+        "p99": 3.3827368299711087,
+        "min": 0.29065135800192365,
+        "max": 3.4252949960027763
+      },
+      "piece_dur_p50_s": {
+        "n": 258,
+        "mean": 1.0829827196382429,
+        "p50": 1.04,
+        "p95": 1.84,
+        "p99": 2.0,
+        "min": 0.08,
+        "max": 2.0
+      },
+      "level_wall_s": 28.92987094399723,
+      "audio_s_per_wall_s": 104.38207643047166,
+      "mean_in_flight_est": 56.08802872985825,
+      "loop_overshoot_s": {
+        "n": 2808,
+        "p50": 0.000139697005797643,
+        "p99": 0.0024052809987915678
+      },
+      "preemptions_start": 0.0,
+      "preemptions_end": 0.0,
+      "warmup_errors": 0,
+      "wall_start_epoch": 1793468413.9492428,
+      "wall_end_epoch": 1793468442.879117
+    }
+  ],
+  "raw_dir": "$BOOK_DATA/runs/ch14_qwen3tts_concurrency_cap192_clear4"
+}

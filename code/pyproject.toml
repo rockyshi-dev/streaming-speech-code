@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hbasr"
+version = "0.1.0"
+description = "Hands-on code for the guide to streaming speech, chapters 1-9 (ASR)"
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["hbasr"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

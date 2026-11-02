@@ -1,0 +1,691 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-30T17:05:59+00:00",
+    "command": "python ch09_measure/eval_nemo.py --model fastconformer-en-multi --manifests librispeech-test-clean-200 librispeech-test-other-200 --decoders rnnt ctc",
+    "cwd": "code",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cu126",
+      "torchaudio": "2.8.0+cu126",
+      "jiwer": "4.0.0",
+      "nemo_toolkit": "3.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      1.07275390625,
+      1.21875,
+      1.30078125
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "gpu_torch": "NVIDIA GeForce RTX 4090"
+  },
+  "rows": [
+    {
+      "manifest": "librispeech-test-clean-200",
+      "decoder": "rnnt",
+      "att_context_size": [
+        70,
+        13
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          105,
+          112
+        ],
+        "shift_size_frames": [
+          105,
+          112
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 14,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          13
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.02688829137130286,
+      "normalizer": "lower+punct",
+      "UPWR": 0.05684313247133447,
+      "UPSR": 1.165,
+      "first_token_delay_p50_s": 0.715514363497554,
+      "first_token_delay_p90_s": 0.9391981425980049,
+      "final_after_speech_end_p50_s": 0.28472782099992067,
+      "final_after_speech_end_p90_s": 0.4680584328009287,
+      "final_after_input_end_p50_s": 0.011602868500631303,
+      "corpus_rtf": 0.013046380732971435,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-clean-200-rnnt-ctx70_13.json"
+    },
+    {
+      "manifest": "librispeech-test-clean-200",
+      "decoder": "rnnt",
+      "att_context_size": [
+        70,
+        6
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          49,
+          56
+        ],
+        "shift_size_frames": [
+          49,
+          56
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 7,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          6
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.02688829137130286,
+      "normalizer": "lower+punct",
+      "UPWR": 0.10932162030258663,
+      "UPSR": 2.24,
+      "first_token_delay_p50_s": 0.7147246900006432,
+      "first_token_delay_p90_s": 0.9388247207041133,
+      "final_after_speech_end_p50_s": 0.2845838870059527,
+      "final_after_speech_end_p90_s": 0.46911350940375107,
+      "final_after_input_end_p50_s": 0.011138064503029454,
+      "corpus_rtf": 0.022436334081917628,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-clean-200-rnnt-ctx70_6.json"
+    },
+    {
+      "manifest": "librispeech-test-clean-200",
+      "decoder": "rnnt",
+      "att_context_size": [
+        70,
+        1
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          9,
+          16
+        ],
+        "shift_size_frames": [
+          9,
+          16
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 2,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          1
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.03153263260816426,
+      "normalizer": "lower+punct",
+      "UPWR": 0.3949169110459433,
+      "UPSR": 8.08,
+      "first_token_delay_p50_s": 0.522440487498272,
+      "first_token_delay_p90_s": 0.7464244290043425,
+      "final_after_speech_end_p50_s": 0.2840303724977713,
+      "final_after_speech_end_p90_s": 0.4679970516952693,
+      "final_after_input_end_p50_s": 0.010861318005481735,
+      "corpus_rtf": 0.06678774308465094,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-clean-200-rnnt-ctx70_1.json"
+    },
+    {
+      "manifest": "librispeech-test-clean-200",
+      "decoder": "rnnt",
+      "att_context_size": [
+        70,
+        0
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          1,
+          8
+        ],
+        "shift_size_frames": [
+          1,
+          8
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 1,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          0
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.03422146174529455,
+      "normalizer": "lower+punct",
+      "UPWR": 0.4190149473168341,
+      "UPSR": 8.55,
+      "first_token_delay_p50_s": 0.5315403180041467,
+      "first_token_delay_p90_s": 0.7553765908974457,
+      "final_after_speech_end_p50_s": 0.2858623274991401,
+      "final_after_speech_end_p90_s": 0.4762888221088481,
+      "final_after_input_end_p50_s": 0.019564920502597616,
+      "corpus_rtf": 0.12249134422737754,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-clean-200-rnnt-ctx70_0.json"
+    },
+    {
+      "manifest": "librispeech-test-clean-200",
+      "decoder": "ctc",
+      "att_context_size": [
+        70,
+        13
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          105,
+          112
+        ],
+        "shift_size_frames": [
+          105,
+          112
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 14,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          13
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.031043754583231484,
+      "normalizer": "lower+punct",
+      "UPWR": 0.07327796775769418,
+      "UPSR": 1.5,
+      "first_token_delay_p50_s": 0.7460760585009995,
+      "first_token_delay_p90_s": 1.09493223180125,
+      "final_after_speech_end_p50_s": 0.2834066539970519,
+      "final_after_speech_end_p90_s": 0.46742861849564415,
+      "final_after_input_end_p50_s": 0.010478228996362304,
+      "corpus_rtf": 0.011950857612894902,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-clean-200-ctc-ctx70_13.json"
+    },
+    {
+      "manifest": "librispeech-test-clean-200",
+      "decoder": "ctc",
+      "att_context_size": [
+        70,
+        6
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          49,
+          56
+        ],
+        "shift_size_frames": [
+          49,
+          56
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 7,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          6
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.031777071620630655,
+      "normalizer": "lower+punct",
+      "UPWR": 0.15234375,
+      "UPSR": 3.12,
+      "first_token_delay_p50_s": 0.7459230074993103,
+      "first_token_delay_p90_s": 1.1621468129010757,
+      "final_after_speech_end_p50_s": 0.2833469774985571,
+      "final_after_speech_end_p90_s": 0.46761957479867333,
+      "final_after_input_end_p50_s": 0.010435701504320605,
+      "corpus_rtf": 0.020584459173381888,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-clean-200-ctc-ctx70_6.json"
+    },
+    {
+      "manifest": "librispeech-test-clean-200",
+      "decoder": "ctc",
+      "att_context_size": [
+        70,
+        1
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          9,
+          16
+        ],
+        "shift_size_frames": [
+          9,
+          16
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 2,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          1
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.04033243705695429,
+      "normalizer": "lower+punct",
+      "UPWR": 0.5405140758873929,
+      "UPSR": 11.04,
+      "first_token_delay_p50_s": 0.5861037640015421,
+      "first_token_delay_p90_s": 0.778190090994729,
+      "final_after_speech_end_p50_s": 0.2834177139983223,
+      "final_after_speech_end_p90_s": 0.46788429589781516,
+      "final_after_input_end_p50_s": 0.010502497996640159,
+      "corpus_rtf": 0.06533952128856226,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-clean-200-ctc-ctx70_1.json"
+    },
+    {
+      "manifest": "librispeech-test-clean-200",
+      "decoder": "ctc",
+      "att_context_size": [
+        70,
+        0
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          1,
+          8
+        ],
+        "shift_size_frames": [
+          1,
+          8
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 1,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          0
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.04668785138108042,
+      "normalizer": "lower+punct",
+      "UPWR": 0.5393120393120393,
+      "UPSR": 10.975,
+      "first_token_delay_p50_s": 0.6265647725011223,
+      "first_token_delay_p90_s": 0.8184483157026989,
+      "final_after_speech_end_p50_s": 0.2855369804969228,
+      "final_after_speech_end_p90_s": 0.47587223780213445,
+      "final_after_input_end_p50_s": 0.01887190750130685,
+      "corpus_rtf": 0.11804326552338727,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-clean-200-ctc-ctx70_0.json"
+    },
+    {
+      "manifest": "librispeech-test-other-200",
+      "decoder": "rnnt",
+      "att_context_size": [
+        70,
+        13
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          105,
+          112
+        ],
+        "shift_size_frames": [
+          105,
+          112
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 14,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          13
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.05417149478563152,
+      "normalizer": "lower+punct",
+      "UPWR": 0.05706836616454229,
+      "UPSR": 0.985,
+      "first_token_delay_p50_s": 0.7471983504975798,
+      "first_token_delay_p90_s": 1.7074124371008077,
+      "final_after_speech_end_p50_s": 0.3347224344993598,
+      "final_after_speech_end_p90_s": 0.47977087189785667,
+      "final_after_input_end_p50_s": 0.011345986000378616,
+      "corpus_rtf": 0.013249303928471477,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-other-200-rnnt-ctx70_13.json"
+    },
+    {
+      "manifest": "librispeech-test-other-200",
+      "decoder": "rnnt",
+      "att_context_size": [
+        70,
+        6
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          49,
+          56
+        ],
+        "shift_size_frames": [
+          49,
+          56
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 7,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          6
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.05793742757821553,
+      "normalizer": "lower+punct",
+      "UPWR": 0.10475914103308183,
+      "UPSR": 1.805,
+      "first_token_delay_p50_s": 0.7469484484964924,
+      "first_token_delay_p90_s": 1.22699727109613,
+      "final_after_speech_end_p50_s": 0.3346030214975477,
+      "final_after_speech_end_p90_s": 0.4792128306980186,
+      "final_after_input_end_p50_s": 0.011292350991425337,
+      "corpus_rtf": 0.02273698698867534,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-other-200-rnnt-ctx70_6.json"
+    },
+    {
+      "manifest": "librispeech-test-other-200",
+      "decoder": "rnnt",
+      "att_context_size": [
+        70,
+        1
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          9,
+          16
+        ],
+        "shift_size_frames": [
+          9,
+          16
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 2,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          1
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.06923522595596755,
+      "normalizer": "lower+punct",
+      "UPWR": 0.3534206695778748,
+      "UPSR": 6.07,
+      "first_token_delay_p50_s": 0.5866843214998663,
+      "first_token_delay_p90_s": 0.8426402519981202,
+      "final_after_speech_end_p50_s": 0.33657767649955384,
+      "final_after_speech_end_p90_s": 0.47911276670194924,
+      "final_after_input_end_p50_s": 0.010944236000796081,
+      "corpus_rtf": 0.06707689757361208,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-other-200-rnnt-ctx70_1.json"
+    },
+    {
+      "manifest": "librispeech-test-other-200",
+      "decoder": "rnnt",
+      "att_context_size": [
+        70,
+        0
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          1,
+          8
+        ],
+        "shift_size_frames": [
+          1,
+          8
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 1,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          0
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.0790845886442642,
+      "normalizer": "lower+punct",
+      "UPWR": 0.3607946245983056,
+      "UPSR": 6.175,
+      "first_token_delay_p50_s": 0.5953929714987463,
+      "first_token_delay_p90_s": 0.8833772721970163,
+      "final_after_speech_end_p50_s": 0.34541383600034203,
+      "final_after_speech_end_p90_s": 0.4819758283025699,
+      "final_after_input_end_p50_s": 0.01961622450107825,
+      "corpus_rtf": 0.12183451717666226,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-other-200-rnnt-ctx70_0.json"
+    },
+    {
+      "manifest": "librispeech-test-other-200",
+      "decoder": "ctc",
+      "att_context_size": [
+        70,
+        13
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          105,
+          112
+        ],
+        "shift_size_frames": [
+          105,
+          112
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 14,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          13
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.05909617612977984,
+      "normalizer": "lower+punct",
+      "UPWR": 0.07213209733487833,
+      "UPSR": 1.245,
+      "first_token_delay_p50_s": 0.7780663584998985,
+      "first_token_delay_p90_s": 1.706051219497109,
+      "final_after_speech_end_p50_s": 0.3338571644940531,
+      "final_after_speech_end_p90_s": 0.478735983601585,
+      "final_after_input_end_p50_s": 0.010445746000186773,
+      "corpus_rtf": 0.012046584028409274,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-other-200-ctc-ctx70_13.json"
+    },
+    {
+      "manifest": "librispeech-test-other-200",
+      "decoder": "ctc",
+      "att_context_size": [
+        70,
+        6
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          49,
+          56
+        ],
+        "shift_size_frames": [
+          49,
+          56
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 7,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          6
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.0686558516801854,
+      "normalizer": "lower+punct",
+      "UPWR": 0.13772107857349958,
+      "UPSR": 2.375,
+      "first_token_delay_p50_s": 0.7781510739987135,
+      "first_token_delay_p90_s": 1.2260814474986692,
+      "final_after_speech_end_p50_s": 0.333903377498733,
+      "final_after_speech_end_p90_s": 0.4785806337967398,
+      "final_after_input_end_p50_s": 0.010461854999448406,
+      "corpus_rtf": 0.020834050123669602,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-other-200-ctc-ctx70_6.json"
+    },
+    {
+      "manifest": "librispeech-test-other-200",
+      "decoder": "ctc",
+      "att_context_size": [
+        70,
+        1
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          9,
+          16
+        ],
+        "shift_size_frames": [
+          9,
+          16
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 2,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          1
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.07995365005793743,
+      "normalizer": "lower+punct",
+      "UPWR": 0.4629252689735388,
+      "UPSR": 7.96,
+      "first_token_delay_p50_s": 0.6501085679998506,
+      "first_token_delay_p90_s": 0.873991939401516,
+      "final_after_speech_end_p50_s": 0.33611589799792263,
+      "final_after_speech_end_p90_s": 0.4788418264040257,
+      "final_after_input_end_p50_s": 0.010535589000937762,
+      "corpus_rtf": 0.06449405512919712,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-other-200-ctc-ctx70_1.json"
+    },
+    {
+      "manifest": "librispeech-test-other-200",
+      "decoder": "ctc",
+      "att_context_size": [
+        70,
+        0
+      ],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          1,
+          8
+        ],
+        "shift_size_frames": [
+          1,
+          8
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 1,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          0
+        ],
+        "subsampling_factor": 8
+      },
+      "error_rate": 0.09559675550405562,
+      "normalizer": "lower+punct",
+      "UPWR": 0.47393087287639135,
+      "UPSR": 8.09,
+      "first_token_delay_p50_s": 0.6904471979991941,
+      "first_token_delay_p90_s": 0.9145567456988791,
+      "final_after_speech_end_p50_s": 0.34489438849786547,
+      "final_after_speech_end_p90_s": 0.4814140659015216,
+      "final_after_input_end_p50_s": 0.01892177149784402,
+      "corpus_rtf": 0.11817866660987524,
+      "summary": "nemo-fastconformer-en-multi-librispeech-test-other-200-ctc-ctx70_0.json"
+    }
+  ]
+}

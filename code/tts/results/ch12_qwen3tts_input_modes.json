@@ -1,0 +1,1318 @@
+{
+  "what": "Qwen3-TTS on vLLM-Omni, one stream at a time: text all at once vs streamed in",
+  "runinfo": {
+    "command": "python code/tts/gpu/qwen3tts_client.py input-modes --rate 20 --repeats 2",
+    "cwd": ".",
+    "utc": "2026-10-30T18:11:48+00:00",
+    "python": "3.12.16",
+    "conda_env": "ssh-tts-gpu",
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e+dirty",
+    "host_cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01",
+    "loadavg_1_5_15_at_write": [
+      1.1484375,
+      1.63232421875,
+      3.14111328125
+    ],
+    "cpu_count": 16,
+    "packages": {
+      "vllm": "0.32.0",
+      "vllm-omni": "0.32.0",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.19.0",
+      "aiohttp": "3.14.5",
+      "numpy": "2.3.5"
+    },
+    "server": {
+      "model": {
+        "repo": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+        "revision": "0c0e3051f131929182e2c023b9537f8b1c68adfe"
+      },
+      "url": "http://127.0.0.1:8091",
+      "deploy_config": "<conda env ssh-tts-gpu>/lib/python3.12/site-packages/vllm_omni/deploy/qwen3_tts.yaml",
+      "deploy_config_text": "# Qwen3-TTS deploy: talker → code2wav via shared-memory chunk streaming.\n# Verified on 1x H100.\n#\n# Runner selection:\n#   Model Runner V2 (MRV2) is EXPERIMENTAL and is the default runner on CUDA\n#   for this model. Set `model_runner: v1` to opt out. The `platforms:`\n#   sections at the end of this file keep V1 on NPU, XPU, ROCm and MUSA.\n#   See docs/configuration/stage_configs.md (\"Qwen3-TTS with Model Runner V2\").\n#\n# Fields omitted from a stage fall back to StageDeployConfig defaults (see\n# vllm_omni/config/stage_config.py). Notable choices for this model:\n#   * Stage 0 (talker) sets max_num_batched_tokens=512 for async-chunk\n#     latency tuning (not correctness) — small per-step batches keep\n#     first-chunk latency low, and the MRV2 profiles rely on that bound.\n#   * Stage 1 (code2wav) sets max_num_batched_tokens=65536 for correctness:\n#     codec prefill length (Q * num_frames) exceeds the 32k default.\n#   * Stage 0 does not set enforce_eager — talker runs cudagraph by default.\n#     Stage 1 defaults to false so Code2Wav can use its inner cudagraph;\n#     set true to disable that path in eager mode.\nmodel_runner: v2\nasync_chunk: true\n\nconnectors:\n  connector_of_shared_memory:\n    name: SharedMemoryConnector\n    extra:\n      talker_first_audio: true\n      codec_streaming: true\n      connector_get_sleep_s: 0.01\n      connector_get_max_wait_first_chunk: 3000\n      connector_get_max_wait: 300\n      # Must match the decoder sliding attention window.\n      codec_chunk_frames: 25\n      codec_left_context_frames: 72\n      # Emit only the first audio chunk early, then return to codec_chunk_frames.\n      initial_codec_chunk_frames: 1\n      # Chunk ramp (opt-in): gradual size increase for first N chunks to\n      # eliminate the IC→steady cliff (1→25). Uncomment to enable.\n      # Each entry is the size of that chunk index; indices past the table\n      # fall back to codec_chunk_frames. When enabled, ramp overrides\n      # initial_codec_chunk_frames (including the per-request API field).\n      # Example:\n      #   codec_chunk_ramp: [4, 4, 8, 16, 25]\n      # Adaptive chunk ramp (opt-in, takes precedence over fixed codec_chunk_ramp):\n      # Chunk 0 uses dynamic IC; chunk 1+ sizes from live buffer-depth feedback.\n      # Self-tunes across hardware (NPU/NVIDIA) and load conditions.\n      # codec_chunk_adaptive: true\n      # codec_chunk_min_frames: 2\n      # Code2Wav decode + transfer margin\n      # codec_chunk_safety_margin_ms: 50\n      # EWMA->delta divisor (delta=max(delta_min, int(ewma/divisor))); higher=gentler ramp\n      # codec_chunk_ramp_divisor: 15\n      # min chunk-size growth per emit\n      # codec_chunk_ramp_delta_min: 2\n      # Decoder CUDA Graph sizing:\n      #   * async_chunk=true derives all stateful ICL/xvec shapes from\n      #     codec_chunk_ramp when enabled, otherwise from\n      #     initial_codec_chunk_frames, codec_chunk_frames, and sliding_window;\n      #     decode_cudagraph_capture_sizes is ignored in this mode.\n      #   * async_chunk=false captures stateless shapes 150 and\n      #     decode_chunk_frames + decode_left_context_frames (325 by default).\n      #     Extra stateless shapes may be added (union, not intersection) with:\n      #       decode_cudagraph_capture_sizes: [97, 400]\n      # Graph batch size defaults to 1. Add larger buckets only when needed:\n      #   decode_cudagraph_batch_sizes: [1, 2, 4]\n      # Limit eager batches to reduce temporary stateful cache allocations; CUDA Graph batching uses the buckets above.\n      decode_batch_max_size: 4\n\nstages:\n  - stage_id: 0\n    max_num_seqs: 64\n    gpu_memory_utilization: 0.3\n    trust_remote_code: true\n    # Omni prefix cache (reuse of talker codec rows on shared prefixes). Off\n    # by default; set true when text repeats across requests (same voice or\n    # shared ref_audio). The talker opts out of hidden-state caching and\n    # defers codes.audio writes, so per-step cost is small. Stage 1 (codec\n    # decoder) is not a supported prefix-cache stage: keep it false there.\n    # See docs/design/feature/prefix_caching.md for the stage matrix.\n    enable_prefix_caching: false\n    async_scheduling: true\n    # Bound per-step prefill work (validated MRV2 basic profile). Small\n    # per-step batches keep first-chunk latency low.\n    max_num_batched_tokens: 512\n    max_model_len: 4096\n    devices: \"0\"\n    output_connectors:\n      to_stage_1: connector_of_shared_memory\n    # Serving-side runaway ceiling for requests without max_new_tokens:\n    # max(codec_budget_min_frames, codec_budget_frames_per_text_token *\n    # input text tokens) codec frames, capped by max_tokens below. Each key\n    # takes a number (all tasks) or a per-task mapping; a rate of 0 disables\n    # the ceiling. Defaults shown:\n    # additional_config:\n    #   codec_budget_frames_per_text_token: {Base: 12, CustomVoice: 40, VoiceDesign: 40}\n    #   codec_budget_min_frames: {Base: 192, CustomVoice: 400, VoiceDesign: 400}\n    default_sampling_params:\n      temperature: 0.9\n      top_k: 50\n      max_tokens: 4096\n      # Official qwen-tts generates the talker with min_new_tokens=2; without\n      # it, checkpoints that sample codec EOS on the first frame return empty\n      # audio (HTTP 400). See #4962.\n      min_tokens: 2\n      repetition_penalty: 1.05\n    # Suppress codebook-0 silence tokens for the first N decode frames of a\n    # request (#4966). Applies to every request on this stage, so intended\n    # for x-vector-only (Base voice-clone) deploys. 0 = off.\n    silence_ban_frames: 0\n    subtalker_sampling_params:\n      do_sample: true\n      temperature: 0.9\n      top_k: 50\n      top_p: 1.0\n\n  - stage_id: 1\n    # Decoder compute dtype on GPU/NPU; 310P requires FP16 and overrides this.\n    dtype: bfloat16\n    # Tuned for Base voice clone; CustomVoice / VoiceDesign are TTFA-optimal at 1.\n    max_num_seqs: 64\n    gpu_memory_utilization: 0.3\n    enforce_eager: false\n    trust_remote_code: true\n    enable_prefix_caching: false\n    async_scheduling: true\n    # Must be divisible by num_code_groups and cover (left_context + chunk).\n    # Prefill length is Q * num_frames (e.g. 16 * 2148 = 34368); keep\n    # headroom past 32k.\n    max_num_batched_tokens: 65536\n    # async_chunk appends windows per step; max_model_len must cover the\n    # accumulated flat codec stream.\n    max_model_len: 65536\n    devices: \"0\"\n    input_connectors:\n      from_stage_0: connector_of_shared_memory\n    default_sampling_params:\n      temperature: 0.0\n      top_p: 1.0\n      top_k: -1\n      max_tokens: 65536\n      repetition_penalty: 1.0\n\nplatforms:\n  rocm:\n    # MRV2 is not qualified on ROCm; keep the legacy V1 runner.\n    model_runner: v1\n    stages:\n      - stage_id: 1\n        # MIOpen Conv1d cannot be invoked while vLLM captures the outer\n        # Code2Wav model graph. Keep CUDA's graph-enabled default, but run\n        # Stage 1 eager on ROCm so decoder convolutions execute normally.\n        enforce_eager: true\n  npu:\n    model_runner: v1\n    stages:\n      - stage_id: 0\n        enforce_eager: false\n        compilation_config:\n          cudagraph_mode: PIECEWISE\n      - stage_id: 1\n        compilation_config:\n          cudagraph_mode: PIECEWISE\n  xpu:\n    model_runner: v1\n    stages:\n      - stage_id: 1\n        # Level Zero cannot capture the Code2Wav graph.\n        enforce_eager: true\n  musa:\n    model_runner: v1\n"
+    },
+    "repeats": 2,
+    "text_rate_units_per_s": 20.0,
+    "seed": 1234,
+    "voices": {
+      "en": [
+        "ryan",
+        "English"
+      ],
+      "zh": [
+        "vivian",
+        "Chinese"
+      ]
+    }
+  },
+  "items": [
+    {
+      "id": "1089_134686_000007_000000+1089_134686_000007_000002+1089_134686_000007_000003",
+      "lang": "en",
+      "text": "The equation on the page of his scribbler began to spread out a widening tail, eyed and starred like a peacock's; and, when the eyes and stars of its indices had been eliminated, began slowly to fold itself together again. The vast cycle of starry life bore his weary mind outward to its verge and inward to its centre, a distant music accompanying him outward and inward. What music?"
+    },
+    {
+      "id": "2300_131720_000024_000002+2300_131720_000024_000003+2300_131720_000024_000004",
+      "lang": "en",
+      "text": "He weighed and reweighed the meter plates, and pursued every line of investigation imaginable, but all in vain. He felt he was up against it, and that perhaps another kind of a job would suit him better. Once again he went to the customer's meter to look around, when a small piece of thick wire on the floor caught his eye. The problem was solved."
+    },
+    {
+      "id": "3575_170457_000046_000001+3575_170457_000046_000002+3575_170457_000046_000003",
+      "lang": "en",
+      "text": "He refused at first to listen to the careful advice; it was repugnant to his liberal nature. But Miss Branwell persevered; urged economical motives; pressed on his love for his daughters. He gave way."
+    },
+    {
+      "id": "5142_36377_000006_000000+5142_36377_000006_000001+5142_36377_000006_000005",
+      "lang": "en",
+      "text": "mr Meadowcroft's invalid chair had been wheeled to the head of the table. On his right-hand side sat his sad and silent daughter. But there was no marked character in either face."
+    },
+    {
+      "id": "7176_92135_000031_000003+7176_92135_000031_000004+7176_92135_000031_000006",
+      "lang": "en",
+      "text": "Why did Lord Arthur Fluffinose enter? The obvious answer, that the firm which is mentioned in the programme as supplying his trousers would be annoyed if he didn't, is not enough; nor is it enough to say that the whole plot of the piece hinges on him, and that without him the drama would languish. Was it only a coincidence?"
+    },
+    {
+      "id": "BAC009S0764W0124+BAC009S0764W0125+BAC009S0764W0126",
+      "lang": "zh",
+      "text": "为了规避三四线城市明显过剩的市场风险。标杆房企必然调整市场战略。因此土地储备至关重要。"
+    },
+    {
+      "id": "BAC009S0768W0124+BAC009S0768W0125+BAC009S0768W0126",
+      "lang": "zh",
+      "text": "土地供应往往呈现前松后紧的态势。年初往往是土地供应的淡季。为完成全念土地供应计划。"
+    },
+    {
+      "id": "BAC009S0902W0121+BAC009S0902W0122+BAC009S0902W0123",
+      "lang": "zh",
+      "text": "所以审批加上放款的时间最快也要在七个半月左右。作为取之于民用之于民的住房公积金。缴存者还可以在租房装修离退休时提取。"
+    },
+    {
+      "id": "BAC009S0906W0121+BAC009S0906W0122+BAC009S0906W0123",
+      "lang": "zh",
+      "text": "双降会令市场看贬人民币的情绪持续。人民币未来贬值压力依然较大。预计短期央行仍可能会积极维稳。"
+    },
+    {
+      "id": "BAC009S0913W0121+BAC009S0913W0122+BAC009S0913W0123",
+      "lang": "zh",
+      "text": "在最希望国家实施的调控政策这一问题上。有百分之五的网友选择了提高公积金贷款额度。百分之五的网友选择了房贷利率打折优惠。"
+    }
+  ],
+  "table": [
+    {
+      "mode": "http",
+      "text_rate_units_per_s": null,
+      "lang": "en",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 0.3047697691981739,
+        "p50": 0.30536241049776436,
+        "p95": 0.31357214589770593,
+        "p99": 0.31612975077900046,
+        "min": 0.29180561400426086,
+        "max": 0.3167691519993241
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.03548053969934699,
+        "p50": 0.035829433996696025,
+        "p95": 0.04125029855313187,
+        "p99": 0.04178037011231936,
+        "min": 0.022984005001490004,
+        "max": 0.04191288800211623
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.1325152645881314,
+        "p50": 0.13179372757244118,
+        "p95": 0.13466100123677194,
+        "p99": 0.13510452965858194,
+        "min": 0.1311400846097547,
+        "max": 0.13521541176403445
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 20.96,
+        "p50": 26.24,
+        "p95": 28.72,
+        "p99": 28.72,
+        "min": 9.52,
+        "max": 28.72
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.2585124053988693,
+        "p50": 0.25854738299676683,
+        "p95": 0.258802195048338,
+        "p99": 0.25882247420915516,
+        "min": 0.25819269649946364,
+        "max": 0.2588275439993595
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 2.0,
+        "p50": 2.0,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 2.0,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 0
+      },
+      "text_done_s": {
+        "n": 0
+      }
+    },
+    {
+      "mode": "http",
+      "text_rate_units_per_s": null,
+      "lang": "zh",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 0.30274071559833826,
+        "p50": 0.30347566199634457,
+        "p95": 0.3086342854974646,
+        "p99": 0.3087874258989905,
+        "min": 0.2858877170001506,
+        "max": 0.30882571099937195
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.035452787197573346,
+        "p50": 0.03360549199715024,
+        "p95": 0.042105256996728714,
+        "p99": 0.04215976819585194,
+        "min": 0.02345062100357609,
+        "max": 0.042173395995632745
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.13360115387207797,
+        "p50": 0.13411499458017118,
+        "p95": 0.13505124778403527,
+        "p99": 0.13535571955677284,
+        "min": 0.13058442971861878,
+        "max": 0.13543183749995724
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 12.08,
+        "p50": 12.08,
+        "p95": 13.76,
+        "p99": 13.76,
+        "min": 10.56,
+        "max": 13.76
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.25864253009967797,
+        "p50": 0.2586427639980684,
+        "p95": 0.2593599111754884,
+        "p99": 0.2594523370361276,
+        "min": 0.2574193104992446,
+        "max": 0.2594754435012874
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 2.0,
+        "p50": 2.0,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 2.0,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 0
+      },
+      "text_done_s": {
+        "n": 0
+      }
+    },
+    {
+      "mode": "ws-none",
+      "text_rate_units_per_s": null,
+      "lang": "en",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 0.30307543340095433,
+        "p50": 0.3021589704985672,
+        "p95": 0.3128247288030252,
+        "p99": 0.3148750065634522,
+        "min": 0.29550790800567484,
+        "max": 0.31538757600355893
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.034949317000427985,
+        "p50": 0.03495254250083235,
+        "p95": 0.03960403970413608,
+        "p99": 0.03964208234421676,
+        "min": 0.029338359003304504,
+        "max": 0.03965159300423693
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.1326986083086385,
+        "p50": 0.13159624447970128,
+        "p95": 0.13521448918074858,
+        "p99": 0.13527730010547134,
+        "min": 0.13122630254180262,
+        "max": 0.13529300283665202
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 20.96,
+        "p50": 26.24,
+        "p95": 28.72,
+        "p99": 28.72,
+        "min": 9.52,
+        "max": 28.72
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.25822119985059544,
+        "p50": 0.25836476950280485,
+        "p95": 0.25876079414592823,
+        "p99": 0.25878188762435456,
+        "min": 0.2569491710019065,
+        "max": 0.25878716099396115
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 2.0,
+        "p50": 2.0,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 2.0,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 0
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 8.793530141701922e-05,
+        "p50": 8.199600051739253e-05,
+        "p95": 0.00011216210368729661,
+        "p99": 0.00011476922394649591,
+        "min": 7.137899956433102e-05,
+        "max": 0.00011542100401129574
+      }
+    },
+    {
+      "mode": "ws-none",
+      "text_rate_units_per_s": null,
+      "lang": "zh",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 0.30218996740077275,
+        "p50": 0.3000064959996962,
+        "p95": 0.31272693990395056,
+        "p99": 0.31408338318418827,
+        "min": 0.2861998149965075,
+        "max": 0.3144224940042477
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.034554000299976906,
+        "p50": 0.034750430000713095,
+        "p95": 0.039524660398456035,
+        "p99": 0.03956741687943577,
+        "min": 0.023485306999646127,
+        "max": 0.0395781059996807
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.1335395554713749,
+        "p50": 0.13398338569334667,
+        "p95": 0.13493951547381972,
+        "p99": 0.13506823483733874,
+        "min": 0.13057994304633652,
+        "max": 0.13510041467821848
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 12.08,
+        "p50": 12.08,
+        "p95": 13.76,
+        "p99": 13.76,
+        "min": 10.56,
+        "max": 13.76
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.2586156725003093,
+        "p50": 0.2585460795016843,
+        "p95": 0.25930987919819015,
+        "p99": 0.2596492670388397,
+        "min": 0.2580813055028557,
+        "max": 0.25973411399900215
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 2.0,
+        "p50": 2.0,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 2.0,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 0
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 7.366610007011331e-05,
+        "p50": 7.894699956523255e-05,
+        "p95": 8.42394023493398e-05,
+        "p99": 8.426388274529017e-05,
+        "min": 2.6711997634265572e-05,
+        "max": 8.427000284427777e-05
+      }
+    },
+    {
+      "mode": "ws-sentence",
+      "text_rate_units_per_s": null,
+      "lang": "en",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 0.3024614220994408,
+        "p50": 0.3026337955016061,
+        "p95": 0.3079221546486224,
+        "p99": 0.30916166453062033,
+        "min": 0.2950096450003912,
+        "max": 0.3094715420011198
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.03514120959953289,
+        "p50": 0.036125781498412834,
+        "p95": 0.040856131053442366,
+        "p99": 0.0416745662149333,
+        "min": 0.02730149499984691,
+        "max": 0.041879175005306024
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.1390176741243555,
+        "p50": 0.13970125443384465,
+        "p95": 0.14265462191269762,
+        "p99": 0.14306014718258667,
+        "min": 0.13416835055828621,
+        "max": 0.14316152850005892
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 20.288,
+        "p50": 20.88,
+        "p95": 32.24,
+        "p99": 32.24,
+        "min": 12.0,
+        "max": 32.24
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.24888677919880137,
+        "p50": 0.25803393949718156,
+        "p95": 0.2586780957737574,
+        "p99": 0.25870960675423704,
+        "min": 0.20738107500073966,
+        "max": 0.25871748449935694
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 1.7759999999999998,
+        "p50": 1.92,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 1.4,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 0
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 7.964919932419434e-05,
+        "p50": 7.930100036901422e-05,
+        "p95": 9.08858964976389e-05,
+        "p99": 9.262757739634254e-05,
+        "min": 7.193999772425741e-05,
+        "max": 9.306299762101844e-05
+      }
+    },
+    {
+      "mode": "ws-sentence",
+      "text_rate_units_per_s": null,
+      "lang": "zh",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 0.2997780601006525,
+        "p50": 0.2985553375001473,
+        "p95": 0.30587825139991764,
+        "p99": 0.3064764878803544,
+        "min": 0.2895656440014136,
+        "max": 0.3066260470004636
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.031731273601326396,
+        "p50": 0.030849855498672696,
+        "p95": 0.03770302765478845,
+        "p99": 0.0383863303338876,
+        "min": 0.02251577100105351,
+        "max": 0.038557156003662385
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.14406155432623158,
+        "p50": 0.1441166295931549,
+        "p95": 0.1477105796522427,
+        "p99": 0.14781318447595138,
+        "min": 0.14060805157976494,
+        "max": 0.14783883568187856
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 11.136000000000001,
+        "p50": 10.56,
+        "p95": 14.56,
+        "p99": 14.56,
+        "min": 8.8,
+        "max": 14.56
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.21211210760047833,
+        "p50": 0.2217015802525566,
+        "p95": 0.25945359525030653,
+        "p99": 0.26047148625038974,
+        "min": 0.1548401535001176,
+        "max": 0.2607259590004105
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 1.2159999999999997,
+        "p50": 1.28,
+        "p95": 1.8,
+        "p99": 1.8,
+        "min": 0.4,
+        "max": 1.8
+      },
+      "first_sentence_text_complete_s": {
+        "n": 0
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 7.521260122302919e-05,
+        "p50": 7.84424992161803e-05,
+        "p95": 0.0001004967045446392,
+        "p99": 0.00010236654474283568,
+        "min": 1.349000376649201e-05,
+        "max": 0.0001028340047923848
+      }
+    },
+    {
+      "mode": "ws-commit",
+      "text_rate_units_per_s": null,
+      "lang": "en",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 0.3030874815012794,
+        "p50": 0.30175623150353204,
+        "p95": 0.3087470201007818,
+        "p99": 0.30882439202141543,
+        "min": 0.29653578600118635,
+        "max": 0.3088437350015738
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.035936734600545604,
+        "p50": 0.034889986000052886,
+        "p95": 0.04272440325294155,
+        "p99": 0.04351223985257093,
+        "min": 0.028452268001274206,
+        "max": 0.04370919900247827
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.13830332864012113,
+        "p50": 0.13814051245359715,
+        "p95": 0.14183413870307437,
+        "p99": 0.14229428745154052,
+        "min": 0.1344158956378294,
+        "max": 0.14240932463865705
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 20.976,
+        "p50": 21.52,
+        "p95": 30.72,
+        "p99": 30.72,
+        "min": 13.84,
+        "max": 30.72
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.25753457704995525,
+        "p50": 0.25797415299894055,
+        "p95": 0.2593290803497439,
+        "p99": 0.2600840604691257,
+        "min": 0.254735411497677,
+        "max": 0.26027280549897114
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 1.984,
+        "p50": 2.0,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 1.92,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 0
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 7.724919996690005e-05,
+        "p50": 7.896299575804733e-05,
+        "p95": 9.450970137550028e-05,
+        "p99": 0.00010249953840684612,
+        "min": 5.124999734107405e-05,
+        "max": 0.00010449699766468257
+      }
+    },
+    {
+      "mode": "ws-commit",
+      "text_rate_units_per_s": null,
+      "lang": "zh",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 0.30204098649919614,
+        "p50": 0.30291849749846733,
+        "p95": 0.30825773070137075,
+        "p99": 0.30884166294017634,
+        "min": 0.29401720999885583,
+        "max": 0.3089876459998777
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.03539634409971768,
+        "p50": 0.035352566999790724,
+        "p95": 0.04070551360382524,
+        "p99": 0.04085314672302047,
+        "min": 0.02996195499872556,
+        "max": 0.04089005500281928
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.14463483346700404,
+        "p50": 0.14531968835206388,
+        "p95": 0.1482995339988538,
+        "p99": 0.14842229193026624,
+        "min": 0.1387134629807166,
+        "max": 0.14845298141311936
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 11.136000000000001,
+        "p50": 10.56,
+        "p95": 14.56,
+        "p99": 14.56,
+        "min": 8.8,
+        "max": 14.56
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.2126475245993788,
+        "p50": 0.2251340632483334,
+        "p95": 0.2581763203972514,
+        "p99": 0.2583122376798565,
+        "min": 0.15251267600251595,
+        "max": 0.25834621700050775
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 1.2159999999999997,
+        "p50": 1.28,
+        "p95": 1.8,
+        "p99": 1.8,
+        "min": 0.4,
+        "max": 1.8
+      },
+      "first_sentence_text_complete_s": {
+        "n": 0
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 7.909289925009944e-05,
+        "p50": 7.850699694245122e-05,
+        "p95": 8.368470043933485e-05,
+        "p99": 8.375454002816696e-05,
+        "min": 7.64439973863773e-05,
+        "max": 8.377199992537498e-05
+      }
+    },
+    {
+      "mode": "ws-none",
+      "text_rate_units_per_s": 20.0,
+      "lang": "en",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 2.85615392480031,
+        "p50": 3.256085458499001,
+        "p95": 3.707283395649938,
+        "p99": 3.709186335132472,
+        "min": 1.8506351519972668,
+        "max": 3.7096620700031053
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 2.584102798499953,
+        "p50": 2.9779737905009824,
+        "p95": 3.4382408108991513,
+        "p99": 3.4416053773816384,
+        "min": 1.5826585879985942,
+        "max": 3.44244651900226
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.26065605612672693,
+        "p50": 0.25361372339949506,
+        "p95": 0.2975877454255475,
+        "p99": 0.2976320798413456,
+        "min": 0.23767058327304524,
+        "max": 0.2976431634452951
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 20.96,
+        "p50": 26.24,
+        "p95": 28.72,
+        "p99": 28.72,
+        "min": 9.52,
+        "max": 28.72
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.2583398021994071,
+        "p50": 0.2583744832500088,
+        "p95": 0.2586136158739464,
+        "p99": 0.2586501927745485,
+        "min": 0.2577976669999771,
+        "max": 0.258659336999699
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 2.0,
+        "p50": 2.0,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 2.0,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 10,
+        "mean": 0.8899999999999999,
+        "p50": 0.8,
+        "p95": 1.95,
+        "p99": 1.95,
+        "min": 0.25,
+        "max": 1.95
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 2.551059947101021,
+        "p50": 2.9506820505012,
+        "p95": 3.401132301801772,
+        "p99": 3.4011626195620193,
+        "min": 1.551290636001795,
+        "max": 3.401170199002081
+      }
+    },
+    {
+      "mode": "ws-none",
+      "text_rate_units_per_s": 20.0,
+      "lang": "zh",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 2.577227718001086,
+        "p50": 2.409510108998802,
+        "p95": 3.056915467052022,
+        "p99": 3.058707565412624,
+        "min": 2.15189172099781,
+        "max": 3.0591555900027743
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 2.3050241531011126,
+        "p50": 2.1365412614977686,
+        "p95": 2.7862026869021066,
+        "p99": 2.789003954182699,
+        "min": 1.8823592210028437,
+        "max": 2.7897042710028472
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.3214362859129083,
+        "p50": 0.33346466144621445,
+        "p95": 0.342686594784274,
+        "p99": 0.342702163895354,
+        "min": 0.2854188929638096,
+        "max": 0.34270605617312405
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 12.08,
+        "p50": 12.08,
+        "p95": 13.76,
+        "p99": 13.76,
+        "min": 10.56,
+        "max": 13.76
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.2588022304997139,
+        "p50": 0.25853340700268745,
+        "p95": 0.2599396141757097,
+        "p99": 0.2602952360353447,
+        "min": 0.25829216499550967,
+        "max": 0.26038414150025346
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 2.0,
+        "p50": 2.0,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 2.0,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 10,
+        "mean": 0.8400000000000001,
+        "p50": 0.85,
+        "p95": 1.05,
+        "p99": 1.05,
+        "min": 0.7,
+        "max": 1.05
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 2.270866996899713,
+        "p50": 2.1010288769975887,
+        "p95": 2.7507410502497804,
+        "p99": 2.750831134848413,
+        "min": 1.8509624279977288,
+        "max": 2.750853655998071
+      }
+    },
+    {
+      "mode": "ws-sentence",
+      "text_rate_units_per_s": 20.0,
+      "lang": "en",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 1.1884524907989544,
+        "p50": 1.092001340501156,
+        "p95": 2.2519155518995833,
+        "p99": 2.253707033582614,
+        "min": 0.5495927179945284,
+        "max": 2.2541549040033715
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.9220727827989321,
+        "p50": 0.8281743610023113,
+        "p95": 1.9825643132491677,
+        "p99": 1.9827560618518327,
+        "min": 0.2830470759945456,
+        "max": 1.982803999002499
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.20456659431272098,
+        "p50": 0.19488425753364647,
+        "p95": 0.24756594522740571,
+        "p99": 0.2478041668997753,
+        "min": 0.18852943075404574,
+        "max": 0.2478637223178677
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 20.288,
+        "p50": 20.88,
+        "p95": 32.24,
+        "p99": 32.24,
+        "min": 12.0,
+        "max": 32.24
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.2503286567498435,
+        "p50": 0.2583698992511927,
+        "p95": 0.25959685604830157,
+        "p99": 0.2601002624082321,
+        "min": 0.21773007800220512,
+        "max": 0.2602261139982147
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 1.7759999999999998,
+        "p50": 1.92,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 1.4,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 10,
+        "mean": 0.8899999999999999,
+        "p50": 0.8,
+        "p95": 1.95,
+        "p99": 1.95,
+        "min": 0.25,
+        "max": 1.95
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 2.550589337899146,
+        "p50": 2.9508032004960114,
+        "p95": 3.400788686149826,
+        "p99": 3.4009338716275668,
+        "min": 1.550439432998246,
+        "max": 3.400970167997002
+      }
+    },
+    {
+      "mode": "ws-sentence",
+      "text_rate_units_per_s": 20.0,
+      "lang": "zh",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 1.190313583797979,
+        "p50": 1.1966623849984899,
+        "p95": 1.4031127500988076,
+        "p99": 1.4032247972220648,
+        "min": 1.0502717169947573,
+        "max": 1.403252809002879
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.9224243785996805,
+        "p50": 0.9310263574989222,
+        "p95": 1.135386899250443,
+        "p99": 1.1362041622499237,
+        "min": 0.7821689869961119,
+        "max": 1.1364084779997938
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.2508960527620947,
+        "p50": 0.24951743744292215,
+        "p95": 0.2723268428101787,
+        "p99": 0.2725368390075189,
+        "min": 0.2291540278157889,
+        "max": 0.272589338056854
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 11.136000000000001,
+        "p50": 10.56,
+        "p95": 14.56,
+        "p99": 14.56,
+        "min": 8.8,
+        "max": 14.56
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.22455698765043053,
+        "p50": 0.2269894547498552,
+        "p95": 0.2675660346496443,
+        "p99": 0.2676818261314475,
+        "min": 0.1647524060026626,
+        "max": 0.26771077400189824
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 1.2159999999999997,
+        "p50": 1.28,
+        "p95": 1.8,
+        "p99": 1.8,
+        "min": 0.4,
+        "max": 1.8
+      },
+      "first_sentence_text_complete_s": {
+        "n": 10,
+        "mean": 0.8400000000000001,
+        "p50": 0.85,
+        "p95": 1.05,
+        "p99": 1.05,
+        "min": 0.7,
+        "max": 1.05
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 2.2707975458986764,
+        "p50": 2.1006119630001194,
+        "p95": 2.7507762008968712,
+        "p99": 2.7508330873780507,
+        "min": 1.8505446709968965,
+        "max": 2.7508473089983454
+      }
+    },
+    {
+      "mode": "ws-commit",
+      "text_rate_units_per_s": 20.0,
+      "lang": "en",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 1.1913046100991778,
+        "p50": 1.0948813185023027,
+        "p95": 2.2569170669485175,
+        "p99": 2.25809972779025,
+        "min": 0.5487626899994211,
+        "max": 2.258395393000683
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.9228735221971874,
+        "p50": 0.8275085719978961,
+        "p95": 1.9864267116481642,
+        "p99": 1.9890808199266758,
+        "min": 0.2815714139942429,
+        "max": 1.9897443469963036
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.20126021855267667,
+        "p50": 0.19810565492036078,
+        "p95": 0.2374671851687373,
+        "p99": 0.23751417664776742,
+        "min": 0.17852721237477454,
+        "max": 0.23752592451752494
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 20.976,
+        "p50": 21.52,
+        "p95": 30.72,
+        "p99": 30.72,
+        "min": 13.84,
+        "max": 30.72
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.25785289999876115,
+        "p50": 0.25817008199919655,
+        "p95": 0.25858688974876715,
+        "p99": 0.2586723123511911,
+        "min": 0.2555743724988133,
+        "max": 0.25869366800179705
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 1.984,
+        "p50": 2.0,
+        "p95": 2.0,
+        "p99": 2.0,
+        "min": 1.92,
+        "max": 2.0
+      },
+      "first_sentence_text_complete_s": {
+        "n": 10,
+        "mean": 0.8899999999999999,
+        "p50": 0.8,
+        "p95": 1.95,
+        "p99": 1.95,
+        "min": 0.25,
+        "max": 1.95
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 2.550699974998861,
+        "p50": 2.9507349074956437,
+        "p95": 3.4007306154504477,
+        "p99": 3.4008467222908805,
+        "min": 1.5505631920023006,
+        "max": 3.4008757490009884
+      }
+    },
+    {
+      "mode": "ws-commit",
+      "text_rate_units_per_s": 20.0,
+      "lang": "zh",
+      "n": 10,
+      "n_ok": 10,
+      "errors": [],
+      "ttfa_s": {
+        "n": 10,
+        "mean": 1.192108479199669,
+        "p50": 1.193288186499558,
+        "p95": 1.4068902676997823,
+        "p99": 1.408163239938731,
+        "min": 1.0500428219966125,
+        "max": 1.408481482998468
+      },
+      "first_pcm_s": {
+        "n": 10,
+        "mean": 0.9241140948994143,
+        "p50": 0.9264834899986454,
+        "p95": 1.1396776401485114,
+        "p99": 1.1403382880285062,
+        "min": 0.7817528349987697,
+        "max": 1.140503449998505
+      },
+      "rtf": {
+        "n": 10,
+        "mean": 0.2509196100031719,
+        "p50": 0.24975134090874979,
+        "p95": 0.27322057698659297,
+        "p99": 0.27327527718095734,
+        "min": 0.22893815728041642,
+        "max": 0.2732889522295484
+      },
+      "audio_s": {
+        "n": 10,
+        "mean": 11.136000000000001,
+        "p50": 10.56,
+        "p95": 14.56,
+        "p99": 14.56,
+        "min": 8.8,
+        "max": 14.56
+      },
+      "underruns_total": 0,
+      "requests_with_underrun": 0,
+      "stall_s": {
+        "n": 10,
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "inter_arrival_p50_s": {
+        "n": 10,
+        "mean": 0.22494692815016606,
+        "p50": 0.22651506874899496,
+        "p95": 0.26666321505290397,
+        "p99": 0.2668741286126169,
+        "min": 0.16833054249946144,
+        "max": 0.26692685700254515
+      },
+      "piece_dur_p50_s": {
+        "n": 10,
+        "mean": 1.2159999999999997,
+        "p50": 1.28,
+        "p95": 1.8,
+        "p99": 1.8,
+        "min": 0.4,
+        "max": 1.8
+      },
+      "first_sentence_text_complete_s": {
+        "n": 10,
+        "mean": 0.8400000000000001,
+        "p50": 0.85,
+        "p95": 1.05,
+        "p99": 1.05,
+        "min": 0.7,
+        "max": 1.05
+      },
+      "text_done_s": {
+        "n": 10,
+        "mean": 2.2707566127988685,
+        "p50": 2.100579520501924,
+        "p95": 2.7511130219481856,
+        "p99": 2.751173130789175,
+        "min": 1.8503261059959186,
+        "max": 2.7511881579994224
+      }
+    }
+  ],
+  "raw_dir": "$BOOK_DATA/runs/ch12_qwen3tts_input_modes"
+}

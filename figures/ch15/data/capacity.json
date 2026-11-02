@@ -1,0 +1,200 @@
+{
+ "source": "code/serve/results/ch15_*.json (code/serve/ch15/sweep.py; i5-12600K and one RTX 4090)",
+ "series": {
+  "CPU, sherpa-onnx defaults (320 ms model chunk)": [
+   {
+    "streams": 1,
+    "partial_p95_ms": 22.2,
+    "drift_ms_per_s": -0.29
+   },
+   {
+    "streams": 2,
+    "partial_p95_ms": 22.2,
+    "drift_ms_per_s": 0.23
+   },
+   {
+    "streams": 4,
+    "partial_p95_ms": 26.3,
+    "drift_ms_per_s": -0.05
+   },
+   {
+    "streams": 8,
+    "partial_p95_ms": 28.0,
+    "drift_ms_per_s": -0.06
+   },
+   {
+    "streams": 16,
+    "partial_p95_ms": 47.9,
+    "drift_ms_per_s": 0.03
+   },
+   {
+    "streams": 32,
+    "partial_p95_ms": 84.7,
+    "drift_ms_per_s": -0.31
+   },
+   {
+    "streams": 48,
+    "partial_p95_ms": 1824.4,
+    "drift_ms_per_s": 183.31
+   }
+  ],
+  "CPU, sherpa-onnx tuned": [
+   {
+    "streams": 1,
+    "partial_p95_ms": 24.4,
+    "drift_ms_per_s": -0.0
+   },
+   {
+    "streams": 8,
+    "partial_p95_ms": 28.9,
+    "drift_ms_per_s": -0.13
+   },
+   {
+    "streams": 16,
+    "partial_p95_ms": 40.8,
+    "drift_ms_per_s": -0.18
+   },
+   {
+    "streams": 32,
+    "partial_p95_ms": 46.7,
+    "drift_ms_per_s": 0.07
+   },
+   {
+    "streams": 48,
+    "partial_p95_ms": 69.2,
+    "drift_ms_per_s": 0.04
+   },
+   {
+    "streams": 64,
+    "partial_p95_ms": 101.2,
+    "drift_ms_per_s": 0.36
+   },
+   {
+    "streams": 96,
+    "partial_p95_ms": 1130.8,
+    "drift_ms_per_s": 83.32
+   }
+  ],
+  "GPU, Nemotron 80 ms chunks": [
+   {
+    "streams": 1,
+    "partial_p95_ms": 31.3,
+    "drift_ms_per_s": 0.02
+   },
+   {
+    "streams": 8,
+    "partial_p95_ms": 24.7,
+    "drift_ms_per_s": 0.0
+   },
+   {
+    "streams": 16,
+    "partial_p95_ms": 28.2,
+    "drift_ms_per_s": -0.31
+   },
+   {
+    "streams": 32,
+    "partial_p95_ms": 40.3,
+    "drift_ms_per_s": -0.21
+   },
+   {
+    "streams": 48,
+    "partial_p95_ms": 47.8,
+    "drift_ms_per_s": -0.21
+   },
+   {
+    "streams": 64,
+    "partial_p95_ms": 58.1,
+    "drift_ms_per_s": -0.22
+   },
+   {
+    "streams": 96,
+    "partial_p95_ms": 111.9,
+    "drift_ms_per_s": -0.39
+   },
+   {
+    "streams": 128,
+    "partial_p95_ms": 757.5,
+    "drift_ms_per_s": 50.77
+   }
+  ],
+  "GPU, Nemotron 320 ms chunks": [
+   {
+    "streams": 1,
+    "partial_p95_ms": 19.9,
+    "drift_ms_per_s": 0.03
+   },
+   {
+    "streams": 8,
+    "partial_p95_ms": 28.2,
+    "drift_ms_per_s": -0.12
+   },
+   {
+    "streams": 32,
+    "partial_p95_ms": 43.4,
+    "drift_ms_per_s": -0.42
+   },
+   {
+    "streams": 64,
+    "partial_p95_ms": 59.9,
+    "drift_ms_per_s": -0.45
+   },
+   {
+    "streams": 128,
+    "partial_p95_ms": 104.0,
+    "drift_ms_per_s": -0.81
+   },
+   {
+    "streams": 192,
+    "partial_p95_ms": 145.2,
+    "drift_ms_per_s": -1.5
+   },
+   {
+    "streams": 256,
+    "partial_p95_ms": 302.8,
+    "drift_ms_per_s": -1.36
+   },
+   {
+    "streams": 320,
+    "partial_p95_ms": 555.2,
+    "drift_ms_per_s": -2.42
+   },
+   {
+    "streams": 384,
+    "partial_p95_ms": 1306.1,
+    "drift_ms_per_s": 11.91
+   }
+  ],
+  "GPU, Nemotron 560 ms chunks": [
+   {
+    "streams": 1,
+    "partial_p95_ms": 27.9,
+    "drift_ms_per_s": 0.69
+   },
+   {
+    "streams": 32,
+    "partial_p95_ms": 44.9,
+    "drift_ms_per_s": -0.28
+   },
+   {
+    "streams": 128,
+    "partial_p95_ms": 97.4,
+    "drift_ms_per_s": -1.4
+   },
+   {
+    "streams": 256,
+    "partial_p95_ms": 226.4,
+    "drift_ms_per_s": -0.6
+   },
+   {
+    "streams": 384,
+    "partial_p95_ms": 648.1,
+    "drift_ms_per_s": -6.13
+   },
+   {
+    "streams": 512,
+    "partial_p95_ms": 1012.7,
+    "drift_ms_per_s": 1.57
+   }
+  ]
+ }
+}

@@ -1,0 +1,179 @@
+{
+  "what": "ASR intelligibility (WER en / CER zh) of synthesized and original speech",
+  "runinfo": {
+    "command": "python ch14_harness/eval_intelligibility.py --cpu --threads 4 --name ch14_intelligibility_cpu --source human --source kokoro:$BOOK_DATA/runs/ch12_kokoro_cpu/rows.jsonl",
+    "cwd": "code/tts",
+    "utc": "2026-10-31T08:56:29+00:00",
+    "python": "3.11.18",
+    "conda_env": "ssh-tts-eval",
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e+dirty",
+    "host_cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01",
+    "loadavg_1_5_15_at_write": [
+      4.0,
+      3.896484375,
+      3.4248046875
+    ],
+    "cpu_count": 16,
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "torchaudio": "2.8.0+cu128",
+      "transformers": "4.57.6",
+      "funasr": "1.4.17",
+      "numpy": "2.4.6"
+    },
+    "asr_models": [
+      {
+        "repo": "openai/whisper-large-v3",
+        "revision": "06f233fe06e710322aca913c1bc4249a0d71fce1"
+      },
+      {
+        "repo": "funasr/paraformer-zh",
+        "revision": "d7811ee3ac581fbcfdeb37c98c6ba674028433dc"
+      }
+    ],
+    "sources": [
+      "human",
+      "kokoro:$BOOK_DATA/runs/ch12_kokoro_cpu/rows.jsonl"
+    ],
+    "normalization": {
+      "en": "Whisper EnglishTextNormalizer on ref and hyp",
+      "zh": "keep CJK, Latin, digits; drop punctuation/spaces"
+    },
+    "device": "cpu",
+    "dtype": "torch.float32",
+    "decoding": {
+      "whisper": "greedy, language=en",
+      "paraformer": "FunASR default, no VAD, no punctuation model"
+    }
+  },
+  "table": [
+    {
+      "group": "human/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 20,
+      "n_ref_units": 366,
+      "pooled_rate": 0.01092896174863388,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "human/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.003289473684210526,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/en/para/sentence",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 5,
+      "n_ref_units": 265,
+      "pooled_rate": 0.0037735849056603774,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/en/para/stream",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 5,
+      "n_ref_units": 265,
+      "pooled_rate": 0.0037735849056603774,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/en/para/whole",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 5,
+      "n_ref_units": 265,
+      "pooled_rate": 0.0037735849056603774,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/en/sent",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 20,
+      "n_ref_units": 366,
+      "pooled_rate": 0.00819672131147541,
+      "utts_with_errors": 3
+    },
+    {
+      "group": "kokoro/zh/para/sentence",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.004310344827586207,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/zh/para/stream",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.004310344827586207,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/zh/para/whole",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.017241379310344827,
+      "utts_with_errors": 3
+    },
+    {
+      "group": "kokoro/zh/sent",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.009868421052631578,
+      "utts_with_errors": 3
+    },
+    {
+      "group": "kokoro/zh10/para/sentence",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.008620689655172414,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "kokoro/zh10/para/stream",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.008620689655172414,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "kokoro/zh10/para/whole",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.008620689655172414,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "kokoro/zh10/sent",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.029605263157894735,
+      "utts_with_errors": 5
+    }
+  ],
+  "raw_dir": "$BOOK_DATA/runs/ch14_intelligibility_cpu"
+}

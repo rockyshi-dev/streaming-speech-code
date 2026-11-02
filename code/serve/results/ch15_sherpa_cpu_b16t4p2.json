@@ -1,0 +1,347 @@
+{
+  "name": "sherpa_cpu_b16t4p2",
+  "server_cmd": [
+    "python",
+    "ch15/sherpa_server.py",
+    "--port",
+    "6006",
+    "--use-endpoint",
+    "0",
+    "--max-batch-size",
+    "16",
+    "--num-threads",
+    "4",
+    "--nn-pool-size",
+    "2",
+    "--encoder",
+    "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.int8.onnx",
+    "--decoder",
+    "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx",
+    "--joiner",
+    "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.int8.onnx",
+    "--tokens",
+    "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt"
+  ],
+  "meta": {
+    "time_utc": "2026-10-31T09:12:29Z",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_threads": 16,
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01, 23028 MiB",
+    "python": "3.11.18",
+    "argv": [
+      "ch15/sweep.py",
+      "--name",
+      "sherpa_cpu_b16t4p2",
+      "--streams",
+      "1",
+      "8",
+      "16",
+      "32",
+      "48",
+      "64",
+      "96",
+      "--stop-p95-ms",
+      "1500",
+      "--duration",
+      "60",
+      "--",
+      "python",
+      "ch15/sherpa_server.py",
+      "--port",
+      "6006",
+      "--use-endpoint",
+      "0",
+      "--max-batch-size",
+      "16",
+      "--num-threads",
+      "4",
+      "--nn-pool-size",
+      "2",
+      "--encoder",
+      "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.int8.onnx",
+      "--decoder",
+      "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx",
+      "--joiner",
+      "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.int8.onnx",
+      "--tokens",
+      "$BOOK_MODELS/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt"
+    ],
+    "git_commit": "5da6bca",
+    "loadavg_start": [
+      11.23828125,
+      9.17041015625,
+      6.20703125
+    ],
+    "packages": {
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "websockets": "17.3",
+      "nemo-toolkit": null,
+      "torch": null
+    }
+  },
+  "raw_dir": "$BOOK_DATA/runs/sherpa_cpu_b16t4p2",
+  "duration_s_per_N": 60.0,
+  "chunk_ms": 160,
+  "rows": [
+    {
+      "streams": 1,
+      "sessions": 9,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 51.9,
+      "partial_latency_ms": {
+        "n": 156,
+        "p50": 17.3,
+        "p95": 24.4,
+        "mean": 17.9,
+        "max": 25.3
+      },
+      "final_latency_ms": {
+        "n": 9,
+        "p50": 18.2,
+        "p95": 40.6,
+        "mean": 22.6,
+        "max": 41.9
+      },
+      "slope_ms_per_s_median": -0.0,
+      "send_lag_max_ms": 6.6,
+      "server_cpu_cores": 8.0,
+      "gpu_after": "1 MiB, 0 %",
+      "error_rate": {
+        "en": {
+          "errors": 6,
+          "units": 65,
+          "rate": 0.0923
+        },
+        "zh": {
+          "errors": 11,
+          "units": 73,
+          "rate": 0.1507
+        }
+      }
+    },
+    {
+      "streams": 8,
+      "sessions": 62,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 381.9,
+      "partial_latency_ms": {
+        "n": 1146,
+        "p50": 18.3,
+        "p95": 28.9,
+        "mean": 19.0,
+        "max": 38.4
+      },
+      "final_latency_ms": {
+        "n": 62,
+        "p50": 19.1,
+        "p95": 45.8,
+        "mean": 22.9,
+        "max": 57.9
+      },
+      "slope_ms_per_s_median": -0.13,
+      "send_lag_max_ms": 3.2,
+      "server_cpu_cores": 9.35,
+      "gpu_after": "1 MiB, 0 %",
+      "error_rate": {
+        "en": {
+          "errors": 36,
+          "units": 567,
+          "rate": 0.0635
+        },
+        "zh": {
+          "errors": 24,
+          "units": 497,
+          "rate": 0.0483
+        }
+      }
+    },
+    {
+      "streams": 16,
+      "sessions": 125,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 761.0,
+      "partial_latency_ms": {
+        "n": 2283,
+        "p50": 21.6,
+        "p95": 40.8,
+        "mean": 23.9,
+        "max": 62.7
+      },
+      "final_latency_ms": {
+        "n": 125,
+        "p50": 21.0,
+        "p95": 46.5,
+        "mean": 25.2,
+        "max": 69.3
+      },
+      "slope_ms_per_s_median": -0.18,
+      "send_lag_max_ms": 3.7,
+      "server_cpu_cores": 9.65,
+      "gpu_after": "1 MiB, 0 %",
+      "error_rate": {
+        "en": {
+          "errors": 78,
+          "units": 1167,
+          "rate": 0.0668
+        },
+        "zh": {
+          "errors": 46,
+          "units": 990,
+          "rate": 0.0465
+        }
+      }
+    },
+    {
+      "streams": 32,
+      "sessions": 253,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 1557.3,
+      "partial_latency_ms": {
+        "n": 4670,
+        "p50": 26.4,
+        "p95": 46.7,
+        "mean": 27.3,
+        "max": 85.0
+      },
+      "final_latency_ms": {
+        "n": 253,
+        "p50": 28.2,
+        "p95": 57.7,
+        "mean": 30.9,
+        "max": 84.4
+      },
+      "slope_ms_per_s_median": 0.07,
+      "send_lag_max_ms": 4.5,
+      "server_cpu_cores": 10.26,
+      "gpu_after": "1 MiB, 0 %",
+      "error_rate": {
+        "en": {
+          "errors": 161,
+          "units": 2419,
+          "rate": 0.0666
+        },
+        "zh": {
+          "errors": 92,
+          "units": 1988,
+          "rate": 0.0463
+        }
+      }
+    },
+    {
+      "streams": 48,
+      "sessions": 380,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 2328.3,
+      "partial_latency_ms": {
+        "n": 6979,
+        "p50": 34.3,
+        "p95": 69.2,
+        "mean": 37.2,
+        "max": 113.4
+      },
+      "final_latency_ms": {
+        "n": 380,
+        "p50": 32.4,
+        "p95": 84.6,
+        "mean": 38.8,
+        "max": 137.6
+      },
+      "slope_ms_per_s_median": 0.04,
+      "send_lag_max_ms": 3.9,
+      "server_cpu_cores": 10.6,
+      "gpu_after": "1 MiB, 0 %",
+      "error_rate": {
+        "en": {
+          "errors": 258,
+          "units": 3625,
+          "rate": 0.0712
+        },
+        "zh": {
+          "errors": 124,
+          "units": 2960,
+          "rate": 0.0419
+        }
+      }
+    },
+    {
+      "streams": 64,
+      "sessions": 501,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 3073.2,
+      "partial_latency_ms": {
+        "n": 9212,
+        "p50": 52.9,
+        "p95": 101.2,
+        "mean": 57.1,
+        "max": 153.1
+      },
+      "final_latency_ms": {
+        "n": 501,
+        "p50": 55.7,
+        "p95": 121.3,
+        "mean": 61.8,
+        "max": 180.5
+      },
+      "slope_ms_per_s_median": 0.36,
+      "send_lag_max_ms": 4.1,
+      "server_cpu_cores": 11.05,
+      "gpu_after": "1 MiB, 0 %",
+      "error_rate": {
+        "en": {
+          "errors": 325,
+          "units": 4783,
+          "rate": 0.0679
+        },
+        "zh": {
+          "errors": 159,
+          "units": 3912,
+          "rate": 0.0406
+        }
+      }
+    },
+    {
+      "streams": 96,
+      "sessions": 646,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 3955.3,
+      "partial_latency_ms": {
+        "n": 11854,
+        "p50": 559.0,
+        "p95": 1130.8,
+        "mean": 606.4,
+        "max": 1834.2
+      },
+      "final_latency_ms": {
+        "n": 646,
+        "p50": 950.4,
+        "p95": 1532.6,
+        "mean": 968.9,
+        "max": 2123.5
+      },
+      "slope_ms_per_s_median": 83.32,
+      "send_lag_max_ms": 6.9,
+      "server_cpu_cores": 11.22,
+      "gpu_after": "1 MiB, 0 %",
+      "error_rate": {
+        "en": {
+          "errors": 422,
+          "units": 6230,
+          "rate": 0.0677
+        },
+        "zh": {
+          "errors": 198,
+          "units": 5005,
+          "rate": 0.0396
+        }
+      }
+    }
+  ]
+}

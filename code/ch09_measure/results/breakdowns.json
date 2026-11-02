@@ -1,0 +1,92 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-31T08:35:40+00:00",
+    "command": "python code/ch09_measure/breakdowns.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      4.7080078125,
+      3.6396484375,
+      2.568359375
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "manifest": "librispeech-test-clean-200"
+  },
+  "word_latency_split": {
+    "[70,13]": {
+      "words": 3997,
+      "word_latency_p50_ms": 751,
+      "wait_for_audio_p50_ms": 620,
+      "after_step_p50_ms": 11,
+      "share_one_or_more_packets_late": 0.151,
+      "final_only_at_flush": 259,
+      "compute_per_packet_p50_ms": 11.2
+    },
+    "[70,6]": {
+      "words": 3997,
+      "word_latency_p50_ms": 571,
+      "wait_for_audio_p50_ms": 380,
+      "after_step_p50_ms": 11,
+      "share_one_or_more_packets_late": 0.321,
+      "final_only_at_flush": 117,
+      "compute_per_packet_p50_ms": 10.9
+    },
+    "[70,1]": {
+      "words": 3976,
+      "word_latency_p50_ms": 390,
+      "wait_for_audio_p50_ms": 140,
+      "after_step_p50_ms": 171,
+      "share_one_or_more_packets_late": 0.875,
+      "final_only_at_flush": 32,
+      "compute_per_packet_p50_ms": 10.5
+    },
+    "[70,0]": {
+      "words": 3963,
+      "word_latency_p50_ms": 419,
+      "wait_for_audio_p50_ms": 140,
+      "after_step_p50_ms": 339,
+      "share_one_or_more_packets_late": 0.909,
+      "final_only_at_flush": 7,
+      "compute_per_packet_p50_ms": 19.3
+    }
+  },
+  "nemotron_thai": {
+    "[56,13]": {
+      "utterances": 200,
+      "with_thai": 8
+    },
+    "[56,6]": {
+      "utterances": 200,
+      "with_thai": 12
+    },
+    "[56,3]": {
+      "utterances": 200,
+      "with_thai": 8
+    },
+    "[56,0]": {
+      "utterances": 200,
+      "with_thai": 5
+    }
+  }
+}

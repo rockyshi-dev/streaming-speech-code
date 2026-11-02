@@ -1,0 +1,378 @@
+{
+  "name": "nemo_gpu_r0_fp32",
+  "server_cmd": [
+    "env",
+    "PYTHONPATH=$BOOK_DATA/pylib-nemo",
+    "python (conda env ssh-serve-nemo)",
+    "ch15/nemo_server.py",
+    "--port",
+    "6010",
+    "--context-right",
+    "0",
+    "--dtype",
+    "fp32",
+    "--max-batch",
+    "256",
+    "--step-log",
+    "$BOOK_DATA/runs/nemo_gpu_r0_fp32/steps.jsonl"
+  ],
+  "meta": {
+    "time_utc": "2026-10-31T05:33:28Z",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_threads": 16,
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01, 23028 MiB",
+    "python": "3.11.18",
+    "argv": [
+      "ch15/sweep.py",
+      "--name",
+      "nemo_gpu_r0_fp32",
+      "--port",
+      "6010",
+      "--lang-hint",
+      "--chunk-ms",
+      "80",
+      "--stop-p95-ms",
+      "1000",
+      "--streams",
+      "1",
+      "8",
+      "16",
+      "32",
+      "48",
+      "64",
+      "96",
+      "128",
+      "--duration",
+      "60",
+      "--",
+      "env",
+      "PYTHONPATH=$BOOK_DATA/pylib-nemo",
+      "python (conda env ssh-serve-nemo)",
+      "ch15/nemo_server.py",
+      "--port",
+      "6010",
+      "--context-right",
+      "0",
+      "--dtype",
+      "fp32",
+      "--max-batch",
+      "256",
+      "--step-log",
+      "$BOOK_DATA/runs/nemo_gpu_r0_fp32/steps.jsonl"
+    ],
+    "git_commit": "5da6bca",
+    "loadavg_start": [
+      1.60302734375,
+      1.345703125,
+      1.11279296875
+    ],
+    "packages": {
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "websockets": "17.3",
+      "nemo-toolkit": null,
+      "torch": null
+    }
+  },
+  "raw_dir": "$BOOK_DATA/runs/nemo_gpu_r0_fp32",
+  "duration_s_per_N": 60.0,
+  "chunk_ms": 80.0,
+  "rows": [
+    {
+      "streams": 1,
+      "sessions": 9,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 51.9,
+      "partial_latency_ms": {
+        "n": 652,
+        "p50": 29.4,
+        "p95": 31.3,
+        "mean": 29.3,
+        "max": 32.6
+      },
+      "final_latency_ms": {
+        "n": 9,
+        "p50": 31.4,
+        "p95": 33.8,
+        "mean": 31.4,
+        "max": 34.6
+      },
+      "slope_ms_per_s_median": 0.02,
+      "send_lag_max_ms": 5.1,
+      "server_cpu_cores": 0.36,
+      "gpu_after": "3358 MiB, 12 %",
+      "error_rate": {
+        "en": {
+          "errors": 2,
+          "units": 65,
+          "rate": 0.0308
+        },
+        "zh": {
+          "errors": 18,
+          "units": 73,
+          "rate": 0.2466
+        }
+      }
+    },
+    {
+      "streams": 8,
+      "sessions": 63,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 386.5,
+      "partial_latency_ms": {
+        "n": 4852,
+        "p50": 17.8,
+        "p95": 24.7,
+        "mean": 17.9,
+        "max": 52.5
+      },
+      "final_latency_ms": {
+        "n": 63,
+        "p50": 20.1,
+        "p95": 25.3,
+        "mean": 19.3,
+        "max": 36.3
+      },
+      "slope_ms_per_s_median": 0.0,
+      "send_lag_max_ms": 3.2,
+      "server_cpu_cores": 0.88,
+      "gpu_after": "3588 MiB, 13 %",
+      "error_rate": {
+        "en": {
+          "errors": 17,
+          "units": 567,
+          "rate": 0.03
+        },
+        "zh": {
+          "errors": 90,
+          "units": 511,
+          "rate": 0.1761
+        }
+      }
+    },
+    {
+      "streams": 16,
+      "sessions": 126,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 765.5,
+      "partial_latency_ms": {
+        "n": 9607,
+        "p50": 21.6,
+        "p95": 28.2,
+        "mean": 21.5,
+        "max": 61.0
+      },
+      "final_latency_ms": {
+        "n": 126,
+        "p50": 21.8,
+        "p95": 27.9,
+        "mean": 21.9,
+        "max": 44.8
+      },
+      "slope_ms_per_s_median": -0.31,
+      "send_lag_max_ms": 2.7,
+      "server_cpu_cores": 1.04,
+      "gpu_after": "3904 MiB, 7 %",
+      "error_rate": {
+        "en": {
+          "errors": 41,
+          "units": 1167,
+          "rate": 0.0351
+        },
+        "zh": {
+          "errors": 162,
+          "units": 1004,
+          "rate": 0.1614
+        }
+      }
+    },
+    {
+      "streams": 32,
+      "sessions": 255,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 1565.0,
+      "partial_latency_ms": {
+        "n": 19637,
+        "p50": 25.2,
+        "p95": 40.3,
+        "mean": 26.0,
+        "max": 66.0
+      },
+      "final_latency_ms": {
+        "n": 255,
+        "p50": 25.8,
+        "p95": 42.5,
+        "mean": 26.9,
+        "max": 60.3
+      },
+      "slope_ms_per_s_median": -0.21,
+      "send_lag_max_ms": 2.9,
+      "server_cpu_cores": 1.12,
+      "gpu_after": "4422 MiB, 7 %",
+      "error_rate": {
+        "en": {
+          "errors": 82,
+          "units": 2419,
+          "rate": 0.0339
+        },
+        "zh": {
+          "errors": 317,
+          "units": 2013,
+          "rate": 0.1575
+        }
+      }
+    },
+    {
+      "streams": 48,
+      "sessions": 383,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 2339.4,
+      "partial_latency_ms": {
+        "n": 29354,
+        "p50": 28.9,
+        "p95": 47.8,
+        "mean": 30.1,
+        "max": 113.7
+      },
+      "final_latency_ms": {
+        "n": 383,
+        "p50": 30.1,
+        "p95": 52.8,
+        "mean": 32.2,
+        "max": 88.5
+      },
+      "slope_ms_per_s_median": -0.21,
+      "send_lag_max_ms": 2.8,
+      "server_cpu_cores": 1.18,
+      "gpu_after": "5106 MiB, 7 %",
+      "error_rate": {
+        "en": {
+          "errors": 126,
+          "units": 3625,
+          "rate": 0.0348
+        },
+        "zh": {
+          "errors": 475,
+          "units": 2995,
+          "rate": 0.1586
+        }
+      }
+    },
+    {
+      "streams": 64,
+      "sessions": 507,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 3109.3,
+      "partial_latency_ms": {
+        "n": 39012,
+        "p50": 34.6,
+        "p95": 58.1,
+        "mean": 36.8,
+        "max": 170.9
+      },
+      "final_latency_ms": {
+        "n": 507,
+        "p50": 37.4,
+        "p95": 71.5,
+        "mean": 41.0,
+        "max": 139.1
+      },
+      "slope_ms_per_s_median": -0.22,
+      "send_lag_max_ms": 3.1,
+      "server_cpu_cores": 1.24,
+      "gpu_after": "5846 MiB, 8 %",
+      "error_rate": {
+        "en": {
+          "errors": 166,
+          "units": 4810,
+          "rate": 0.0345
+        },
+        "zh": {
+          "errors": 627,
+          "units": 3995,
+          "rate": 0.1569
+        }
+      }
+    },
+    {
+      "streams": 96,
+      "sessions": 754,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 4632.8,
+      "partial_latency_ms": {
+        "n": 58128,
+        "p50": 58.7,
+        "p95": 111.9,
+        "mean": 68.0,
+        "max": 421.2
+      },
+      "final_latency_ms": {
+        "n": 754,
+        "p50": 69.9,
+        "p95": 128.5,
+        "mean": 77.1,
+        "max": 423.7
+      },
+      "slope_ms_per_s_median": -0.39,
+      "send_lag_max_ms": 3.1,
+      "server_cpu_cores": 1.36,
+      "gpu_after": "6922 MiB, 8 %",
+      "error_rate": {
+        "en": {
+          "errors": 255,
+          "units": 7243,
+          "rate": 0.0352
+        },
+        "zh": {
+          "errors": 945,
+          "units": 5891,
+          "rate": 0.1604
+        }
+      }
+    },
+    {
+      "streams": 128,
+      "sessions": 939,
+      "sessions_errored": 0,
+      "sessions_no_final": 0,
+      "audio_s": 5757.5,
+      "partial_latency_ms": {
+        "n": 72236,
+        "p50": 288.3,
+        "p95": 757.5,
+        "mean": 343.1,
+        "max": 1204.9
+      },
+      "final_latency_ms": {
+        "n": 939,
+        "p50": 469.2,
+        "p95": 940.2,
+        "mean": 506.2,
+        "max": 1181.1
+      },
+      "slope_ms_per_s_median": 50.77,
+      "send_lag_max_ms": 3.6,
+      "server_cpu_cores": 1.45,
+      "gpu_after": "9318 MiB, 17 %",
+      "error_rate": {
+        "en": {
+          "errors": 328,
+          "units": 9089,
+          "rate": 0.0361
+        },
+        "zh": {
+          "errors": 1127,
+          "units": 7241,
+          "rate": 0.1556
+        }
+      }
+    }
+  ]
+}

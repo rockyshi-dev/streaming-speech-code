@@ -1,0 +1,17 @@
+% Transducer lattice for T = 2 frames and target "ab" (Graves 2012 Eqs. 16-17): horizontal arcs emit
+% nothing and move to the next frame, vertical arcs emit the next label. Forward variables in the nodes.
+\begin{tikzpicture}[x=3.2cm, y=1.5cm]
+  \foreach \t/\u/\v in {1/0/1, 1/1/0.6, 1/2/0.24, 2/0/0.3, 2/1/0.51, 2/2/0.549} {
+    \node[device, minimum width=1.5cm, minimum height=0.7cm] (n\t\u) at (\t,\u) {\figsub{$\alpha=\v$}}; }
+  \node[device, highlight, minimum width=1.5cm, minimum height=0.7cm] (end) at (3,2) {\figsub{$0.4941$}};
+  \draw[dataflow] (n10) -- node[note, below] {$\emptyset$ 0.3} (n20);
+  \draw[dataflow] (n11) -- node[note, below] {$\emptyset$ 0.5} (n21);
+  \draw[dataflow] (n12) -- node[note, above] {$\emptyset$ 0.8} (n22);
+  \draw[dataflow] (n22) -- node[note, above] {$\emptyset$ 0.9} (end);
+  \draw[link] (n10) -- node[note, left] {a 0.6} (n11);
+  \draw[link] (n11) -- node[note, left] {b 0.4} (n12);
+  \draw[link] (n20) -- node[note, right] {a 0.7} (n21);
+  \draw[link] (n21) -- node[note, right] {b 0.7} (n22);
+  \node[note, anchor=east] at (0.6,0) {$u=0$}; \node[note, anchor=east] at (0.6,1) {$u=1$ (a)}; \node[note, anchor=east] at (0.6,2) {$u=2$ (b)};
+  \node[note] at (1,-0.6) {frame $t=1$}; \node[note] at (2,-0.6) {frame $t=2$};
+\end{tikzpicture}

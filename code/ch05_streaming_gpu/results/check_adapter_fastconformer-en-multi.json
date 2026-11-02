@@ -1,0 +1,149 @@
+{
+  "provenance": {
+    "when_utc": "2026-10-30T16:42:34+00:00",
+    "command": "python code/ch05_streaming_gpu/check_adapter.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cu126",
+      "torchaudio": "2.8.0+cu126",
+      "jiwer": "4.0.0",
+      "nemo_toolkit": "3.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      1.5185546875,
+      2.72265625,
+      1.6279296875
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "manifest": "librispeech-test-other-200",
+    "n": 20,
+    "model": "fastconformer-en-multi"
+  },
+  "per_context": {
+    "[70, 13]": {
+      "utterances": 20,
+      "identical_final_text": 20,
+      "max_abs_feature_diff": 1.9073486328125e-06,
+      "differences": [],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          105,
+          112
+        ],
+        "shift_size_frames": [
+          105,
+          112
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 14,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          13
+        ],
+        "subsampling_factor": 8
+      }
+    },
+    "[70, 6]": {
+      "utterances": 20,
+      "identical_final_text": 20,
+      "max_abs_feature_diff": 1.9073486328125e-06,
+      "differences": [],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          49,
+          56
+        ],
+        "shift_size_frames": [
+          49,
+          56
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 7,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          6
+        ],
+        "subsampling_factor": 8
+      }
+    },
+    "[70, 1]": {
+      "utterances": 20,
+      "identical_final_text": 20,
+      "max_abs_feature_diff": 1.9073486328125e-06,
+      "differences": [],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          9,
+          16
+        ],
+        "shift_size_frames": [
+          9,
+          16
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 2,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          1
+        ],
+        "subsampling_factor": 8
+      }
+    },
+    "[70, 0]": {
+      "utterances": 20,
+      "identical_final_text": 20,
+      "max_abs_feature_diff": 1.9073486328125e-06,
+      "differences": [],
+      "streaming_cfg": {
+        "chunk_size_frames": [
+          1,
+          8
+        ],
+        "shift_size_frames": [
+          1,
+          8
+        ],
+        "pre_encode_cache_size": [
+          0,
+          9
+        ],
+        "drop_extra_pre_encoded": 2,
+        "valid_out_len": 1,
+        "last_channel_cache_size": 70,
+        "att_context_size": [
+          70,
+          0
+        ],
+        "subsampling_factor": 8
+      }
+    }
+  }
+}

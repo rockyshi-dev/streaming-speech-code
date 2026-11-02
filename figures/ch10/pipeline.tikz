@@ -1,0 +1,14 @@
+% The three stages of a TTS system, what passes between them, and where the two kinds of streaming apply.
+\begin{tikzpicture}[node distance=22mm]
+  \node[data] (text) {\figtitle{text}\\\figsub{"Dr. Li paid \$20."}};
+  \node[stage, right=14mm of text] (fe) {\figtitle{text front end}\\\figsub{normalize, G2P}};
+  \node[stage, right=of fe] (am) {\figtitle{acoustic model}\\\figsub{durations, prosody}};
+  \node[stage, right=of am] (voc) {\figtitle{vocoder or}\\\figtitle{codec decoder}};
+  \node[data, right=14mm of voc] (wav) {\figtitle{waveform}\\\figsub{24,000 samples/s}};
+  \draw[dataflow] (text) -- (fe);
+  \draw[dataflow] (fe) -- node[note, above] {phonemes} node[note, below] {or text tokens} (am);
+  \draw[dataflow] (am) -- node[note, above] {mel frames} node[note, below] {or codec tokens} (voc);
+  \draw[dataflow] (voc) -- (wav);
+  \node[note, below=6mm of fe] {input streaming: text arrives a few words at a time};
+  \node[note, below=6mm of voc] {output streaming: audio leaves in chunks};
+\end{tikzpicture}

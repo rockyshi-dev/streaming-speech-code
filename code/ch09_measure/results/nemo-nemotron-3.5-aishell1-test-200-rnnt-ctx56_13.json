@@ -1,0 +1,258 @@
+{
+  "utterances": 200,
+  "audio_total_s": 1008.1903125000002,
+  "lang": "zh",
+  "scoring_units": "CJK characters (embedded Latin words count as one unit)",
+  "default_normalizer": "zh-full",
+  "accuracy": {
+    "raw": {
+      "ref_len": 2948,
+      "sub": 298,
+      "dele": 32,
+      "ins": 900,
+      "errors": 1230,
+      "rate": 0.41723202170963364,
+      "normalizer": {
+        "name": "zh-raw",
+        "steps": [
+          "collapse_ws"
+        ]
+      }
+    },
+    "nospace": {
+      "ref_len": 2948,
+      "sub": 298,
+      "dele": 32,
+      "ins": 900,
+      "errors": 1230,
+      "rate": 0.41723202170963364,
+      "normalizer": {
+        "name": "zh-nospace",
+        "steps": [
+          "remove_spaces"
+        ]
+      }
+    },
+    "nospace+punct": {
+      "ref_len": 2948,
+      "sub": 284,
+      "dele": 42,
+      "ins": 175,
+      "errors": 501,
+      "rate": 0.16994572591587517,
+      "normalizer": {
+        "name": "zh-nospace+punct",
+        "steps": [
+          "strip_punct",
+          "remove_spaces"
+        ]
+      }
+    },
+    "nospace+punct+tags": {
+      "ref_len": 2948,
+      "sub": 275,
+      "dele": 48,
+      "ins": 44,
+      "errors": 367,
+      "rate": 0.12449118046132972,
+      "normalizer": {
+        "name": "zh-nospace+punct+tags",
+        "steps": [
+          "drop_lang_tags",
+          "strip_punct",
+          "remove_spaces"
+        ]
+      }
+    },
+    "full": {
+      "ref_len": 2948,
+      "sub": 274,
+      "dele": 48,
+      "ins": 44,
+      "errors": 366,
+      "rate": 0.12415196743554953,
+      "normalizer": {
+        "name": "zh-full",
+        "steps": [
+          "drop_lang_tags",
+          "width_nfkc",
+          "trad_to_simp",
+          "lower",
+          "arabic_to_chinese_numerals",
+          "strip_punct",
+          "remove_spaces"
+        ]
+      }
+    },
+    "raw_chars_incl_spaces": {
+      "ref_len": 4574,
+      "sub": 881,
+      "dele": 903,
+      "ins": 1224,
+      "errors": 3008,
+      "rate": 0.6576300830782684
+    }
+  },
+  "stability": {
+    "UPWR": 0.0,
+    "UPSR": 0.0,
+    "unstable_units": 0,
+    "final_units": 2944,
+    "revisions": 0,
+    "utterances": 200,
+    "normalizer": "zh-full"
+  },
+  "latency": {
+    "first_token_delay_s": {
+      "p50": 0.5905278180025344,
+      "p90": 0.7227515108002873,
+      "p95": 1.6146638113976224,
+      "mean": 0.6769795608397712,
+      "n": 200
+    },
+    "final_latency_after_input_end_s": {
+      "p50": 0.014918461503839353,
+      "p90": 0.016330815901164898,
+      "p95": 0.017647278148069743,
+      "mean": 0.01524783175510849,
+      "n": 200
+    },
+    "final_latency_after_speech_end_s": {
+      "p50": 0.44661034050054127,
+      "p90": 0.545312857803731,
+      "p95": 0.5606087315986452,
+      "mean": 0.4477193942551084,
+      "n": 200
+    },
+    "endpoint_delay_s": {
+      "p50": null,
+      "p90": null,
+      "p95": null,
+      "mean": null,
+      "n": 0
+    },
+    "max_backlog_s": {
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0,
+      "mean": 5.330728995788237e-05,
+      "n": 200
+    },
+    "rtf": {
+      "p50": 0.017095601335115965,
+      "p90": 0.01873045601781004,
+      "p95": 0.01929804441461944,
+      "mean": 0.01716909475969022,
+      "n": 200
+    },
+    "corpus_rtf": 0.017007918502422666,
+    "audio_total_s": 1008.1903125000002,
+    "utterances": 200
+  },
+  "raw": "$BOOK_DATA/runs/nemo-nemotron-3.5-aishell1-test-200-rnnt-ctx56_13/utts.jsonl",
+  "provenance": {
+    "when_utc": "2026-10-30T17:10:36+00:00",
+    "command": "python ch09_measure/eval_nemo.py --model nemotron-3.5 --manifests aishell1-test-200 --decoders rnnt --target-lang zh-CN",
+    "cwd": "code",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cu126",
+      "torchaudio": "2.8.0+cu126",
+      "jiwer": "4.0.0",
+      "nemo_toolkit": "3.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      1.0888671875,
+      1.14453125,
+      1.24462890625
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false,
+    "manifest": "aishell1-test-200",
+    "recognizer": {
+      "model": "nemotron-3.5",
+      "att_context_size": [
+        56,
+        13
+      ],
+      "decoder": "rnnt",
+      "target_lang": "zh-CN",
+      "device": "cuda"
+    },
+    "streaming_cfg": {
+      "chunk_size_frames": [
+        105,
+        112
+      ],
+      "shift_size_frames": [
+        105,
+        112
+      ],
+      "pre_encode_cache_size": [
+        0,
+        9
+      ],
+      "drop_extra_pre_encoded": 2,
+      "valid_out_len": 14,
+      "last_channel_cache_size": 56,
+      "att_context_size": [
+        56,
+        13
+      ],
+      "subsampling_factor": 8
+    },
+    "chunk_ms": 160.0,
+    "pace": "simulated",
+    "track": "GPU",
+    "gpu_torch": "NVIDIA GeForce RTX 4090",
+    "loadavg_at_end": [
+      1.068359375,
+      1.13720703125,
+      1.240234375
+    ]
+  },
+  "rescored": {
+    "when_utc": "2026-10-31T08:35:37+00:00",
+    "command": "python code/ch09_measure/rescore.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      4.7080078125,
+      3.6396484375,
+      2.568359375
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e",
+    "git_dirty": false
+  }
+}

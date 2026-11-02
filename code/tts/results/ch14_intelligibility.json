@@ -1,0 +1,469 @@
+{
+  "what": "ASR intelligibility (WER en / CER zh) of synthesized and original speech",
+  "runinfo": {
+    "command": "python code/tts/gpu/../ch14_harness/eval_intelligibility.py --name ch14_intelligibility --source human --source kokoro:$BOOK_DATA/runs/ch12_kokoro_cpu/rows.jsonl --source qwen-modes:$BOOK_DATA/runs/ch12_qwen3tts_input_modes/rows.jsonl --source qwen-conc:$BOOK_DATA/runs/ch14_qwen3tts_concurrency/rows.jsonl",
+    "cwd": ".",
+    "utc": "2026-10-30T18:19:02+00:00",
+    "python": "3.11.18",
+    "conda_env": "ssh-tts-eval",
+    "git_commit": "5da6bca31eca2114dfce0602c996808f01ab573e+dirty",
+    "host_cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "gpu": "NVIDIA GeForce RTX 4090, 590.48.01",
+    "loadavg_1_5_15_at_write": [
+      1.373046875,
+      1.5341796875,
+      2.517578125
+    ],
+    "cpu_count": 16,
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "torchaudio": "2.8.0+cu128",
+      "transformers": "4.57.6",
+      "funasr": "1.4.17",
+      "numpy": "2.4.6"
+    },
+    "asr_models": [
+      {
+        "repo": "openai/whisper-large-v3",
+        "revision": "06f233fe06e710322aca913c1bc4249a0d71fce1"
+      },
+      {
+        "repo": "funasr/paraformer-zh",
+        "revision": "d7811ee3ac581fbcfdeb37c98c6ba674028433dc"
+      }
+    ],
+    "sources": [
+      "human",
+      "kokoro:$BOOK_DATA/runs/ch12_kokoro_cpu/rows.jsonl",
+      "qwen-modes:$BOOK_DATA/runs/ch12_qwen3tts_input_modes/rows.jsonl",
+      "qwen-conc:$BOOK_DATA/runs/ch14_qwen3tts_concurrency/rows.jsonl"
+    ],
+    "normalization": {
+      "en": "Whisper EnglishTextNormalizer on ref and hyp",
+      "zh": "keep CJK, Latin, digits; drop punctuation/spaces"
+    },
+    "device": "cuda",
+    "dtype": "torch.float16",
+    "decoding": {
+      "whisper": "greedy, language=en",
+      "paraformer": "FunASR default, no VAD, no punctuation model"
+    }
+  },
+  "table": [
+    {
+      "group": "human/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 20,
+      "n_ref_units": 366,
+      "pooled_rate": 0.01092896174863388,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "human/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.003289473684210526,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/en/para/sentence",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 5,
+      "n_ref_units": 265,
+      "pooled_rate": 0.0037735849056603774,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/en/para/stream",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 5,
+      "n_ref_units": 265,
+      "pooled_rate": 0.0037735849056603774,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/en/para/whole",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 5,
+      "n_ref_units": 265,
+      "pooled_rate": 0.0037735849056603774,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/en/sent",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 20,
+      "n_ref_units": 366,
+      "pooled_rate": 0.00819672131147541,
+      "utts_with_errors": 3
+    },
+    {
+      "group": "kokoro/zh/para/sentence",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.004310344827586207,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/zh/para/stream",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.004310344827586207,
+      "utts_with_errors": 1
+    },
+    {
+      "group": "kokoro/zh/para/whole",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.017241379310344827,
+      "utts_with_errors": 3
+    },
+    {
+      "group": "kokoro/zh/sent",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.009868421052631578,
+      "utts_with_errors": 3
+    },
+    {
+      "group": "kokoro/zh10/para/sentence",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.008620689655172414,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "kokoro/zh10/para/stream",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.008620689655172414,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "kokoro/zh10/para/whole",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 5,
+      "n_ref_units": 232,
+      "pooled_rate": 0.008620689655172414,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "kokoro/zh10/sent",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.029605263157894735,
+      "utts_with_errors": 5
+    },
+    {
+      "group": "qwen-conc/c1/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 20,
+      "n_ref_units": 366,
+      "pooled_rate": 0.01912568306010929,
+      "utts_with_errors": 6
+    },
+    {
+      "group": "qwen-conc/c1/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.019736842105263157,
+      "utts_with_errors": 5
+    },
+    {
+      "group": "qwen-conc/c16/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 24,
+      "n_ref_units": 430,
+      "pooled_rate": 0.013953488372093023,
+      "utts_with_errors": 5
+    },
+    {
+      "group": "qwen-conc/c16/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 24,
+      "n_ref_units": 367,
+      "pooled_rate": 0.008174386920980926,
+      "utts_with_errors": 3
+    },
+    {
+      "group": "qwen-conc/c2/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 20,
+      "n_ref_units": 366,
+      "pooled_rate": 0.01366120218579235,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-conc/c2/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.009868421052631578,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "qwen-conc/c24/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 36,
+      "n_ref_units": 654,
+      "pooled_rate": 0.010703363914373088,
+      "utts_with_errors": 7
+    },
+    {
+      "group": "qwen-conc/c24/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 36,
+      "n_ref_units": 540,
+      "pooled_rate": 0.003703703703703704,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "qwen-conc/c32/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 48,
+      "n_ref_units": 886,
+      "pooled_rate": 0.01580135440180587,
+      "utts_with_errors": 12
+    },
+    {
+      "group": "qwen-conc/c32/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 48,
+      "n_ref_units": 731,
+      "pooled_rate": 0.023255813953488372,
+      "utts_with_errors": 8
+    },
+    {
+      "group": "qwen-conc/c4/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 20,
+      "n_ref_units": 366,
+      "pooled_rate": 0.00819672131147541,
+      "utts_with_errors": 3
+    },
+    {
+      "group": "qwen-conc/c4/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.01644736842105263,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-conc/c48/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 72,
+      "n_ref_units": 1324,
+      "pooled_rate": 0.015105740181268883,
+      "utts_with_errors": 14
+    },
+    {
+      "group": "qwen-conc/c48/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 72,
+      "n_ref_units": 1092,
+      "pooled_rate": 0.011904761904761904,
+      "utts_with_errors": 10
+    },
+    {
+      "group": "qwen-conc/c64/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 96,
+      "n_ref_units": 1752,
+      "pooled_rate": 0.016552511415525113,
+      "utts_with_errors": 21
+    },
+    {
+      "group": "qwen-conc/c64/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 96,
+      "n_ref_units": 1452,
+      "pooled_rate": 0.010330578512396695,
+      "utts_with_errors": 12
+    },
+    {
+      "group": "qwen-conc/c8/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 20,
+      "n_ref_units": 366,
+      "pooled_rate": 0.01366120218579235,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-conc/c8/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 20,
+      "n_ref_units": 304,
+      "pooled_rate": 0.006578947368421052,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "qwen-modes/http/rate0/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 10,
+      "n_ref_units": 530,
+      "pooled_rate": 0.0037735849056603774,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "qwen-modes/http/rate0/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 10,
+      "n_ref_units": 464,
+      "pooled_rate": 0.004310344827586207,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "qwen-modes/ws-commit/rate0/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 10,
+      "n_ref_units": 530,
+      "pooled_rate": 0.018867924528301886,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-modes/ws-commit/rate0/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 10,
+      "n_ref_units": 464,
+      "pooled_rate": 0.017241379310344827,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-modes/ws-commit/rate20.0/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 10,
+      "n_ref_units": 530,
+      "pooled_rate": 0.018867924528301886,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-modes/ws-commit/rate20.0/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 10,
+      "n_ref_units": 464,
+      "pooled_rate": 0.017241379310344827,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-modes/ws-none/rate0/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 10,
+      "n_ref_units": 530,
+      "pooled_rate": 0.0037735849056603774,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "qwen-modes/ws-none/rate0/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 10,
+      "n_ref_units": 464,
+      "pooled_rate": 0.004310344827586207,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "qwen-modes/ws-none/rate20.0/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 10,
+      "n_ref_units": 530,
+      "pooled_rate": 0.0037735849056603774,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "qwen-modes/ws-none/rate20.0/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 10,
+      "n_ref_units": 464,
+      "pooled_rate": 0.004310344827586207,
+      "utts_with_errors": 2
+    },
+    {
+      "group": "qwen-modes/ws-sentence/rate0/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 10,
+      "n_ref_units": 530,
+      "pooled_rate": 0.011320754716981131,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-modes/ws-sentence/rate0/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 10,
+      "n_ref_units": 464,
+      "pooled_rate": 0.017241379310344827,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-modes/ws-sentence/rate20.0/en",
+      "lang": "en",
+      "metric": "WER",
+      "n_utts": 10,
+      "n_ref_units": 530,
+      "pooled_rate": 0.011320754716981131,
+      "utts_with_errors": 4
+    },
+    {
+      "group": "qwen-modes/ws-sentence/rate20.0/zh",
+      "lang": "zh",
+      "metric": "CER",
+      "n_utts": 10,
+      "n_ref_units": 464,
+      "pooled_rate": 0.017241379310344827,
+      "utts_with_errors": 4
+    }
+  ],
+  "raw_dir": "$BOOK_DATA/runs/ch14_intelligibility"
+}
