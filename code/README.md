@@ -31,7 +31,7 @@ NeMo cache-aware FastConformer and Nemotron 3.5 ASR on one RTX 4090.
 | `data/` | `make_manifests.py` and the committed fixed subsets `manifests/*.tsv` | asr |
 | `models/fetch_models.sh` | fetch the pre-trained models at pinned revisions into `$BOOK_MODELS` | - |
 | `env/` | lock files (`*.requirements.lock.txt`, `*.conda.explicit.txt`) and `create_envs.sh` | - |
-| `ch01_audio/` | `audio_numbers.py` | asr |
+| `ch01_audio/` | `audio_numbers.py`, `speech_pitch.py` (pitch period and f0 by autocorrelation) | asr |
 | `ch02_features/` | `frontend_compare.py`, `normalization_leak.py`, `model_frontends.py`, `frontend_mismatch_nemo.py` (ssh-nemo env, CPU) | asr / nemo |
 | `ch03_latency/` | `harness_demo.py` (harness on one utterance; att_context_size to ms table) | asr |
 | `ch04_alignment/` | `ctc_rnnt_by_hand.py`, `chapter_examples.py`; `export_posteriors.py` (ssh-nemo env, CPU) then `ctc_greedy_by_hand.py` | asr / nemo |
@@ -119,6 +119,7 @@ Run these from the repository root, in this order. Each step writes the result f
 
    ```bash
    python code/ch01_audio/audio_numbers.py
+   python code/ch01_audio/speech_pitch.py
    python code/ch02_features/frontend_compare.py
    python code/ch02_features/normalization_leak.py
    python code/ch02_features/model_frontends.py

@@ -1,0 +1,164 @@
+{
+  "provenance": {
+    "when_utc": "2026-11-02T06:19:04+00:00",
+    "command": "python code/ch01_audio/speech_pitch.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.29833984375,
+      2.62939453125,
+      4.0361328125
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "d32acabf9c1142d3f555a36f50627681f4338bfb",
+    "git_dirty": true,
+    "utterances": [
+      "5142-33396-0016",
+      "BAC009S0904W0260"
+    ]
+  },
+  "method": {
+    "frame_ms": 40,
+    "hop_ms": 10,
+    "window_ms": 100,
+    "f0_search_hz": [
+      80.0,
+      400.0
+    ],
+    "voiced_if_r_at_least": 0.6,
+    "voiced_stretch": {
+      "every_hop_r_at_least": 0.7,
+      "period_within_of_median": 0.15,
+      "chosen": "highest mean frame energy"
+    },
+    "noise_stretch": {
+      "every_hop_r_below": 0.5,
+      "energy_floor_db_re_loudest_frame": -40.0,
+      "min_zero_crossings_per_s": 4000.0,
+      "chosen": "highest mean frame energy"
+    },
+    "energy_floor_db_re_loudest_frame": -30.0
+  },
+  "selfcheck": {
+    "signal": "sum of sin(2 pi k f0 t)/k for k = 1..5, 100 ms at 16 kHz",
+    "cases": [
+      {
+        "true_f0_hz": 100.0,
+        "estimated_f0_hz": 99.99784477617354,
+        "r_peak": 1.0
+      },
+      {
+        "true_f0_hz": 125.0,
+        "estimated_f0_hz": 124.99830102455374,
+        "r_peak": 1.0
+      },
+      {
+        "true_f0_hz": 210.0,
+        "estimated_f0_hz": 209.99499967737313,
+        "r_peak": 0.9995781197682247
+      },
+      {
+        "true_f0_hz": 330.0,
+        "estimated_f0_hz": 329.99682924849117,
+        "r_peak": 0.993261043166727
+      }
+    ]
+  },
+  "utterances": [
+    {
+      "language": "en",
+      "manifest": "librispeech-test-clean-200",
+      "utt_id": "5142-33396-0016",
+      "text": "SO WE HARRIED THE COAST OF NORWAY",
+      "path": "librispeech/extracted/LibriSpeech/test-clean/5142/33396/5142-33396-0016.flac",
+      "n_words_as_transcribed": 7,
+      "n_characters_without_spaces": 27,
+      "sample_rate": 16000,
+      "n_samples": 34640,
+      "duration_s": 2.165,
+      "n_hops": 217,
+      "n_voiced_hops": 124,
+      "voiced_fraction": 0.5714285714285714,
+      "f0_median_hz": 191.72963507134781,
+      "f0_p10_hz": 139.8895540466331,
+      "f0_p90_hz": 252.8922009635343,
+      "voiced_stretch": {
+        "start_ms": 1100.0,
+        "length_ms": 100,
+        "period_samples": 63.79476378113145,
+        "period_ms": 3.987172736320716,
+        "f0_hz": 250.80428316802252,
+        "r_peak": 0.9661264968432544,
+        "periods_in_window": 25.08042831680225,
+        "rms_dbfs": -27.12518513360109,
+        "zero_crossings_per_s": 1400.0,
+        "power_fraction_above_4khz": 0.01373614670997558
+      },
+      "noise_stretch": {
+        "start_ms": 1220.0,
+        "length_ms": 100,
+        "r_peak": 0.2807213706522076,
+        "rms_dbfs": -34.17035569130639,
+        "zero_crossings_per_s": 8030.0,
+        "power_fraction_above_4khz": 0.945566789329575
+      }
+    },
+    {
+      "language": "zh",
+      "manifest": "aishell1-test-200",
+      "utt_id": "BAC009S0904W0260",
+      "text": "特别  是  企业  自主  创新  方面",
+      "path": "aishell1/wav/test/S0904/BAC009S0904W0260.wav",
+      "n_words_as_transcribed": 6,
+      "n_characters_without_spaces": 11,
+      "sample_rate": 16000,
+      "n_samples": 42512,
+      "duration_s": 2.657,
+      "n_hops": 266,
+      "n_voiced_hops": 107,
+      "voiced_fraction": 0.40225563909774437,
+      "f0_median_hz": 132.904137041981,
+      "f0_p10_hz": 109.99860428432459,
+      "f0_p90_hz": 155.4848317127919,
+      "voiced_stretch": {
+        "start_ms": 1210.0,
+        "length_ms": 100,
+        "period_samples": 122.4358125094029,
+        "period_ms": 7.652238281837681,
+        "f0_hz": 130.68071891768778,
+        "r_peak": 0.8385834219322766,
+        "periods_in_window": 13.068071891768778,
+        "rms_dbfs": -29.979137452991623,
+        "zero_crossings_per_s": 1050.0,
+        "power_fraction_above_4khz": 0.0004540844708992452
+      },
+      "noise_stretch": {
+        "start_ms": 990.0,
+        "length_ms": 100,
+        "r_peak": 0.3238717227982829,
+        "rms_dbfs": -39.01417501172852,
+        "zero_crossings_per_s": 6770.0,
+        "power_fraction_above_4khz": 0.47414903927458946
+      }
+    }
+  ]
+}

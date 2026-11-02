@@ -1,0 +1,435 @@
+{
+  "provenance": {
+    "when_utc": "2026-11-02T06:19:05+00:00",
+    "command": "python code/ch02_features/read_spectrogram.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.29833984375,
+      2.62939453125,
+      4.0361328125
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "d32acabf9c1142d3f555a36f50627681f4338bfb",
+    "git_dirty": true,
+    "inputs": [
+      "librispeech/extracted/LibriSpeech/test-clean/1089/134686/1089-134686-0006.flac",
+      "aishell1/wav/test/S0764/BAC009S0764W0227.wav"
+    ]
+  },
+  "en": {
+    "utt_id": "1089-134686-0006",
+    "input": "librispeech/extracted/LibriSpeech/test-clean/1089/134686/1089-134686-0006.flac",
+    "text": "... AND TO SPREAD ABROAD ...",
+    "view_s": [
+      7.0,
+      8.9
+    ],
+    "segments": {
+      "silence": {
+        "kind": "silence",
+        "t_start_s": 7.15,
+        "t_end_s": 7.55,
+        "level_dbfs": -52.8,
+        "centroid_hz": 1467.0,
+        "share_power_above_4khz": 0.027,
+        "share_power_below_1khz": 0.383,
+        "frames_10ms": 40,
+        "frame_level_dbfs_min": -64.3,
+        "frame_level_dbfs_max": -48.5,
+        "frame_centroid_hz_min": 431.0,
+        "frame_centroid_hz_max": 1948.0,
+        "what": "pause between SLOWLY and AND"
+      },
+      "fricative": {
+        "kind": "fricative",
+        "t_start_s": 7.84,
+        "t_end_s": 7.89,
+        "level_dbfs": -36.1,
+        "centroid_hz": 4797.0,
+        "share_power_above_4khz": 0.65,
+        "share_power_below_1khz": 0.006,
+        "frames_10ms": 5,
+        "frame_level_dbfs_min": -37.6,
+        "frame_level_dbfs_max": -35.1,
+        "frame_centroid_hz_min": 4582.0,
+        "frame_centroid_hz_max": 5338.0,
+        "what": "the s of SPREAD"
+      },
+      "burst": {
+        "kind": "burst",
+        "t_start_s": 7.96,
+        "t_end_s": 8.07,
+        "level_dbfs": -29.5,
+        "burst_time_s": 8.026,
+        "rise_db_in_5ms": 23.9,
+        "level_before_db": -38.5,
+        "level_after_db": -14.6,
+        "what": "the release of the p of SPREAD"
+      },
+      "vowel": {
+        "kind": "vowel",
+        "t_start_s": 8.48,
+        "t_end_s": 8.66,
+        "level_dbfs": -23.0,
+        "centroid_hz": 584.0,
+        "share_power_above_4khz": 0.0,
+        "share_power_below_1khz": 0.93,
+        "frames_10ms": 18,
+        "frame_level_dbfs_min": -30.6,
+        "frame_level_dbfs_max": -20.4,
+        "frame_centroid_hz_min": 276.0,
+        "frame_centroid_hz_max": 691.0,
+        "f0_hz": 93.4,
+        "harmonics": [
+          {
+            "n": 1,
+            "expected_hz": 93.4,
+            "peak_hz": 93.8
+          },
+          {
+            "n": 2,
+            "expected_hz": 186.7,
+            "peak_hz": 187.5
+          },
+          {
+            "n": 3,
+            "expected_hz": 280.1,
+            "peak_hz": 279.3
+          },
+          {
+            "n": 4,
+            "expected_hz": 373.4,
+            "peak_hz": 373.0
+          },
+          {
+            "n": 5,
+            "expected_hz": 466.8,
+            "peak_hz": 466.8
+          },
+          {
+            "n": 6,
+            "expected_hz": 560.1,
+            "peak_hz": 560.5
+          },
+          {
+            "n": 7,
+            "expected_hz": 653.5,
+            "peak_hz": 654.3
+          },
+          {
+            "n": 8,
+            "expected_hz": 746.8,
+            "peak_hz": 746.1
+          }
+        ],
+        "formants": {
+          "frames_used": 16,
+          "F1_hz": 589.0,
+          "F2_hz": 970.0,
+          "F3_hz": 2541.0
+        },
+        "method": "f0: autocorrelation of 40 ms; harmonic peaks: one 64 ms Hann frame, 8,192-point FFT; formants: 14th-order linear prediction, median over the 25 ms frames of the range",
+        "what": "the vowel of ABROAD"
+      }
+    }
+  },
+  "zh": {
+    "utt_id": "BAC009S0764W0227",
+    "input": "aishell1/wav/test/S0764/BAC009S0764W0227.wav",
+    "text": "二零一二 保障 房 建设",
+    "view_s": [
+      0.0,
+      2.6
+    ],
+    "segments": {
+      "silence": {
+        "kind": "silence",
+        "t_start_s": 0.05,
+        "t_end_s": 0.35,
+        "level_dbfs": -48.9,
+        "centroid_hz": 51.0,
+        "share_power_above_4khz": 0.001,
+        "share_power_below_1khz": 0.998,
+        "frames_10ms": 30,
+        "frame_level_dbfs_min": -60.6,
+        "frame_level_dbfs_max": -44.5,
+        "frame_centroid_hz_min": 114.0,
+        "frame_centroid_hz_max": 545.0,
+        "what": "before the speaker starts"
+      },
+      "tone_fall": {
+        "kind": "tone",
+        "t_start_s": 0.44,
+        "t_end_s": 0.62,
+        "level_dbfs": -30.6,
+        "frames": 15,
+        "f0_start_hz": 254.3,
+        "f0_end_hz": 228.5,
+        "end_over_start": 0.899,
+        "slope_hz_per_100ms": -22.5,
+        "harmonic8_start_hz": 2044.9,
+        "harmonic8_end_hz": 1813.8,
+        "harmonic8_t_start_s": 0.46,
+        "harmonic8_t_end_s": 0.58,
+        "track_t_f0_harmonic8": [
+          [
+            0.45,
+            251.6,
+            1984.4
+          ],
+          [
+            0.46,
+            254.7,
+            2074.2
+          ],
+          [
+            0.47,
+            256.5,
+            2076.2
+          ],
+          [
+            0.48,
+            257.6,
+            2070.3
+          ],
+          [
+            0.49,
+            257.1,
+            2062.5
+          ],
+          [
+            0.5,
+            256.1,
+            2033.2
+          ],
+          [
+            0.51,
+            253.8,
+            2021.5
+          ],
+          [
+            0.52,
+            251.6,
+            1998.0
+          ],
+          [
+            0.53,
+            247.9,
+            1962.9
+          ],
+          [
+            0.54,
+            244.6,
+            1939.5
+          ],
+          [
+            0.55,
+            239.6,
+            1902.3
+          ],
+          [
+            0.56,
+            236.3,
+            1880.9
+          ],
+          [
+            0.57,
+            231.7,
+            1835.9
+          ],
+          [
+            0.58,
+            228.3,
+            1808.6
+          ],
+          [
+            0.59,
+            225.6,
+            1796.9
+          ]
+        ],
+        "what": "er (fourth tone, falling), the first syllable"
+      },
+      "tone_rise": {
+        "kind": "tone",
+        "t_start_s": 0.7,
+        "t_end_s": 0.96,
+        "level_dbfs": -38.1,
+        "frames": 24,
+        "f0_start_hz": 214.6,
+        "f0_end_hz": 247.0,
+        "end_over_start": 1.151,
+        "slope_hz_per_100ms": 13.9,
+        "harmonic8_start_hz": 1716.1,
+        "harmonic8_end_hz": 1983.7,
+        "harmonic8_t_start_s": 0.71,
+        "harmonic8_t_end_s": 0.92,
+        "track_t_f0_harmonic8": [
+          [
+            0.7,
+            214.7,
+            1714.8
+          ],
+          [
+            0.71,
+            214.3,
+            1716.8
+          ],
+          [
+            0.72,
+            214.7,
+            1716.8
+          ],
+          [
+            0.73,
+            215.3,
+            1716.8
+          ],
+          [
+            0.74,
+            215.1,
+            1720.7
+          ],
+          [
+            0.75,
+            215.3,
+            1722.7
+          ],
+          [
+            0.76,
+            215.8,
+            1724.6
+          ],
+          [
+            0.77,
+            216.2,
+            1724.6
+          ],
+          [
+            0.78,
+            216.5,
+            1726.6
+          ],
+          [
+            0.79,
+            218.4,
+            1726.6
+          ],
+          [
+            0.8,
+            220.0,
+            1728.5
+          ],
+          [
+            0.81,
+            221.3,
+            1734.4
+          ],
+          [
+            0.82,
+            222.3,
+            1742.2
+          ],
+          [
+            0.83,
+            221.9,
+            1761.7
+          ],
+          [
+            0.84,
+            221.4,
+            1763.7
+          ],
+          [
+            0.85,
+            222.0,
+            1755.9
+          ],
+          [
+            0.86,
+            225.3,
+            1771.5
+          ],
+          [
+            0.87,
+            229.2,
+            1880.9
+          ],
+          [
+            0.88,
+            232.0,
+            1884.8
+          ],
+          [
+            0.89,
+            232.9,
+            1888.7
+          ],
+          [
+            0.9,
+            237.0,
+            1916.0
+          ],
+          [
+            0.91,
+            244.1,
+            1960.9
+          ],
+          [
+            0.92,
+            247.9,
+            1984.4
+          ],
+          [
+            0.93,
+            249.2,
+            2005.9
+          ]
+        ],
+        "what": "ling (second tone, rising), the second syllable"
+      },
+      "burst_zh": {
+        "kind": "burst",
+        "t_start_s": 1.54,
+        "t_end_s": 1.66,
+        "level_dbfs": -37.7,
+        "burst_time_s": 1.592,
+        "rise_db_in_5ms": 20.2,
+        "level_before_db": -36.2,
+        "level_after_db": -16.1,
+        "what": "the release of the zh (an affricate) of zhang"
+      },
+      "burst_j": {
+        "kind": "burst",
+        "t_start_s": 2.03,
+        "t_end_s": 2.12,
+        "level_dbfs": -43.5,
+        "burst_time_s": 2.067,
+        "rise_db_in_5ms": 22.3,
+        "level_before_db": -33.1,
+        "level_after_db": -10.8,
+        "what": "the release of the j (an affricate) of jian"
+      }
+    }
+  }
+}

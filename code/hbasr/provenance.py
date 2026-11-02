@@ -82,7 +82,7 @@ def collect(extra: dict | None = None) -> dict:
         "loadavg_at_start": os.getloadavg(),
         "gpu": gpu_name() if os.environ.get("CUDA_VISIBLE_DEVICES", "x") != "" else None,
         "git_commit": _git("rev-parse", "HEAD"),
-        "git_dirty": bool(_git("status", "--porcelain", "--", "code")),
+        "git_dirty": bool(_git("status", "--porcelain", "--", ".")),
     } | (extra or {})
 
 

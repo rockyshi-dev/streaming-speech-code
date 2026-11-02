@@ -1,0 +1,101 @@
+{
+  "provenance": {
+    "when_utc": "2026-11-02T06:19:05+00:00",
+    "command": "python code/ch02_features/mel_numbers.py",
+    "cwd": ".",
+    "hbasr": "code/hbasr",
+    "python": "3.11.18",
+    "packages": {
+      "numpy": "2.4.6",
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "sherpa-onnx": "2.0.1",
+      "onnxruntime": "1.31.1",
+      "silero-vad": "6.2.3",
+      "kaldi-native-fbank": "1.22.4",
+      "jiwer": "4.0.0",
+      "soundfile": "0.14.0",
+      "cn2an": "0.5.24",
+      "opencc-python-reimplemented": "0.1.7",
+      "sentencepiece": "0.2.2"
+    },
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12600K",
+    "cpu_count": 16,
+    "loadavg_at_start": [
+      0.29833984375,
+      2.62939453125,
+      4.0361328125
+    ],
+    "gpu": [
+      "NVIDIA GeForce RTX 4090, 590.48.01"
+    ],
+    "git_commit": "d32acabf9c1142d3f555a36f50627681f4338bfb",
+    "git_dirty": true,
+    "input": "$BOOK_DATASETS/librispeech/extracted/LibriSpeech/test-clean/1089/134686/1089-134686-0006.flac"
+  },
+  "settings": {
+    "sample_rate": 16000,
+    "n_fft": 512,
+    "n_mels": 80,
+    "low_hz": 20.0,
+    "high_hz": 7600.0,
+    "mel_formula": "1127 * ln(1 + f / 700)"
+  },
+  "mel_of_hz": {
+    "500": 607.4,
+    "1000": 1000.0,
+    "2000": 1521.4,
+    "4000": 2146.1,
+    "8000": 2840.0
+  },
+  "mel_step_of_100_hz": {
+    "200_to_300_hz": 118.7,
+    "7200_to_7300_hz": 14.2,
+    "ratio": 8.4
+  },
+  "filters": {
+    "center_below_1000_hz": 28,
+    "center_1000_to_4000_hz": 34,
+    "center_at_or_above_4000_hz": 18,
+    "first_filter": {
+      "center_hz": 42.1,
+      "width_hz": 44.8,
+      "fft_bins_with_weight": 2
+    },
+    "last_filter": {
+      "center_hz": 7353.2,
+      "width_hz": 486.2,
+      "fft_bins_with_weight": 16
+    },
+    "fft_bins_total": 257,
+    "fft_bin_spacing_hz": 31.25,
+    "fft_bins_below_1000_hz": 32,
+    "fft_bins_at_or_above_4000_hz": 129
+  },
+  "utterance": {
+    "utt_id": "1089-134686-0006",
+    "frames": 1056,
+    "frame_energy_sum_of_80_filters": {
+      "loudest_frame": 76,
+      "loudest_s": 0.76,
+      "loudest_value": 117.3905651841219,
+      "quietest_frame": 1015,
+      "quietest_s": 10.15,
+      "quietest_value": 0.0008425214681687315,
+      "ratio_loudest_to_quietest": 139332.4320141978,
+      "ln_loudest": 4.766,
+      "ln_quietest": -7.079,
+      "ln_difference": 11.845
+    },
+    "log_values_at_floor": 136,
+    "floor_value": 1.1920928955078125e-07
+  },
+  "gain_half": {
+    "values_compared": 83647,
+    "values_left_out_at_floor": 833,
+    "mean_change_of_log_mel": -1.3863,
+    "largest_deviation_from_mean": 0.0,
+    "expected_2_ln_0.5": -1.3863,
+    "mean_raw_ratio": 0.25
+  }
+}
