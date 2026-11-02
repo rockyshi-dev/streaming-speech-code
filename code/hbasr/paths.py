@@ -24,9 +24,9 @@ from pathlib import Path
 
 
 def repo_of(path) -> Path | None:
-    """The repository (a directory holding code/README.md and figures/) that contains `path`, or None."""
+    """The repository (a directory holding code/README.md and code/pyproject.toml) that contains `path`, or None."""
     for p in Path(path).resolve().parents:
-        if (p / "code" / "README.md").is_file() and (p / "figures").is_dir():
+        if (p / "code" / "README.md").is_file() and (p / "code" / "pyproject.toml").is_file():
             return p
     return None
 

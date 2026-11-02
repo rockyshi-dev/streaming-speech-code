@@ -1,7 +1,7 @@
 A Hands-on Guide to Streaming Speech Recognition and Synthesis
 Copyright 2026 Rocky Shi
 
-Text and figures: CC BY 4.0 (LICENSE-text). Code: Apache License 2.0 (LICENSE).
+Code: Apache License 2.0 (LICENSE).
 
 This repository also contains material from others, under these terms:
 
@@ -17,8 +17,5 @@ This repository also contains material from others, under these terms:
 - code/serve/ch18/qwen3_tts_cascade.yaml is a copy of vLLM-Omni's deploy/qwen3_tts.yaml (v0.32.0, Apache
   License 2.0), modified as described in its header. Some result files embed the text of that deploy file as
   `deploy_config_text`.
-- Result files under code/**/results/ and figure data under figures/*/data/ contain samples, features, text
-  recognized from, transcripts of and audio statistics of the recordings above; figures/ch02/data/triptych.npz
-  holds samples and features of a LibriSpeech test-clean recording (CC BY 4.0).
-- Quotations and code excerpts in the chapters come from the sources cited next to them and remain under those
-  sources' terms.
+- Result files under code/**/results/ contain samples, features, text recognized from, transcripts of and audio
+  statistics of the recordings above.
